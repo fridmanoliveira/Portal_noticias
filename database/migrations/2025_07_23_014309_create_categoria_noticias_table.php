@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('acessos_rapidos', function (Blueprint $table) {
+        Schema::create('categorias_noticias', function (Blueprint $table) {
             $table->id();
-            $table->string('titulo');
-            $table->string('icone');
-            $table->string('link');
-            $table->integer('ordem')->default(0);
+            $table->string('nome');
             $table->boolean('ativo')->default(true);
             $table->timestamps();
         });
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('acesso_rapidos');
+        Schema::dropIfExists('categoria_noticias');
     }
 };

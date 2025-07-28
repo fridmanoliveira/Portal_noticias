@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('noticias', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('categoria_id');
             $table->string('titulo');
             $table->text('resumo');
             $table->string('imagem');
@@ -20,6 +21,8 @@ return new class extends Migration
             $table->longText('conteudo');
             $table->boolean('ativo')->default(true);
             $table->timestamps();
+
+            $table->foreign('categoria_id')->references('id')->on('categorias_noticias')->onDelete('cascade');
         });
     }
 
