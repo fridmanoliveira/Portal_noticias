@@ -8,6 +8,10 @@ class CategoriaNoticia extends Model
 {
     protected $fillable = ['nome', 'ativo'];
 
+    protected $casts = [
+        'ativo' => 'boolean',
+    ];
+
     public function noticias() {
         return $this->hasMany(Noticia::class, 'categoria_id');
     }

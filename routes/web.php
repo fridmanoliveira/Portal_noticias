@@ -6,6 +6,9 @@ use App\Http\Controllers\Site\HomeController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\AcessoRapidoController;
 use App\Http\Controllers\Admin\BannerRotativoController;
+use App\Http\Controllers\Admin\CategoriaNoticiaController;
+use App\Http\Controllers\Admin\NoticiaController;
+
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -34,6 +37,12 @@ Route::prefix('admin')
             ->except(['show']);
 
         Route::resource('acessos-rapidos', AcessoRapidoController::class)->names('acessos-rapidos');
+
+        Route::resource('noticias', NoticiaController::class); // Todas as operações de CRUD para notícias
+
+        Route::resource('categorias-noticias', CategoriaNoticiaController::class)->names('categorias-noticias');
     });
+
+
 
 require __DIR__.'/auth.php';
