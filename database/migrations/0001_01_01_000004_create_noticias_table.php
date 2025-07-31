@@ -11,18 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
+
         Schema::create('noticias', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('categoria_id');
+            $table->foreignId('categoria_id')->constrained('categoria_noticias')->onDelete('cascade'); // Chave estrangeira para categoria_noticias
             $table->string('titulo');
             $table->text('resumo');
-            $table->string('imagem');
-            $table->dateTime('publicado_em')->nullable();
-            $table->longText('conteudo');
-            $table->boolean('ativo')->default(true);
+            $table->string('imagem')->nullable(); // Caminho da imagem, pode ser nulo
+            $table->longText('conteudo'); // Conteúdo completo da notícia
+            $table->timestamp('publicado_em')->nullable(); // Data e hora de publicação
+            $table->boolean('ativo')->default(true); // Se a notícia está ativa ou não
             $table->timestamps();
-
-            $table->foreign('categoria_id')->references('id')->on('categorias_noticias')->onDelete('cascade');
         });
     }
 

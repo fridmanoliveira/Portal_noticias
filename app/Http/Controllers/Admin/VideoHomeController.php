@@ -3,63 +3,56 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\VideoRequest;
+use App\Services\VideoService;
 
 class VideoHomeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected $videoService;
+
+    public function __construct(VideoService $videoService)
+    {
+        $this->videoService = $videoService;
+    }
+
     public function index()
     {
-        //
+        $videos = $this->videoService->getAll();
+        return view('admin.videos.index', compact('videos'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('admin.videos.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(VideoRequest $request)
     {
-        //
+        $this->videoService->store($request->validated());
+
+        return redirect()->route('admin.videos.index')
+                         ->with('success', 'Vídeo cadastrado com sucesso.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
-        //
+        $video = $this->videoService->findById($id);
+        return view('admin.videos.edit', compact('video'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(VideoRequest $request, string $id)
     {
-        //
+        $this->videoService->update($id, $request->validated());
+
+        return redirect()->route('admin.videos.index')
+                         ->with('success', 'Vídeo atualizado com sucesso.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        $this->videoService->delete($id);
+
+        return redirect()->route('admin.videos.index')
+                         ->with('success', 'Vídeo removido com sucesso.');
     }
 }
