@@ -3,8 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Site\HomeController;
+use App\Http\Controllers\Site\NoticiaController;  
+use App\Http\Controllers\Admin\NoticiaController as AdminNoticiaController;
 use App\Http\Controllers\Admin\BannerController;
-use App\Http\Controllers\Admin\NoticiaController;
 use App\Http\Controllers\Admin\VideoHomeController;
 use App\Http\Controllers\Admin\AcessoRapidoController;
 use App\Http\Controllers\Admin\BannerRotativoController;
@@ -16,6 +17,8 @@ use App\Http\Controllers\Admin\CategoriaNoticiaController;
 // });
 
 Route::get('/', [HomeController::class, 'index'])->name('site.home');
+Route::get('/noticias', [NoticiaController::class, 'index'])->name('site.noticias.index');
+Route::get('/noticias/{noticia}', [NoticiaController::class, 'show'])->name('site.noticias.show');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -31,7 +34,7 @@ Route::prefix('admin')
         Route::get('', [HomeController::class, 'dashboard'])
             ->name('dashboard');
 
-        // Banners
+        // Banners (Controller já existente)
         Route::get('banners', [BannerController::class, 'index'])->name('banners.index');
         Route::get('banners/create', [BannerController::class, 'create'])->name('banners.create');
         Route::post('banners', [BannerController::class, 'store'])->name('banners.store');
@@ -55,16 +58,16 @@ Route::prefix('admin')
         Route::put('acessos-rapidos/{acessoRapido}', [AcessoRapidoController::class, 'update'])->name('acessos-rapidos.update');
         Route::delete('acessos-rapidos/{acessoRapido}', [AcessoRapidoController::class, 'destroy'])->name('acessos-rapidos.destroy');
 
-        // Notícias
-        Route::get('noticias', [NoticiaController::class, 'index'])->name('noticias.index');
-        Route::get('noticias/create', [NoticiaController::class, 'create'])->name('noticias.create');
-        Route::post('noticias', [NoticiaController::class, 'store'])->name('noticias.store');
-        Route::get('noticias/{noticia}', [NoticiaController::class, 'show'])->name('noticias.show');
-        Route::get('noticias/{noticia}/edit', [NoticiaController::class, 'edit'])->name('noticias.edit');
-        Route::put('noticias/{noticia}', [NoticiaController::class, 'update'])->name('noticias.update');
-        Route::delete('noticias/{noticia}', [NoticiaController::class, 'destroy'])->name('noticias.destroy');
+        // Notícias (AGORA USANDO O ALIAS CORRETO)
+        Route::get('noticias', [AdminNoticiaController::class, 'index'])->name('noticias.index');
+        Route::get('noticias/create', [AdminNoticiaController::class, 'create'])->name('noticias.create');
+        Route::post('noticias', [AdminNoticiaController::class, 'store'])->name('noticias.store');
+        Route::get('noticias/{noticia}', [AdminNoticiaController::class, 'show'])->name('noticias.show');
+        Route::get('noticias/{noticia}/edit', [AdminNoticiaController::class, 'edit'])->name('noticias.edit');
+        Route::put('noticias/{noticia}', [AdminNoticiaController::class, 'update'])->name('noticias.update');
+        Route::delete('noticias/{noticia}', [AdminNoticiaController::class, 'destroy'])->name('noticias.destroy');
 
-        // Categorias de Notícias
+        // Categorias de Notícias (Controller já existente)
         Route::get('categorias-noticias', [CategoriaNoticiaController::class, 'index'])->name('categorias-noticias.index');
         Route::get('categorias-noticias/create', [CategoriaNoticiaController::class, 'create'])->name('categorias-noticias.create');
         Route::post('categorias-noticias', [CategoriaNoticiaController::class, 'store'])->name('categorias-noticias.store');
