@@ -1,47 +1,74 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('Acessos Rápidos') }}
-        </h2>
+        <div class="flex items-center justify-between">
+            <h2 class="text-2xl font-bold text-gray-800">
+                Acessos Rápidos
+            </h2>
+            <a href="{{ route('admin.acessos-rapidos.create') }}"
+               class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white transition bg-green-600 rounded-md hover:bg-green-700">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
+                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path>
+                </svg>
+                Novo Acesso
+            </a>
+        </div>
     </x-slot>
 
-    <div class="py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <div class="p-6 overflow-hidden bg-white shadow-sm sm:rounded-lg">
-            <a href="{{ route('admin.acessos-rapidos.create') }}" class="text-blue-600 underline">Novo Acesso</a>
-
-            <table class="w-full mt-4 border border-collapse border-gray-300 table-auto">
-                <thead>
-                    <tr class="bg-gray-200">
-                        <th class="px-4 py-2 border">ID</th>
-                        <th class="px-4 py-2 border">Título</th>
-                        <th class="px-4 py-2 border">Ícone</th>
-                        <th class="px-4 py-2 border">Link</th>
-                        <th class="px-4 py-2 border">Ordem</th>
-                        <th class="px-4 py-2 border">Ativo</th>
-                        <th class="px-4 py-2 border">Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($acessos as $acesso)
-                    <tr>
-                        <td class="px-4 py-2 border">{{ $acesso->id }}</td>
-                        <td class="px-4 py-2 border">{{ $acesso->titulo }}</td>
-                        <td class="px-4 py-2 border">{!! $acesso->icone !!}</td>
-                        <td class="px-4 py-2 border">{{ $acesso->link }}</td>
-                        <td class="px-4 py-2 border">{{ $acesso->ordem }}</td>
-                        <td class="px-4 py-2 border">{{ $acesso->ativo ? 'Sim' : 'Não' }}</td>
-                        <td class="px-4 py-2 border">
-                            <a href="{{ route('admin.acessos-rapidos.edit', $acesso->id) }}" class="text-indigo-600 underline">Editar</a>
-                            <form action="{{ route('admin.acessos-rapidos.destroy', $acesso->id) }}" method="POST" style="display:inline" onsubmit="return confirm('Tem certeza que deseja excluir?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="ml-2 text-red-600 underline">Excluir</button>
-                            </form>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+    <div class="py-8">
+        <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div class="overflow-hidden bg-white shadow-md rounded-xl">
+                <table class="w-full text-sm text-left text-gray-700">
+                    <thead class="text-xs text-gray-600 uppercase bg-gray-100">
+                        <tr>
+                            <th class="px-4 py-3">ID</th>
+                            <th class="px-4 py-3">Título</th>
+                            <th class="px-4 py-3">Ícone</th>
+                            <th class="px-4 py-3">Link</th>
+                            <th class="px-4 py-3">Ordem</th>
+                            <th class="px-4 py-3">Ativo</th>
+                            <th class="px-4 py-3 text-center">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        @forelse ($acessos as $acesso)
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-4 py-3">{{ $acesso->id }}</td>
+                                <td class="px-4 py-3 font-medium">{{ $acesso->titulo }}</td>
+                                <td class="px-4 py-3">
+                                    <img src="{{ asset('storage/' . $acesso->icone) }}" alt="{{ $acesso->titulo }} Icone"
+                                         class="object-contain p-2 bg-black rounded-sm ">
+                                </td>
+                                <td class="px-4 py-3 text-blue-600 underline">{{ $acesso->link }}</td>
+                                <td class="px-4 py-3">{{ $acesso->ordem }}</td>
+                                <td class="px-4 py-3">
+                                    <span class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full
+                                        {{ $acesso->ativo ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                        {{ $acesso->ativo ? 'Sim' : 'Não' }}
+                                    </span>
+                                </td>
+                                <td class="px-4 py-3 text-center">
+                                    <div class="flex items-center justify-center gap-2">
+                                        <a href="{{ route('admin.acessos-rapidos.edit', $acesso->id) }}"
+                                           class="text-indigo-600 hover:underline">Editar</a>
+                                        <form action="{{ route('admin.acessos-rapidos.destroy', $acesso->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-red-600 hover:underline">Excluir</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="7" class="px-4 py-6 text-center text-gray-500">
+                                    Nenhum acesso encontrado.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </x-app-layout>

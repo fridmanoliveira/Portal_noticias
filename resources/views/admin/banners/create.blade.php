@@ -1,51 +1,86 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight text-gray-800">
+        <h2 class="text-2xl font-bold leading-tight text-gray-800">
             {{ __('Novo Banner') }}
         </h2>
     </x-slot>
 
-    <div class="py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <div class="p-6 overflow-hidden bg-white shadow-sm sm:rounded-lg">
-            <form action="{{ route('admin.banners.store') }}" method="POST" enctype="multipart/form-data">
-                @csrf
+    <div class="py-10">
+        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+            <div class="p-8 bg-white shadow-xl rounded-2xl">
+                <form action="{{ route('admin.banners.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+                    @csrf
 
-                <div>
-                    <label class="block text-sm font-medium text-gray-700" for="titulo">Título</label>
-                    <input type="text" class="w-full border-gray-300 rounded-md shadow-sm" name="titulo" id="titulo" value="{{ old('titulo') }}" required>
-                </div>
+                    <div>
+                        <label for="titulo" class="block mb-1 text-sm font-semibold text-gray-700">Título</label>
+                        <input type="text" name="titulo" id="titulo" value="{{ old('titulo') }}"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
+                    </div>
 
-                <div>
-                    <label class="block text-sm font-medium text-gray-700" for="imagem">Imagem</label>
-                    <input type="file" class="w-full border-gray-300 rounded-md shadow-sm" name="imagem" id="imagem" required>
-                </div>
+                    <div class="grid items-start grid-cols-1 gap-6 md:grid-cols-2">
+                        <div>
+                            <label for="imagem" class="block mb-1 text-sm font-semibold text-gray-700">Imagem</label>
+                            <input type="file" name="imagem" id="imagem" accept="image/*"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
+                        </div>
+                        <div>
+                            <p class="mb-2 text-sm text-gray-600">Prévia da imagem:</p>
+                            <div class="flex items-center justify-center w-32 h-32 overflow-hidden bg-gray-100 border border-gray-300 rounded-lg">
+                                <img id="preview" class="object-contain max-h-32" alt="Prévia do banner" />
+                            </div>
+                        </div>
+                    </div>
 
-                <div>
-                    <label class="block text-sm font-medium text-gray-700" for="link">Link (opcional)</label>
-                    <input type="text" class="w-full border-gray-300 rounded-md shadow-sm" name="link" id="link" value="{{ old('link') }}">
-                </div>
+                    <div>
+                        <label for="link" class="block mb-1 text-sm font-semibold text-gray-700">Link (opcional)</label>
+                        <input type="url" name="link" id="link" value="{{ old('link') }}"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    </div>
 
-                <div>
-                    <label class="block text-sm font-medium text-gray-700" for="ordem">Ordem</label>
-                    <input type="number" class="w-full border-gray-300 rounded-md shadow-sm" name="ordem" id="ordem" value="{{ old('ordem', 0) }}">
-                </div>
+                    <div>
+                        <label for="ordem" class="block mb-1 text-sm font-semibold text-gray-700">Ordem de Exibição</label>
+                        <input type="number" name="ordem" id="ordem" value="{{ old('ordem', 0) }}"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    </div>
 
-                <div>
-                    <label class="block text-sm font-medium text-gray-700" for="carrossel">Carrossel?</label>
-                    <input type="checkbox" class="text-sm text-gray-700" name="carrossel" id="carrossel" value="1" {{ old('carrossel') ? 'checked' : '' }}>
-                </div>
+                    <div class="flex items-center space-x-3">
+                        <input type="checkbox" name="carrossel" id="carrossel" value="1"
+                            class="text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
+                            {{ old('carrossel') ? 'checked' : '' }}>
+                        <label for="carrossel" class="text-sm text-gray-700">Exibir no carrossel?</label>
+                    </div>
 
-                <div>
-                    <label class="block text-sm font-medium text-gray-700" for="ativo">Ativo?</label>
-                    <input type="checkbox" class="text-sm text-gray-700" name="ativo" id="ativo" value="1" {{ old('ativo', true) ? 'checked' : '' }}>
-                </div>
+                    <div class="flex items-center space-x-3">
+                        <input type="checkbox" name="ativo" id="ativo" value="1"
+                            class="text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
+                            {{ old('ativo', true) ? 'checked' : '' }}>
+                        <label for="ativo" class="text-sm text-gray-700">Ativo?</label>
+                    </div>
 
-                <div>
-                    <button type="submit">Salvar</button>
-                    <a href="{{ route('admin.banners.index') }}">Cancelar</a>
-                </div>
-            </form>
+                    <div class="flex justify-end gap-4">
+                        <a href="{{ route('admin.banners.index') }}"
+                            class="px-4 py-2 text-sm font-medium text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50">Cancelar</a>
+                        <button type="submit"
+                            class="px-6 py-2 text-sm font-medium text-white transition-all bg-blue-600 rounded-lg hover:bg-blue-700">Salvar</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
+    <script>
+        document.getElementById('imagem').addEventListener('change', function (event) {
+            const preview = document.getElementById('preview');
+            const file = event.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = '';
+            }
+        });
+    </script>
 </x-app-layout>

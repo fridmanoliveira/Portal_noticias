@@ -12,10 +12,22 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['poppins', ...defaultTheme.fontFamily.sans],
             },
+            container: {
+                center: true,
+                padding: {
+                    DEFAULT: '1rem',
+                    sm: '2rem',
+                    md: '3rem',
+                    lg: '4rem',
+                    xl: '5rem',
+                    '2xl': '10rem',
+                },
+            }
         },
     },
+
 
     plugins: [forms],
 };

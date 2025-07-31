@@ -32,4 +32,15 @@ class HomeController extends Controller
             'video'
         ));
     }
+
+    public function dashboard()
+{
+    return view('dashboard', [
+        'ultimasNoticias' => Noticia::latest()->take(5)->get(),
+        'totalNoticias' => Noticia::count(),
+        'totalAcessosRapidos' => AcessoRapido::count(),
+        'totalCategorias' => \App\Models\CategoriaNoticia::count(),
+    ]);
+}
+
 }
