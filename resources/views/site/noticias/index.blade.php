@@ -1,4 +1,4 @@
-<x-site-layout>
+<x-site-layout title="Notícias">
     <section class="px-4 py-10 mx-auto sm:container">
         <h1 class="mb-8 text-3xl font-bold text-center text-gray-800">Notícias</h1>
 

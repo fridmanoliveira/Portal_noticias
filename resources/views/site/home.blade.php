@@ -1,4 +1,4 @@
-<x-site-layout>
+<x-site-layout title="Inicio">
     <!-- Banner Principal - Otimizado para mobile -->
     <section class="py-3 sm:py-4 sm:container">
             @if($bannerPrincipal)

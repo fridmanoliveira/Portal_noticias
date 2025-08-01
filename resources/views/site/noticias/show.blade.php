@@ -1,4 +1,4 @@
-<x-site-layout>
+<x-site-layout title="{{ $noticia->titulo }}">
 
     <section class="px-4 py-10 mx-auto sm:container">
         @if ($noticia)
