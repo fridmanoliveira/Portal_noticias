@@ -29,21 +29,25 @@ class NoticiaRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+    public function rules()
     {
         $rules = [
             'titulo' => 'required|string|max:255',
+            'slug' => 'nullable|string|max:255|unique:noticias,slug',
             'resumo' => 'required|string|max:500',
-            'publicado_em' => 'required|date',
             'conteudo' => 'required|string',
-            'ativo' => 'boolean', // Agora esta validação funcionará consistentemente
             'categoria_id' => 'required|exists:categoria_noticias,id',
+            'publicado_em' => 'required|date',
+            'ativo' => 'boolean',
         ];
 
+        // Na criação, a imagem é obrigatória
         if ($this->isMethod('post')) {
-            $rules['imagem'] = 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048';
+            $rules['imagem'] = 'required|image|mimes:jpeg,png,jpg,gif|max:20048';
         } else {
-            $rules['imagem'] = 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048';
+            // Na edição, a imagem é opcional
+            $rules['imagem'] = 'nullable|image|mimes:jpeg,png,jpg,gif|max:20048';
+            $rules['remover_imagem'] = 'nullable|boolean';
         }
 
         return $rules;
@@ -67,7 +71,7 @@ class NoticiaRequest extends FormRequest
             'imagem.required' => 'A imagem da notícia é obrigatória.',
             'imagem.image' => 'O arquivo deve ser uma imagem.',
             'imagem.mimes' => 'A imagem deve ser dos tipos: jpeg, png, jpg, gif, webp.',
-            'imagem.max' => 'A imagem não pode ter mais de 2MB.',
+            'imagem.max' => 'A imagem não pode ter mais de 20MB.',
             'ativo.boolean' => 'O campo ativo deve ser verdadeiro ou falso.',
             'categoria_id.required' => 'A categoria da notícia é obrigatória.',
             'categoria_id.exists' => 'A categoria selecionada não é válida.',

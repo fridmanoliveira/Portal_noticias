@@ -11,12 +11,7 @@
                 <form action="{{ route('admin.banners.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
                     @csrf
 
-                    <div>
-                        <label for="titulo" class="block mb-1 text-sm font-semibold text-gray-700">Título</label>
-                        <input type="text" name="titulo" id="titulo" value="{{ old('titulo') }}"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
-                    </div>
-
+                   
                     <div class="grid items-start grid-cols-1 gap-6 md:grid-cols-2">
                         <div>
                             <label for="imagem" class="block mb-1 text-sm font-semibold text-gray-700">Imagem</label>

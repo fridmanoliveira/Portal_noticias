@@ -21,7 +21,7 @@ class CategoriaNoticiaController extends Controller
      */
     public function index()
     {
-        $categorias = $this->categoriaNoticiaService->getAllForAdmin();  
+        $categorias = $this->categoriaNoticiaService->getAllForAdmin();
         return view('admin.categorias_noticias.index', compact('categorias'));
     }
 

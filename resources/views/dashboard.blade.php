@@ -42,7 +42,7 @@
                     </a>
                     <a href="{{ route('admin.banners-rotativo.index') }}"
                         class="px-4 py-2 text-white transition bg-indigo-600 rounded hover:bg-indigo-700">
-                        Gerenciar Banners
+                        Gerenciar Banners Rotativos
                     </a>
                 </div>
             </div>

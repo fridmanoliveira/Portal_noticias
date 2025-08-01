@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Banner;
+use App\Models\Noticia;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\NoticiaRequest; // Importe a NoticiaRequest
 use App\Services\NoticiaService;      // Importe o NoticiaService
-use App\Services\CategoriaNoticiaService; // Para buscar categorias na criação/edição
 use Illuminate\Http\Request; // Manter, caso precise de alguma validação simples
+use App\Services\CategoriaNoticiaService; // Para buscar categorias na criação/edição
 
 class NoticiaController extends Controller
 {
@@ -24,7 +26,7 @@ class NoticiaController extends Controller
      */
     public function index()
     {
-        $noticias = $this->noticiaService->getAllForAdmin();  
+        $noticias = $this->noticiaService->getAllForAdmin();
         return view('admin.noticias.index', compact('noticias'));
     }
 
@@ -40,39 +42,65 @@ class NoticiaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(NoticiaRequest $request) // Use NoticiaRequest para validação
+    public function store(NoticiaRequest $request)
     {
-        $this->noticiaService->store($request->validated());
-
-        return redirect()->route('admin.noticias.index')->with('success', 'Notícia criada com sucesso!');
+        try {
+            $this->noticiaService->store($request->validated());
+            return redirect()->route('admin.noticias.index')->with('success', 'Notícia criada com sucesso!');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Erro ao criar notícia: ' . $e->getMessage());
+        }
     }
 
     /**
-     * Display the specified resource.
+     * Exibe os detalhes de uma notícia específica.
+     * @param \App\Models\Noticia $noticia O modelo da notícia, resolvido via Route Model Binding.
      */
-    public function show(string $id)
+    public function show(Noticia $noticia)
     {
-        $noticia = $this->noticiaService->find($id);
-        return view('admin.noticias.show', compact('noticia')); // Crie esta view se precisar de uma página de detalhes
+        if (!$noticia->ativo) {
+            abort(404);
+        }
+
+        $quantidadeDesejada = 5;
+
+        $outrasNoticias = Noticia::where('ativo', true)
+            ->where('categoria_id', $noticia->categoria_id)
+            ->where('id', '!=', $noticia->id)
+            ->latest('publicado_em')
+            ->limit($quantidadeDesejada)
+            ->get();
+
+        $idsParaExcluir = $outrasNoticias->pluck('id')->push($noticia->id);
+
+        // Se não encontrou a quantidade desejada, completa com as mais recentes de qualquer categoria
+        if ($outrasNoticias->count() < $quantidadeDesejada) {
+            $necessarias = $quantidadeDesejada - $outrasNoticias->count();
+
+            $noticiasRecentes = Noticia::where('ativo', true)
+                ->whereNotIn('id', $idsParaExcluir)
+                ->latest('publicado_em')
+                ->limit($necessarias)
+                ->get();
+
+            $outrasNoticias = $outrasNoticias->concat($noticiasRecentes);
+        }
+
+        $logo = \App\Models\Logo::first();
+        $redesSociais = \App\Models\RedeSocial::where('ativo', true)->get();
+
+        return view('site.noticias.show', compact('noticia', 'logo', 'redesSociais', 'outrasNoticias'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(int $id)
+    public function edit(Noticia $noticia)
     {
-        $noticia = $this->noticiaService->find($id);
-        $categorias = $this->categoriaNoticiaService->all(); // Passa as categorias para o formulário
+        $categorias = $this->categoriaNoticiaService->all();
         return view('admin.noticias.edit', compact('noticia', 'categorias'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(NoticiaRequest $request, int $id) // Use NoticiaRequest para validação
+    public function update(NoticiaRequest $request, Noticia $noticia)
     {
-        $this->noticiaService->update($id, $request->validated());
-
+        $this->noticiaService->update($noticia->id, $request->validated());
         return redirect()->route('admin.noticias.index')->with('success', 'Notícia atualizada com sucesso!');
     }
 
@@ -83,5 +111,41 @@ class NoticiaController extends Controller
     {
         $this->noticiaService->delete($id);
         return redirect()->route('admin.noticias.index')->with('success', 'Notícia excluída com sucesso!');
+    }
+
+    /**
+     * Exibe a lista de todas as notícias ativas para o público, com opções de filtro.
+     */
+    public function noticias(Request $request)
+    {
+        // ... (seu método index permanece inalterado)
+        $query = \App\Models\Noticia::where('ativo', true);
+
+        if ($request->filled('categoria_id') && $request->categoria_id != '') {
+            $query->where('categoria_id', $request->categoria_id);
+        }
+
+        if ($request->filled('descricao')) {
+            $descricao = $request->input('descricao');
+            $query->where(function ($q) use ($descricao) {
+                $q->where('titulo', 'like', '%' . $descricao . '%')
+                  ->orWhere('resumo', 'like', '%' . $descricao . '%');
+            });
+        }
+
+        if ($request->filled('periodo_inicio')) {
+            $query->where('publicado_em', '>=', $request->periodo_inicio);
+        }
+        if ($request->filled('periodo_fim')) {
+            $query->where('publicado_em', '<=', $request->periodo_fim . ' 23:59:59');
+        }
+
+        $noticias = $query->orderByDesc('publicado_em')->paginate(9)->withQueryString();
+        $categorias = $this->categoriaNoticiaService->all();
+        $logo = \App\Models\Logo::first();
+        $redesSociais = \App\Models\RedeSocial::where('ativo', true)->get();
+        $bannerPrincipal = Banner::where('ativo', true)->first();
+
+        return view('site.noticias.index', compact('noticias', 'categorias', 'logo', 'redesSociais', 'bannerPrincipal'));
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Noticia;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -64,36 +65,92 @@ class NoticiaService
      */
     public function store(array $data): Noticia
     {
-        if (isset($data['imagem']) && $data['imagem']->isValid()) {
-            $data['imagem'] = $data['imagem']->store('noticias', 'public');
-        }
+        try {
+            // Gera o slug a partir do título
+            $data['slug'] = $this->generateUniqueSlug($data['titulo']);
 
-        return Noticia::create($data);
+            // Processa a imagem
+            if (isset($data['imagem']) && $data['imagem']->isValid()) {
+                $data['imagem'] = $data['imagem']->store('noticias', 'public');
+            }
+
+            // Garante que ativo é booleano
+            $data['ativo'] = $data['ativo'] ?? false;
+
+            return Noticia::create($data);
+        } catch (\Exception $e) {
+            // Remove a imagem se foi salva mas ocorreu outro erro
+            if (isset($data['imagem'])) {
+                Storage::disk('public')->delete($data['imagem']);
+            }
+            throw $e;
+        }
     }
 
-    /**
-     * Atualiza uma notícia existente.
-     */
     public function update(int $id, array $data): Noticia
     {
         $noticia = $this->find($id);
 
-        if (isset($data['imagem']) && $data['imagem']->isValid()) {
-            // Remove a imagem antiga se existir
-            if ($noticia->imagem && Storage::disk('public')->exists($noticia->imagem)) {
+        // Se o título foi alterado, gera um novo slug
+        if (isset($data['titulo']) && $noticia->titulo !== $data['titulo']) {
+            $data['slug'] = $this->generateUniqueSlug($data['titulo'], $noticia->id);
+        }
+
+        // Tratamento da imagem
+        if (isset($data['imagem']) && $data['imagem'] instanceof \Illuminate\Http\UploadedFile) {
+            if ($noticia->imagem) {
                 Storage::disk('public')->delete($noticia->imagem);
             }
             $data['imagem'] = $data['imagem']->store('noticias', 'public');
-        } elseif (isset($data['imagem']) && $data['imagem'] === null) {
-            // Caso a imagem seja removida no formulário
-            if ($noticia->imagem && Storage::disk('public')->exists($noticia->imagem)) {
+        } elseif (isset($data['remover_imagem']) && $data['remover_imagem']) {
+            if ($noticia->imagem) {
                 Storage::disk('public')->delete($noticia->imagem);
             }
-            $data['imagem'] = null; // Garante que o campo será limpo no DB
+            $data['imagem'] = null;
+        } else {
+            unset($data['imagem']);
         }
 
         $noticia->update($data);
         return $noticia;
+    }
+
+    /**
+     * Gera um slug único baseado no título.
+     *
+     * @param string $title
+     * @param int|null $excludeId
+     * @return string
+     */
+    protected function generateUniqueSlug(string $title, ?int $excludeId = null): string
+    {
+        $slug = Str::slug($title);
+        $originalSlug = $slug;
+        $count = 1;
+
+        while ($this->slugExists($slug, $excludeId)) {
+            $slug = $originalSlug . '-' . $count++;
+        }
+
+        return $slug;
+    }
+
+    /**
+     * Verifica se um slug já existe.
+     *
+     * @param string $slug
+     * @param int|null $excludeId
+     * @return bool
+     */
+    protected function slugExists(string $slug, ?int $excludeId = null): bool
+    {
+        $query = Noticia::where('slug', $slug);
+
+        if ($excludeId) {
+            $query->where('id', '!=', $excludeId);
+        }
+
+        return $query->exists();
     }
 
     /**

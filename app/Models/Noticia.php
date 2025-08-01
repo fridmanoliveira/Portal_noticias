@@ -3,11 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Noticia extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'titulo',
+        'slug',
         'resumo',
         'imagem',
         'publicado_em',
@@ -26,5 +29,10 @@ class Noticia extends Model
     public function categoria()
     {
         return $this->belongsTo(CategoriaNoticia::class, 'categoria_id');
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 }

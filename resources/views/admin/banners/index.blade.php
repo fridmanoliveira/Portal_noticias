@@ -22,7 +22,6 @@
                     <thead class="text-xs text-gray-600 uppercase bg-gray-100">
                         <tr>
                             <th class="px-4 py-3">ID</th>
-                            <th class="px-4 py-3">Título</th>
                             <th class="px-4 py-3">Imagem</th>
                             <th class="px-4 py-3">Link</th>
                             <th class="px-4 py-3">Ordem</th>
@@ -34,7 +33,6 @@
                         @forelse ($banners as $banner)
                             <tr class="hover:bg-gray-50">
                                 <td class="px-4 py-3">{{ $banner->id }}</td>
-                                <td class="px-4 py-3 font-medium">{{ $banner->titulo }}</td>
                                 <td class="px-4 py-3">
                                     <img src="{{ asset('storage/' . $banner->imagem) }}"
                                          alt="Imagem do banner {{ $banner->titulo }}"

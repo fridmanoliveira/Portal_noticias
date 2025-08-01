@@ -21,7 +21,7 @@ class VideoRequest extends FormRequest
     {
         return [
             'titulo' => 'required|string|max:255',
-            'descricao' => 'nullable|string|max:1000',
+            'descricao' => 'nullable|string',
             'link_youtube' => 'required|url',
             'ativo' => 'required|boolean',
         ];
