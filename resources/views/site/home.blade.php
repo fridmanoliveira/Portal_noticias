@@ -82,38 +82,126 @@
             </div>
         </section>
 
-        <!-- Destaques (Notícias) -->
-        <section class="px-4 mx-auto my-8 sm:container" x-data="carrosselNoticias()" x-init="init">
-            <h2 class="mb-4 text-xl italic font-extrabold text-gray-700">NOTÍCIAS</h2>
+        <!-- Início da Seção de Notícias -->
+        <section class="px-4 py-12 mx-auto sm:container">
 
-            <div class="grid gap-6 md:grid-cols-3">
-                <!-- Notícia Principal -->
-                <template x-if="noticias.length">
-                    <div class="overflow-hidden transition-all shadow-md rounded-xl md:col-span-2">
-                        <div class="relative">
-                            <img :src="'/storage/' + noticias[0].imagem"
-                                class="object-cover w-full h-[36em] rounded-xl"
-                                :alt="noticias[0].titulo">
-                        </div>
-                        <div class="p-4 text-white text-base font-extrabold bg-[#0498A4] rounded-xl leading-snug mt-2">
-                            <span x-text="limit(noticias[0].resumo, 180)"></span>
-                        </div>
+            <!-- Título da Seção -->
+            <h2 class="mb-6 text-2xl font-bold text-teal-600 uppercase tracking-wide">Notícias</h2>
+
+            <!-- Container Principal (Layout de duas colunas) -->
+            <div class="flex flex-col lg:flex-row gap-8">
+
+                <!-- Coluna Esquerda: Carrossel de Notícias -->
+                <div class="w-full lg:w-2/3" x-data="{
+                        noticias: {{ Js::from($noticiasCarrossel) }},
+                        activeIndex: 0,
+                        autoplay: null,
+                        init() {
+                            if (this.noticias.length > 1) {
+                                this.startAutoplay();
+                            }
+                        },
+                        startAutoplay() {
+                            this.autoplay = setInterval(() => {
+                                this.next();
+                            }, 5000); // Muda a cada 5 segundos
+                        },
+                        stopAutoplay() {
+                            clearInterval(this.autoplay);
+                        },
+                        next() {
+                            this.activeIndex = this.activeIndex === this.noticias.length - 1 ? 0 : this.activeIndex + 1;
+                        },
+                        prev() {
+                            this.activeIndex = this.activeIndex === 0 ? this.noticias.length - 1 : this.activeIndex - 1;
+                        },
+                        goTo(index) {
+                            this.activeIndex = index;
+                        }
+                    }"
+                    @mouseenter="stopAutoplay"
+                    @mouseleave="startAutoplay"
+                >
+                    <div class="relative overflow-hidden rounded-lg shadow-lg h-96">
+                        <!-- Slides do Carrossel -->
+                        <template x-for="(noticia, index) in noticias" :key="noticia.id">
+                            <div x-show="activeIndex === index"
+                                x-transition:enter="transition ease-out duration-500"
+                                x-transition:enter-start="opacity-0 transform scale-95"
+                                x-transition:enter-end="opacity-100 transform scale-100"
+                                x-transition:leave="transition ease-in duration-300"
+                                x-transition:leave-start="opacity-100 transform scale-100"
+                                x-transition:leave-end="opacity-0 transform scale-95"
+                                class="absolute inset-0 w-full h-full">
+
+                                <!-- Imagem de Fundo -->
+                                <img :src="'/storage/' + noticia.imagem" :alt="noticia.titulo" class="object-cover w-full h-full">
+
+                                <!-- Overlay com Gradiente e Título -->
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+                                <div class="absolute bottom-0 left-0 p-6 text-white">
+                                    <a :href="'/noticias/' + noticia.id" class="block">
+                                        <h3 class="text-2xl font-bold leading-tight hover:text-teal-300 transition-colors" x-text="noticia.titulo"></h3>
+                                    </a>
+                                </div>
+                            </div>
+                        </template>
+
+                        <!-- Controles de Navegação (Setas) -->
+                        <template x-if="noticias.length > 1">
+                            <div class="absolute inset-y-0 left-0 flex items-center">
+                                <button @click="prev()" class="p-2 -ml-2 text-white transition-transform duration-300 transform bg-black bg-opacity-25 rounded-full hover:bg-opacity-50 hover:scale-110 focus:outline-none">
+                                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                                </button>
+                            </div>
+                        </template>
+                        <template x-if="noticias.length > 1">
+                            <div class="absolute inset-y-0 right-0 flex items-center">
+                                <button @click="next()" class="p-2 -mr-2 text-white transition-transform duration-300 transform bg-black bg-opacity-25 rounded-full hover:bg-opacity-50 hover:scale-110 focus:outline-none">
+                                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                </button>
+                            </div>
+                        </template>
+
+                        <!-- Paginação (Bolinhas) -->
+                        <template x-if="noticias.length > 1">
+                            <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
+                                <template x-for="(noticia, index) in noticias" :key="'dot-' + noticia.id">
+                                    <button @click="goTo(index)" class="w-3 h-3 rounded-full transition-colors" :class="{'bg-white': activeIndex === index, 'bg-white/50 hover:bg-white/75': activeIndex !== index}"></button>
+                                </template>
+                            </div>
+                        </template>
                     </div>
-                </template>
+                </div>
 
-                <!-- Notícias Laterais -->
-                <div class="space-y-4">
-                    <template x-for="(noticia, index) in noticias" :key="index">
-                        <div class="overflow-hidden shadow-md rounded-xl">
-                            <img :src="'/storage/' + noticia.imagem"
-                                class="object-cover w-full h-[9.3em] rounded-t-xl"
-                                :alt="'Thumb de ' + noticia.titulo">
-                            <p class="p-2 text-sm font-medium text-gray-800 bg-white line-clamp-2" x-text="limit(noticia.resumo, 100)"></p>
-                        </div>
-                    </template>
+                <!-- Coluna Direita: Grid de Notícias -->
+                <div class="w-full lg:w-1/3">
+                    <div class="grid grid-cols-2 gap-4">
+                        @foreach ($noticiasGrid as $noticia)
+                            <div class="relative overflow-hidden rounded-lg shadow-lg group aspect-w-4 aspect-h-3">
+                                <a href="{{ route('site.noticias.show', $noticia->id) }}" class="block w-full h-full">
+                                    <!-- Imagem -->
+                                    <img src="{{ asset('storage/' . $noticia->imagem) }}" alt="{{ $noticia->titulo }}" class="object-cover w-full h-full transition-transform duration-300 group-hover:scale-110">
+                                    <!-- Overlay com Gradiente e Título -->
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                                    <div class="absolute bottom-0 left-0 p-3 text-white">
+                                        <h4 class="text-sm font-semibold leading-tight line-clamp-2">{{ $noticia->titulo }}</h4>
+                                    </div>
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <!-- Botão Ver Mais Notícias -->
+                    <div class="mt-6 text-end">
+                        <a href="{{ route('site.noticias.index') }}" class="inline-block px-8 py-3 font-semibold text-white transition-colors bg-teal-600 rounded-lg hover:bg-teal-700">
+                            Ver mais notícias
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
+        <!-- Fim da Seção de Notícias -->
 
         <!-- Links Rápidos Horizontais -->
         <section class="py-10 bg-[#f5f7fe]">
@@ -174,7 +262,7 @@
                             {{ $video->titulo ?? 'A História de Cristino Castro' }}
                         </h2>
                         <div class="mb-4 text-base leading-relaxed prose prose-invert max-w-none">
-                            {!! $video->descricao !!}
+                            {{-- {!! $video->descricao !!} --}}
                         </div>
                         <a href="#" class="font-semibold text-green-300 underline transition hover:text-green-200">
                             Continue lendo...
@@ -275,31 +363,5 @@
                 </div>
             </div>
         </footer>
-
-        <script>
-            function carrosselNoticias() {
-                return {
-                    active: 0,
-                    noticias: @json($noticias),
-
-                    intervalo: null,
-
-                    init() {
-                        this.intervalo = setInterval(() => {
-                            this.girarNoticias();
-                        }, 5000);
-                    },
-
-                    girarNoticias() {
-                        const primeira = this.noticias.shift();
-                        this.noticias.push(primeira);
-                    },
-
-                    limit(text, max) {
-                        return text.length > max ? text.slice(0, max) + '...' : text;
-                    }
-                }
-            }
-        </script>
     </body>
 </html>
