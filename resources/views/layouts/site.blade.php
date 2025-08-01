@@ -20,17 +20,25 @@
         <div class="px-3 mx-auto sm:container">
             <div class="flex flex-wrap items-center justify-between gap-2">
                 <!-- Links e acessibilidade -->
-                <div class="flex flex-wrap items-center gap-2">
-                    <a href="#" class="hover:underline whitespace-nowrap">MAPA DO SITE</a>
-                    <span class="hidden text-gray-400 xs:inline">|</span>
-                    <a href="#" class="hover:underline whitespace-nowrap">WEBMAIL</a>
-                    <span class="hidden text-gray-400 sm:inline">|</span>
+                <div class="flex flex-wrap items-center gap-4 ">
+                    <a href="#" class="font-bold hover:underline whitespace-nowrap">MAPA DO SITE</a>
+                    <a href="#" class="font-semibold hover:underline whitespace-nowrap">WEBMAIL</a>
                     <div class="flex items-center gap-1">
-                        <button aria-label="Aumentar fonte" class="px-1 text-sm font-bold hover:text-green-300">A+</button>
-                        <span class="text-gray-400">|</span>
-                        <button aria-label="Diminuir fonte" class="px-1 text-sm hover:text-green-300">A-</button>
-                        <span class="text-gray-400">|</span>
-                        <button aria-label="Modo noturno" class="w-4 h-4 border border-white rounded-full hover:bg-white/20"></button>
+                        <!-- Aumentar fonte -->
+                        <button aria-label="Aumentar fonte" class="hover:text-green-300">
+                            <img src="{{ asset('icons/resize-positivo.svg') }}" alt="">
+                        </button>
+
+                        <!-- Diminuir fonte -->
+                        <button aria-label="Diminuir fonte" class="hover:text-green-300">
+                            <img src="{{ asset('icons/resize-negativo.svg') }}" alt="">
+                        </button>
+
+                        <!-- Modo escuro -->
+                        <button aria-label="Modo noturno" class="hover:text-green-300">
+                            <img src="{{ asset('icons/contrast-circle.svg') }}" alt="">
+                        </button>
+
                     </div>
                 </div>
 
@@ -98,7 +106,7 @@
 
                     <!-- Logo -->
                     <div class="flex-shrink-0">
-                        <img src="{{ asset('storage/logo.png') }}"
+                        <img src="{{ asset('logo/logo.png') }}"
                             alt="Logo Prefeitura"
                             class="h-20 transition-transform hover:scale-105 sm:h-20">
                     </div>

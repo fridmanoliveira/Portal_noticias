@@ -1,5 +1,5 @@
 @props([
-    'logo' => asset('storage/logo-header.png'),
+    'logo' => asset('logo/logo-header.png'),
     'alt' => 'Prefeitura de Cristino Castro',
     'links' => [
         ['route' => '/', 'text' => 'INÍCIO'],
