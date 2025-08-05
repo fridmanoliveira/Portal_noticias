@@ -70,7 +70,7 @@
 
     <!-- Header otimizado para mobile -->
     <x-header
-        class="sticky top-0 z-10 py-3 bg-white shadow-md"
+        class="py-3 bg-white shadow-md"
     />
 
     <!-- Conteúdo principal -->

@@ -12,7 +12,7 @@
 ])
 
 <header x-data="{ mobileMenuOpen: false }"
-        {{ $attributes->merge(['class' => 'sticky top-0 z-50 bg-white shadow-md']) }}
+        {{ $attributes->merge(['class' => 'bg-white shadow-md']) }}
         @click.outside="mobileMenuOpen = false">
     <div class="px-4 py-4 mx-auto max-w-7xl sm:container">
         <div class="flex items-center justify-between h-16">

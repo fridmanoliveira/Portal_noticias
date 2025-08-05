@@ -11,11 +11,10 @@
     </section>
 
     <!-- Início da Seção de Notícias -->
-    <section class="px-4 py-12 mx-auto sm:container">
+    <section class="px-4 py-6 mx-auto sm:container">
         <!-- Título da Seção -->
-        <!-- Título da Seção -->
-        <div class="flex items-center justify-between mb-8">
-            <h2 class="mb-4 text-lg font-bold text-gray-800 sm:text-xl sm:mb-6 sm:italic sm:font-extrabold sm:text-gray-700">Últimas Notícias</h2>
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-lg font-bold text-gray-800 sm:text-xl sm:italic sm:font-extrabold sm:text-gray-700">Últimas Notícias</h2>
             <a href="{{ route('site.noticias.index') }}" class="font-medium text-teal-600 hover:text-teal-800">
                 Ver todas →
             </a>
@@ -203,7 +202,7 @@
     @endif
 
     <!-- Acesso Rápido - Responsivo -->
-    <section class="px-2 py-8 mx-auto sm:container max-w-7xl sm:py-12">
+    <section class="px-2 py-6 mx-auto sm:container max-w-7xl sm:py-12">
         <h2 class="mb-4 text-lg font-bold text-gray-800 sm:text-xl sm:mb-6 sm:italic sm:font-extrabold sm:text-gray-700">ACESSO RÁPIDO</h2>
         <div class="grid grid-cols-2 gap-3 sm:grid-cols-1 sm:gap-6 md:grid-cols-2 lg:grid-cols-4">
             @foreach($acessosRapidos as $acesso)
