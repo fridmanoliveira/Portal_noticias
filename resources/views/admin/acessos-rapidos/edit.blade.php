@@ -27,7 +27,7 @@
                         <div>
                             <p class="mb-2 text-sm text-gray-600">Prévia do ícone:</p>
                             <div class="flex items-center justify-center w-24 h-24 overflow-hidden bg-gray-800 border border-gray-300 rounded-lg">
-                                <img id="preview" src="{{ $acesso->icone ? url('public/' . $acesso->icone) : '' }}"
+                                <img id="preview" src="{{ $acesso->icone ? url($acesso->icone) : '' }}"
                                     class="object-contain max-h-24" alt="Prévia do ícone">
                             </div>
                         </div>

@@ -33,7 +33,7 @@
                         @forelse ($banners as $banner)
                             <tr class="hover:bg-gray-50">
                                 <td class="px-4 py-3">
-                                    <img src="{{ asset('public/' . $banner->imagem) }}"
+                                    <img src="{{ asset($banner->imagem) }}"
                                          alt="Imagem do banner {{ $banner->titulo }}"
                                          class="object-contain rounded-sm max-h-12">
                                 </td>

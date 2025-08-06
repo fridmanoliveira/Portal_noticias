@@ -48,7 +48,7 @@
                             @if($noticia->imagem)
                                 <p class="mb-2 text-sm text-gray-600">Imagem atual:</p>
                                 <div class="flex items-center justify-center overflow-hidden rounded-lg">
-                                    <img id="preview" src="{{ asset($noticia->imagem) }}"
+                                    <img id="preview" src="{{ url($noticia->imagem) }}"
                                         class="object-contain max-h-32" alt="Imagem atual da notícia">
                                 </div>
                             @else
