@@ -15,33 +15,21 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="flex flex-col min-h-screen bg-gray-100">
+<body class="flex flex-col min-h-screen ">
     <!-- Barra de utilidades com SVGs -->
     <div class="bg-[#004446] text-white text-xs py-1">
         <div class="px-3 mx-auto sm:container">
             <div class="flex flex-wrap items-center justify-between gap-2">
                 <!-- Links e acessibilidade -->
-                <div class="flex flex-wrap items-center gap-4 ">
+                <ul class="flex flex-wrap items-center gap-4 ">
                     <a href="#" class="font-bold hover:underline whitespace-nowrap">MAPA DO SITE</a>
                     <a href="#" class="font-semibold hover:underline whitespace-nowrap">WEBMAIL</a>
                     <div class="flex items-center gap-1">
-                        <!-- Aumentar fonte -->
-                        <button aria-label="Aumentar fonte" class="hover:text-green-300">
-                            <img src="{{ asset('icons/resize-positivo.svg') }}" alt="">
-                        </button>
-
-                        <!-- Diminuir fonte -->
-                        <button aria-label="Diminuir fonte" class="hover:text-green-300">
-                            <img src="{{ asset('icons/resize-negativo.svg') }}" alt="">
-                        </button>
-
-                        <!-- Modo escuro -->
-                        <button aria-label="Modo noturno" class="hover:text-green-300">
-                            <img src="{{ asset('icons/contrast-circle.svg') }}" alt="">
-                        </button>
-
+                        <li><a href="#" id="increase-font" aria-label="Aumentar fonte">A<sup>+</sup></a></li>
+                        <li><a href="#" id="decrease-font" aria-label="Diminuir fonte">A<sup>-</sup></a></li>
+                        <li><a href="#" id="toggle-theme" aria-label="Alternar tema claro/escuro">🌓</a></li>
                     </div>
-                </div>
+                </ul>
 
                 <!-- Redes sociais com SVGs -->
                 <div class="flex items-center gap-2">
@@ -84,7 +72,7 @@
             <!-- Topo do rodapé - Versão com logo próxima à localização -->
             <div class="flex flex-col items-center gap-8 p-4 bg-[#004348] rounded-lg sm:gap-6 sm:p-6 md:flex-row md:justify-start md:items-start">
                 <!-- Logo e contato lado a lado -->
-                <div class="flex flex-col items-center gap-8 md:flex-row md:items-start md:gap-64">
+                <div class="flex flex-col items-center gap-8 md:flex-row md:items-start md:gap-48">
                     <!-- Bloco de contato -->
                     <div class="space-y-2 text-center md:text-left">
                         <div class="flex items-start gap-2 sm:gap-3">
@@ -189,11 +177,67 @@
         </div>
     </footer>
 
+    {{-- VLibras - Plugin de acessibilidade --}}
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+
+
     <!-- Scripts otimizados -->
+     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.store('mobileMenuOpen', false);
         });
+         document.addEventListener("DOMContentLoaded", function () {
+        const increaseFont = document.getElementById('increase-font');
+        const decreaseFont = document.getElementById('decrease-font');
+        const toggleTheme = document.getElementById('toggle-theme');
+        const root = document.documentElement;
+        let fontSize = 16;
+
+        // Carregar preferências salvas
+        if (localStorage.getItem('theme') === 'light') {
+            document.body.classList.add('light-mode');
+        }
+
+        const storedFontSize = localStorage.getItem('fontSize');
+        if (storedFontSize) {
+            fontSize = parseInt(storedFontSize);
+            root.style.setProperty('--font-size', fontSize + 'px');
+        }
+
+        increaseFont.addEventListener('click', function (e) {
+            e.preventDefault();
+            if (fontSize < 24) {
+                fontSize += 2;
+                root.style.setProperty('--font-size', fontSize + 'px');
+                localStorage.setItem('fontSize', fontSize);
+            }
+        });
+
+        decreaseFont.addEventListener('click', function (e) {
+            e.preventDefault();
+            if (fontSize > 12) {
+                fontSize -= 2;
+                root.style.setProperty('--font-size', fontSize + 'px');
+                localStorage.setItem('fontSize', fontSize);
+            }
+        });
+
+        toggleTheme.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.body.classList.toggle('light-mode');
+            localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+        });
+    });
     </script>
     @stack('scripts')
 </body>

@@ -7,7 +7,7 @@
                 <article class="p-6 bg-white rounded-lg shadow-lg lg:col-span-2 md:p-8">
 
                     <!-- ALTERAÇÃO: Cor do título principal alterada para text-teal-800 para seguir o padrão -->
-                    <h1 class="mb-3 text-3xl font-bold leading-tight text-teal-800 md:text-4xl">{{ $noticia->titulo }}
+                    <h1 class="mb-3 font-bold leading-tight text-teal-800">{{ $noticia->titulo }}
                     </h1>
 
                     <div class="flex flex-wrap items-center mb-6 text-sm text-gray-600">

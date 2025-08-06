@@ -73,6 +73,7 @@ export default {
                 'xs': '475px',
                 ...defaultTheme.screens,
             },
+            darkMode: 'class',
         },
     },
 

@@ -17,7 +17,7 @@
         <aside class="flex flex-col justify-between w-64 p-4 bg-white shadow-lg">
             <!-- Topo com logo -->
             <div class="flex flex-col items-center space-y-4">
-                <img src="{{ url('public/logo/logo-header.png') }}" alt="Logo Prefeitura" class="w-40 mb-8" />
+                <img src="{{ url('logo/logo-header.png') }}" alt="Logo Prefeitura" class="w-40 mb-8" />
 
                 <!-- Navegação -->
                 <nav class="w-full mt-4 space-y-2">

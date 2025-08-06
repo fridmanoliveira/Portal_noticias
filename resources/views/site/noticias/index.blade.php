@@ -1,35 +1,35 @@
 <x-site-layout title="Notícias">
     <section class="px-4 py-10 mx-auto sm:container">
-        <h1 class="mb-8 text-3xl font-bold text-center text-gray-800">Notícias</h1>
+        <h1 class="mb-8 font-bold text-center text-gray-800">Notícias</h1>
 
         <div class="p-6 mb-8 bg-white rounded-lg shadow-md">
             <h2 class="mb-4 text-xl font-bold text-gray-800">Opções de filtro</h2>
             <form action="{{ route('site.noticias.index') }}" method="GET"
                 class="grid items-end grid-cols-1 gap-4 md:grid-cols-4">
                 <div>
-                    <label for="periodo_inicio" class="block mb-1 text-sm font-semibold text-gray-700">Período
+                    <label for="periodo_inicio" class="block mb-1 font-semibold text-gray-700">Período
                         Início</label>
                     <input type="date" name="periodo_inicio" slug="periodo_inicio"
                         value="{{ request('periodo_inicio') }}"
                         class="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm">
                 </div>
                 <div>
-                    <label for="periodo_fim" class="block mb-1 text-sm font-semibold text-gray-700">Período Fim</label>
+                    <label for="periodo_fim" class="block mb-1 font-semibold text-gray-700">Período Fim</label>
                     <input type="date" name="periodo_fim" slug="periodo_fim" value="{{ request('periodo_fim') }}"
-                        class="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm">
+                        class="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 ">
                 </div>
 
                 <div>
-                    <label for="descricao" class="block mb-1 text-sm font-semibold text-gray-700">Descrição</label>
+                    <label for="descricao" class="block mb-1 font-semibold text-gray-700">Descrição</label>
                     <input type="text" name="descricao" slug="descricao" placeholder="Buscar por título ou resumo"
                         value="{{ request('descricao') }}"
-                        class="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm">
+                        class="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 ">
                 </div>
 
                 <div>
-                    <label for="categoria_id" class="block mb-1 text-sm font-semibold text-gray-700">Categoria</label>
+                    <label for="categoria_id" class="block mb-1 font-semibold text-gray-700">Categoria</label>
                     <select name="categoria_id" slug="categoria_id"
-                        class="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 sm:text-sm">
+                        class="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-cyan-500 focus:border-cyan-500 ">
                         <option value="">Todas as Categorias</option>
                         @foreach ($categorias as $categoria)
                             <option value="{{ $categoria->slug }}" @selected(request('categoria_id') == $categoria->slug)>
@@ -63,20 +63,20 @@
                             class="object-cover w-full h-48 transition duration-300 hover:opacity-90">
                     </a>
                     <div class="p-5">
-                        <h3 class="mb-1 text-xl font-semibold text-teal-800">
+                        <h3 class="mb-1 font-semibold text-teal-800">
                             <a href="{{ route('site.noticias.show', $noticia->slug) }}"
                                 class="transition hover:text-teal-600">
                                 {{ $noticia->titulo }}
                             </a>
                         </h3>
-                        <p class="mb-2 text-sm text-gray-500">
+                        <p class="mb-2 text-gray-500">
                             <i class="mr-1 far fa-calendar-alt"></i> {{ $noticia->publicado_em->format('d/m/Y H:i') }}
                             @if ($noticia->categoria)
                                 <span class="ml-2">|</span>
                                 <i class="ml-2 mr-1 fas fa-tag"></i> {{ $noticia->categoria->nome }}
                             @endif
                         </p>
-                        <p class="text-sm text-gray-700 line-clamp-3">{{ $noticia->resumo }}</p>
+                        <p class="text-gray-700 line-clamp-3">{{ $noticia->resumo }}</p>
                         <div class="mt-4 text-right">
                             <a href="{{ route('site.noticias.show', $noticia->slug) }}"
                                 class="font-medium text-teal-700 hover:text-teal-800">Leia mais »</a>
@@ -92,7 +92,7 @@
         {{-- Paginação --}}
         @if ($noticias->hasPages())
             <div class="flex justify-end mt-8">
-                <ul class="inline-flex items-center space-x-1 text-sm">
+                <ul class="inline-flex items-center space-x-1 ">
                     {{-- Anterior --}}
                     @if ($noticias->onFirstPage())
                         <li class="px-3 py-1 text-gray-400 border border-gray-300 rounded">«</li>

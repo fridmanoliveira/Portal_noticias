@@ -3,9 +3,9 @@
     'alt' => 'Prefeitura de Cristino Castro',
     'links' => [
         ['route' => '/', 'text' => 'INÍCIO'],
-        ['route' => '#', 'text' => 'O MUNICÍPIO'],
+        ['route' => '#', 'text' => 'MUNICÍPIO'],
+        ['route' => '#', 'text' => 'A PREFEITURA'],
         ['route' => '#', 'text' => 'SECRETARIAS'],
-        ['route' => 'noticias', 'text' => 'NOTÍCIAS'],
         ['route' => '#', 'text' => 'SERVIÇOS'],
         ['route' => '#', 'icon' => 'fas fa-search'],
     ]

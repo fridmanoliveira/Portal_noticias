@@ -22,7 +22,7 @@ class HomeController extends Controller
         $acessosRapidos = AcessoRapido::where('ativo', true)->orderBy('ordem')->get();
         $video = VideoHome::where('ativo', true)->latest()->first();
         $noticiasCarrossel = Noticia::where('ativo', true)->latest()->take(3)->get();
-        $noticiasGrid = Noticia::where('ativo', true)->latest()->skip(4)->take(4)->get();
+        $noticiasGrid = Noticia::where('ativo', true)->latest()->skip(4)->take(2)->get();
 
         return view('site.home', compact(
             'logo',
