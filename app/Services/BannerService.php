@@ -19,11 +19,21 @@ class BannerService
 
     public function store(array $data): Banner
     {
-        if (isset($data['imagem']) && $data['imagem']->isValid()) {
-            $data['imagem'] = $data['imagem']->store('banners', 'public');
-        }
+        try {
+            if (isset($data['imagem']) && $data['imagem']->isValid()) {
+                $imagem = $data['imagem'];
+                $nomeImagem = uniqid() . '.' . $imagem->getClientOriginalExtension();
+                $imagem->move(public_path('banners'), $nomeImagem);
+                $data['imagem'] = 'banners/' . $nomeImagem;
+            }
 
-        return Banner::create($data);
+            return Banner::create($data);
+        } catch (\Exception $e) {
+            if (isset($data['imagem'])) {
+                Storage::disk('public')->delete($data['imagem']);
+            }
+            throw $e;
+        }
     }
 
     public function update(int $id, array $data): Banner
@@ -31,12 +41,21 @@ class BannerService
         $banner = $this->find($id);
 
         if (isset($data['imagem']) && $data['imagem']->isValid()) {
-            // Remove imagem antiga se necessário
-            if ($banner->imagem && Storage::disk('public')->exists($banner->imagem)) {
-                Storage::disk('public')->delete($banner->imagem);
+            if ($banner->imagem && file_exists(public_path($banner->imagem))) {
+                unlink(public_path($banner->imagem));
             }
 
-            $data['imagem'] = $data['imagem']->store('banners', 'public');
+            $imagem = $data['imagem'];
+            $nomeImagem = uniqid() . '.' . $imagem->getClientOriginalExtension();
+            $imagem->move(public_path('banners'), $nomeImagem);
+            $data['imagem'] = 'banners/' . $nomeImagem;
+        } elseif (isset($data['remover_imagem']) && $data['remover_imagem']) {
+            if ($banner->imagem && file_exists(public_path($banner->imagem))) {
+                unlink(public_path($banner->imagem));
+            }
+            $data['imagem'] = null;
+        } else {
+            unset($data['imagem']);
         }
 
         $banner->update($data);
@@ -47,8 +66,8 @@ class BannerService
     {
         $banner = $this->find($id);
 
-        if ($banner->imagem && Storage::disk('public')->exists($banner->imagem)) {
-            Storage::disk('public')->delete($banner->imagem);
+        if ($banner->imagem && file_exists(public_path($banner->imagem))) {
+            unlink(public_path($banner->imagem));
         }
 
         return $banner->delete();

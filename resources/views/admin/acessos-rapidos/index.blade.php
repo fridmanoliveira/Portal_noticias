@@ -36,7 +36,7 @@
                                 <td class="px-4 py-3">{{ $acesso->id }}</td>
                                 <td class="px-4 py-3 font-medium">{{ $acesso->titulo }}</td>
                                 <td class="px-4 py-3">
-                                    <img src="{{ asset('storage/' . $acesso->icone) }}" alt="{{ $acesso->titulo }} Icone"
+                                    <img src="{{ url('public/' . $acesso->icone) }}" alt="{{ $acesso->titulo }} Icone"
                                          class="object-contain p-2 bg-black rounded-sm ">
                                 </td>
                                 <td class="px-4 py-3 text-blue-600 underline">{{ $acesso->link }}</td>

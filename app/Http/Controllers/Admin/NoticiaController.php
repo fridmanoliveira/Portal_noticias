@@ -107,9 +107,9 @@ class NoticiaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(int $id)
+    public function destroy(Noticia $noticia)
     {
-        $this->noticiaService->delete($id);
+        $this->noticiaService->delete($noticia->id);
         return redirect()->route('admin.noticias.index')->with('success', 'Notícia excluída com sucesso!');
     }
 

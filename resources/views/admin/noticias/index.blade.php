@@ -50,9 +50,9 @@
                                 </td>
                                 <td class="px-4 py-3 text-center">
                                     <div class="flex items-center justify-center gap-3">
-                                        <a href="{{ route('admin.noticias.edit', $noticia->id) }}"
+                                        <a href="{{ route('admin.noticias.edit', $noticia->slug) }}"
                                            class="text-indigo-600 hover:underline">Editar</a>
-                                        <form action="{{ route('admin.noticias.destroy', $noticia->id) }}" method="POST"
+                                        <form action="{{ route('admin.noticias.destroy', $noticia->slug) }}" method="POST"
                                               onsubmit="return confirm('Tem certeza que deseja excluir esta notícia?')">
                                             @csrf
                                             @method('DELETE')

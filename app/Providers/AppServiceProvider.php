@@ -24,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Route::bind('noticia', function ($value) {
         return Noticia::where('slug', $value)->where('ativo', true)->firstOrFail();
+        Route::model('banner', \App\Models\BannerRotativo::class);
     });
     }
 }

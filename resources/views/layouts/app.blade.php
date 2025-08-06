@@ -17,7 +17,7 @@
         <aside class="flex flex-col justify-between w-64 p-4 bg-white shadow-lg">
             <!-- Topo com logo -->
             <div class="flex flex-col items-center space-y-4">
-                <img src="{{ asset('storage/logo-header.png') }}" alt="Logo Prefeitura" class="w-40 mb-8" />
+                <img src="{{ url('public/logo/logo-header.png') }}" alt="Logo Prefeitura" class="w-40 mb-8" />
 
                 <!-- Navegação -->
                 <nav class="w-full mt-4 space-y-2">
@@ -57,7 +57,7 @@
                     <a href="{{ route('admin.videos.index') }}"
                     class="block px-4 py-2 rounded-md
                         {{ request()->routeIs('admin.videos.*') ? 'bg-[#145156] text-white' : 'text-gray-700 bg-[#e8e8e8] hover:bg-[#0596A2] hover:text-white' }}">
-                        Vídeos
+                        Historia da Cidade
                     </a>
                 </nav>
             </div>

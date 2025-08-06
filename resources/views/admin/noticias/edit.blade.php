@@ -8,7 +8,7 @@
     <div class="py-10">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <div class="p-8 bg-white shadow-xl rounded-2xl">
-                <form action="{{ route('admin.noticias.update', $noticia->id) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+                <form action="{{ route('admin.noticias.update', $noticia->slug) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
                     @csrf
                     @method('PUT')
 
@@ -48,7 +48,7 @@
                             @if($noticia->imagem)
                                 <p class="mb-2 text-sm text-gray-600">Imagem atual:</p>
                                 <div class="flex items-center justify-center overflow-hidden rounded-lg">
-                                    <img id="preview" src="{{ asset('storage/' . $noticia->imagem) }}"
+                                    <img id="preview" src="{{ asset($noticia->imagem) }}"
                                         class="object-contain max-h-32" alt="Imagem atual da notícia">
                                 </div>
                             @else

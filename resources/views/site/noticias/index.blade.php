@@ -59,7 +59,7 @@
                 <div
                     class="overflow-hidden transition-shadow duration-300 bg-white shadow-md rounded-xl hover:shadow-lg">
                     <a href="{{ route('site.noticias.show', $noticia->slug) }}">
-                        <img src="{{ asset('storage/' . $noticia->imagem) }}" alt="{{ $noticia->titulo }}"
+                        <img src="{{ url($noticia->imagem) }}" alt="{{ $noticia->titulo }}"
                             class="object-cover w-full h-48 transition duration-300 hover:opacity-90">
                     </a>
                     <div class="p-5">
@@ -133,7 +133,7 @@
     <section class="py-8">
         <div class="px-4 mx-auto sm:container">
             @if ($bannerPrincipal)
-                <img src="{{ asset('storage/' . $bannerPrincipal->imagem) }}" alt="Banner Principal"
+                <img src="{{ url($bannerPrincipal->imagem) }}" alt="Banner Principal"
                     class="w-full rounded shadow-md">
             @else
                 {{-- Fallback para quando não houver banner --}}

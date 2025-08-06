@@ -23,7 +23,7 @@
                     </div>
 
                     @if ($noticia->imagem)
-                        <img src="{{ asset('storage/' . $noticia->imagem) }}" alt="{{ $noticia->titulo }}"
+                        <img src="{{ url($noticia->imagem) }}" alt="{{ $noticia->titulo }}"
                             class="object-cover w-full h-auto mb-8 rounded-lg shadow-md">
                     @endif
 

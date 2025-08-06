@@ -34,7 +34,7 @@
                             <tr class="hover:bg-gray-50">
                                 <td class="px-4 py-3">{{ $banner->id }}</td>
                                 <td class="px-4 py-3">
-                                    <img src="{{ asset('storage/' . $banner->imagem) }}"
+                                    <img src="{{ url('public/' . $banner->imagem) }}"
                                          alt="Imagem do banner {{ $banner->titulo }}"
                                          class="object-contain rounded-sm max-h-8">
                                 </td>

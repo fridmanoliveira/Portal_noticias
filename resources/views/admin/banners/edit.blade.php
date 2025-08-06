@@ -21,7 +21,7 @@
                         <div>
                             <p class="mb-2 text-sm text-gray-600">Imagem atual:</p>
                             <div class="flex items-center justify-center overflow-hidden bg-gray-100 border border-gray-300 rounded-lg">
-                                <img id="preview" src="{{ asset('storage/' . $banner->imagem) }}"
+                                <img id="preview" src="{{ url('public/' . $banner->imagem) }}"
                                     class="object-contain max-h-32" alt="Prévia do banner">
                             </div>
                         </div>

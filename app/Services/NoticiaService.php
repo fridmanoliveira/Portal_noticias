@@ -71,7 +71,10 @@ class NoticiaService
 
             // Processa a imagem
             if (isset($data['imagem']) && $data['imagem']->isValid()) {
-                $data['imagem'] = $data['imagem']->store('noticias', 'public');
+                $imagem = $data['imagem'];
+                $nomeImagem = uniqid() . '.' . $imagem->getClientOriginalExtension();
+                $imagem->move(public_path('news'), $nomeImagem);
+                $data['imagem'] = 'news/' . $nomeImagem;
             }
 
             // Garante que ativo é booleano
@@ -101,10 +104,13 @@ class NoticiaService
             if ($noticia->imagem) {
                 Storage::disk('public')->delete($noticia->imagem);
             }
-            $data['imagem'] = $data['imagem']->store('noticias', 'public');
+            $imagem = $data['imagem'];
+            $nomeImagem = uniqid() . '.' . $imagem->getClientOriginalExtension();
+            $imagem->move(public_path('news'), $nomeImagem);
+            $data['imagem'] = 'news/' . $nomeImagem;
         } elseif (isset($data['remover_imagem']) && $data['remover_imagem']) {
-            if ($noticia->imagem) {
-                Storage::disk('public')->delete($noticia->imagem);
+            if ($noticia->imagem && file_exists(public_path($noticia->imagem))) {
+                unlink(public_path($noticia->imagem));
             }
             $data['imagem'] = null;
         } else {
@@ -160,8 +166,8 @@ class NoticiaService
     {
         $noticia = $this->find($id);
 
-        if ($noticia->imagem && Storage::disk('public')->exists($noticia->imagem)) {
-            Storage::disk('public')->delete($noticia->imagem);
+        if ($noticia->imagem && file_exists(public_path($noticia->imagem))) {
+            unlink(public_path($noticia->imagem));
         }
 
         return $noticia->delete();

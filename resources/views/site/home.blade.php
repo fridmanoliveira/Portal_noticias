@@ -2,7 +2,7 @@
     <!-- Banner Principal - Otimizado para mobile -->
     <section class="py-3 sm:py-4 sm:container">
             @if($bannerPrincipal)
-            <img src="{{ asset('storage/' . $bannerPrincipal->imagem) }}"
+            <img src="{{ url($bannerPrincipal->imagem) }}"
                  alt="Banner Principal"
                  class="w-full rounded shadow-sm sm:shadow-md"
                  loading="eager"
@@ -66,7 +66,7 @@
                             x-transition:leave-end="opacity-0 transform scale-95"
                             class="absolute inset-0 w-full h-full">
                             <!-- Imagem de Fundo -->
-                            <img :src="'/storage/' + noticia.imagem"
+                            <img :src="noticia.imagem"
                                 :alt="noticia.titulo"
                                 class="object-cover w-full h-full">
 
@@ -123,7 +123,7 @@
                         <div class="relative overflow-hidden rounded-lg shadow-lg group">
                             <a href="{{ route('site.noticias.show', $noticia->slug) }}" class="block w-full h-full">
                                 <!-- Imagem -->
-                                <img src="{{ asset('storage/' . $noticia->imagem) }}"
+                                <img src="{{ url($noticia->imagem) }}"
                                     alt="{{ $noticia->titulo }}"
                                     class="object-cover w-48 h-48 transition-transform duration-300 group-hover:scale-110">
                                 <!-- Overlay com Gradiente e Título -->
@@ -144,9 +144,9 @@
     <section class="py-6 bg-[#f5f7fe] sm:py-10">
         <div class="grid gap-3 px-2 mx-auto sm:container md:grid-cols-3">
             @foreach([
-                ['icon' => asset('icons/searching.png'), 'text' => 'PORTAL DA<br>TRANSPARÊNCIA'],
-                ['icon' => asset('icons/support.png'), 'text' => 'OUVIDORIA DE<br>CRISTINO CASTRO'],
-                ['icon' => asset('icons/radar.png'), 'text' => 'RADAR NACIONAL DA<br>TRANSPARÊNCIA PÚBLICA']
+                ['icon' => url('icons/searching.png'), 'text' => 'PORTAL DA<br>TRANSPARÊNCIA'],
+                ['icon' => url('icons/support.png'), 'text' => 'OUVIDORIA DE<br>CRISTINO CASTRO'],
+                ['icon' => url('icons/radar.png'), 'text' => 'RADAR NACIONAL DA<br>TRANSPARÊNCIA PÚBLICA']
             ] as $link)
             <a href="#" class="flex items-center gap-3 px-4 py-4 text-white rounded-lg shadow-sm transition-all hover:shadow-md bg-gradient-to-r from-[#008f9c] to-[#005d6d] h-24 sm:h-32 sm:gap-4 sm:px-6 sm:py-5 sm:rounded-lg sm:shadow-md">
                 <img src="{{ $link['icon'] }}" alt="" class="w-8 h-8 sm:w-12 sm:h-12">
@@ -165,11 +165,11 @@
                 <div x-show="activeSlide === index" x-transition class="absolute inset-0">
                     <template x-if="banner.link">
                         <a :href="banner.link" target="_blank">
-                            <img :src="'/storage/' + banner.imagem" :alt="banner.titulo" class="object-cover w-full h-full">
+                            <img :src="banner.imagem" :alt="banner.titulo" class="object-cover w-full h-full">
                         </a>
                     </template>
                     <template x-if="!banner.link">
-                        <img :src="'/storage/' + banner.imagem" :alt="banner.titulo" class="object-cover w-full h-full">
+                        <img :src="banner.imagem" :alt="banner.titulo" class="object-cover w-full h-full">
                     </template>
                 </div>
             </template>
@@ -207,7 +207,7 @@
         <div class="grid grid-cols-2 gap-3 sm:grid-cols-1 sm:gap-6 md:grid-cols-2 lg:grid-cols-4">
             @foreach($acessosRapidos as $acesso)
             <a href="{{ $acesso->link }}" class="flex flex-col items-start p-4 text-white transition-transform duration-300 rounded-lg shadow-sm bg-gradient-to-r from-[#008f9c] to-[#005d6d] hover:scale-[1.03] sm:p-6 sm:hover:scale-105">
-                <img src="{{ asset('storage/' . $acesso->icone) }}"
+                <img src="{{ url($acesso->icone) }}"
                      alt="{{ $acesso->titulo }}"
                      class="w-8 h-8 mb-2 sm:w-10 sm:h-10 sm:mb-4">
                 <p class="text-xs font-bold leading-tight sm:text-lg">{{ $acesso->titulo }}</p>
@@ -218,7 +218,7 @@
     </section>
 
     <!-- História - Responsivo -->
-    <section class="relative bg-center bg-cover" style="background-image: url('{{ asset('storage/fundo.png') }}')">
+    <section class="relative bg-center bg-cover" style="background-image: url('{{ url('fundo.png') }}')">
         <div class="bg-teal-900 bg-opacity-70">
             <div class="grid items-center grid-cols-1 gap-6 px-4 py-8 mx-auto sm:container md:grid-cols-2 sm:gap-10 sm:py-16">
                 <!-- Texto -->
