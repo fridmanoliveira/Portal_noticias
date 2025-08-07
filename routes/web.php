@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\VideoHomeController;
 use App\Http\Controllers\Admin\AcessoRapidoController;
 use App\Http\Controllers\Admin\BannerRotativoController;
 use App\Http\Controllers\Admin\CategoriaNoticiaController;
+use App\Http\Controllers\Site\HistoriaController;
 
 
 // Route::get('/', function () {
@@ -19,6 +20,7 @@ use App\Http\Controllers\Admin\CategoriaNoticiaController;
 Route::get('/', [HomeController::class, 'index'])->name('site.home');
 Route::get('/noticias', [NoticiaController::class, 'noticias'])->name('site.noticias.index');
 Route::get('/noticias/{noticia}', [NoticiaController::class, 'show'])->name('site.noticias.show');
+Route::get('/historia-da-cidade', [HistoriaController::class, 'index'])->name('site.historia');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

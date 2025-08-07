@@ -15,6 +15,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <!-- Dentro do <head> do seu HTML -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/swiper@9/swiper-bundle.min.css" />
 </head>
 
 <body class="flex flex-col min-h-screen ">
@@ -60,6 +61,8 @@
 
     <!-- Conteúdo principal -->
     <main class="flex-grow ">
+        @include('profile.partials.acessibilidade')
+
         {{ $slot }}
     </main>
 
@@ -181,8 +184,8 @@
             <div class="vw-plugin-top-wrapper"></div>
         </div>
     </div>
-    <script src="https://cdn.userway.org/widget.js" data-account="n4uYgtWdtM"></script>
 
+    <script src="https://unpkg.com/swiper@9/swiper-bundle.min.js"></script>
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
         new window.VLibras.Widget('https://vlibras.gov.br/app');

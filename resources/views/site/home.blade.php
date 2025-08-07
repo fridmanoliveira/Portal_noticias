@@ -224,78 +224,78 @@
     </section>
 
     <!-- História - Responsivo -->
-<section class="relative bg-center bg-cover" style="background-image: url('{{ url('fundo.png') }}')">
-    <div class="bg-teal-900 bg-opacity-70">
-        <div class="grid items-center grid-cols-1 gap-6 px-4 py-8 mx-auto sm:container md:grid-cols-2 sm:gap-10 sm:py-16">
+    <section class="relative bg-center bg-cover" style="background-image: url('{{ url('fundo.png') }}')">
+        <div class="bg-teal-900 bg-opacity-70">
+            <div class="grid items-center grid-cols-1 gap-6 px-4 py-8 mx-auto sm:container md:grid-cols-2 sm:gap-10 sm:py-16">
 
-            <!-- Texto -->
-            <div class="text-white" x-data="{ open: false }">
-                <h2 class="text-2xl font-extrabold leading-tight sm:text-3xl sm:leading-snug">
-                    {{ $video->titulo ?? 'A História de Cristino Castro' }}
-                </h2>
+                <!-- Texto -->
+                <div class="text-white" x-data="{ open: false }">
+                    <h2 class="text-2xl font-extrabold leading-tight sm:text-3xl sm:leading-snug">
+                        {{ $video->titulo ?? 'A História de Cristino Castro' }}
+                    </h2>
 
-                <div class="mt-3 text-sm leading-relaxed sm:text-base sm:mb-4">
-                    {!! \Illuminate\Support\Str::limit(strip_tags($video->descricao), 200) !!}
-                </div>
+                    <div class="mt-3 text-sm leading-relaxed sm:text-base sm:mb-4">
+                        {!! \Illuminate\Support\Str::limit(strip_tags($video->descricao), 200) !!}
+                    </div>
 
-                <button @click="open = true"
-                        class="mt-2 text-sm font-semibold text-green-300 underline transition hover:text-green-200 sm:mt-0 sm:text-base">
-                    Continue lendo...
-                </button>
+                    <button @click="open = true"
+                            class="mt-2 text-sm font-semibold text-green-300 underline transition hover:text-green-200 sm:mt-0 sm:text-base">
+                        Continue lendo...
+                    </button>
 
-                <!-- Modal -->
-                <div x-show="open"
-                     x-cloak
-                     x-transition
-                     class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 sm:p-0">
+                    <!-- Modal -->
+                    <div x-show="open"
+                        x-cloak
+                        x-transition
+                        class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 sm:p-0">
 
-                    <div @click.away="open = false"
-                         class="relative w-full max-w-4xl p-6 mx-4 overflow-y-auto bg-white rounded-lg shadow-xl sm:p-8 sm:mx-0"
-                         style="max-height: 90vh;">
+                        <div @click.away="open = false"
+                            class="relative w-full max-w-4xl p-6 mx-4 overflow-y-auto bg-white rounded-lg shadow-xl sm:p-8 sm:mx-0"
+                            style="max-height: 90vh;">
 
-                        <button @click="open = false"
-                                class="absolute text-2xl text-gray-500 transition hover:text-gray-700 top-4 right-4">
-                            &times;
-                        </button>
+                            <button @click="open = false"
+                                    class="absolute text-2xl text-gray-500 transition hover:text-gray-700 top-4 right-4">
+                                &times;
+                            </button>
 
-                        <h3 class="mb-4 text-xl font-bold text-gray-800 sm:text-2xl">
-                            {{ $video->titulo ?? 'A História de Cristino Castro' }}
-                        </h3>
+                            <h3 class="mb-4 text-xl font-bold text-gray-800 sm:text-2xl">
+                                {{ $video->titulo ?? 'A História de Cristino Castro' }}
+                            </h3>
 
-                        <div class="prose max-w-none sm:prose-lg">
-                            {!! $video->descricao !!}
+                            <div class="prose max-w-none sm:prose-lg">
+                                {!! $video->descricao !!}
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Vídeo -->
+                <div class="aspect-video">
+                    @if(!empty($video->link_youtube))
+                        <iframe class="w-full h-full rounded-lg"
+                                src="{{ $video->link_youtube }}"
+                                title="YouTube video player"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen>
+                        </iframe>
+                    @else
+                        <div class="flex items-center justify-center w-full h-full bg-gray-800 rounded-lg">
+                            <p class="text-sm text-gray-400">Vídeo não disponível</p>
+                        </div>
+                    @endif
+                </div>
             </div>
 
-            <!-- Vídeo -->
-            <div class="aspect-video">
-                @if(!empty($video->link_youtube))
-                    <iframe class="w-full h-full rounded-lg"
-                            src="{{ $video->link_youtube }}"
-                            title="YouTube video player"
-                            frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen>
-                    </iframe>
-                @else
-                    <div class="flex items-center justify-center w-full h-full bg-gray-800 rounded-lg">
-                        <p class="text-sm text-gray-400">Vídeo não disponível</p>
-                    </div>
-                @endif
+            <!-- Botão -->
+            <div class="py-4 text-center sm:py-6">
+                <a href="#"
+                class="inline-block px-4 py-2 text-sm font-semibold text-white transition bg-[#1DC98A] rounded-md shadow-md hover:bg-opacity-70 sm:px-6 sm:py-3 sm:text-base sm:bg-[#1DC98A]/50 sm:hover:bg-[#1DC98A]">
+                    VEJA TAMBÉM O INVENTÁRIO DA OFERTA TURÍSTICA
+                </a>
             </div>
         </div>
-
-        <!-- Botão -->
-        <div class="py-4 text-center sm:py-6">
-            <a href="#"
-               class="inline-block px-4 py-2 text-sm font-semibold text-white transition bg-[#1DC98A] rounded-md shadow-md hover:bg-opacity-70 sm:px-6 sm:py-3 sm:text-base sm:bg-[#1DC98A]/50 sm:hover:bg-[#1DC98A]">
-                VEJA TAMBÉM O INVENTÁRIO DA OFERTA TURÍSTICA
-            </a>
-        </div>
-    </div>
-</section>
+    </section>
 
 
     <script>
