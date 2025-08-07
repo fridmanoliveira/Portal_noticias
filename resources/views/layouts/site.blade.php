@@ -1,6 +1,6 @@
 @props(['title' => 'Prefeitura de Cristino Castro'])
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="pt-BR">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -61,8 +61,6 @@
 
     <!-- Conteúdo principal -->
     <main class="flex-grow ">
-        @include('profile.partials.acessibilidade')
-
         {{ $slot }}
     </main>
 
@@ -237,6 +235,9 @@
         });
     });
     </script>
+
+    {{-- VLibras - Plugin de acessibilidade --}}
+    <script src="{{ asset('js/sienna.min.js') }}" defer></script>
     @stack('scripts')
 </body>
 </html>
