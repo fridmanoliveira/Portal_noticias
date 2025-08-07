@@ -13,6 +13,8 @@
     <!-- AlpineJS otimizado -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.0/dist/cdn.min.js" integrity="sha384-8Wq6eSRbHw7a9Nd1z2+0a1j0aPYdGkD1KkKRwD0J0QLiZqBk0Q1TUpj5D4FZL5O+" crossorigin="anonymous"></script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <!-- Dentro do <head> do seu HTML -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body class="flex flex-col min-h-screen ">
@@ -24,11 +26,6 @@
                 <ul class="flex flex-wrap items-center gap-4 ">
                     <a href="#" class="font-bold hover:underline whitespace-nowrap">MAPA DO SITE</a>
                     <a href="#" class="font-semibold hover:underline whitespace-nowrap">WEBMAIL</a>
-                    <div class="flex items-center gap-1">
-                        <li><a href="#" id="increase-font" aria-label="Aumentar fonte">A<sup>+</sup></a></li>
-                        <li><a href="#" id="decrease-font" aria-label="Diminuir fonte">A<sup>-</sup></a></li>
-                        <li><a href="#" id="toggle-theme" aria-label="Alternar tema claro/escuro">🌓</a></li>
-                    </div>
                 </ul>
 
                 <!-- Redes sociais com SVGs -->
@@ -184,15 +181,13 @@
             <div class="vw-plugin-top-wrapper"></div>
         </div>
     </div>
+    <script src="https://cdn.userway.org/widget.js" data-account="n4uYgtWdtM"></script>
 
-
-    <!-- Scripts otimizados -->
-     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
         new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
-
-    <script>
+        <script>
         document.addEventListener('alpine:init', () => {
             Alpine.store('mobileMenuOpen', false);
         });

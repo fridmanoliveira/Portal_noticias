@@ -1,22 +1,20 @@
 <x-site-layout title="{{ $noticia->titulo }}">
 
-    <section class="px-4 py-10 mx-auto sm:container">
+    <section class="px-4 py-10 mx-auto font-sans sm:container">
         @if ($noticia)
             <div class="grid grid-cols-1 lg:grid-cols-3 lg:gap-8">
 
                 <article class="p-6 bg-white rounded-lg shadow-lg lg:col-span-2 md:p-8">
 
-                    <!-- ALTERAÇÃO: Cor do título principal alterada para text-teal-800 para seguir o padrão -->
-                    <h1 class="mb-3 font-bold leading-tight text-teal-800">{{ $noticia->titulo }}
-                    </h1>
+                    <h1 class="mb-3 text-2xl font-bold leading-tight text-teal-800">{{ $noticia->titulo }}</h1>
 
-                    <div class="flex flex-wrap items-center mb-6 text-sm text-gray-600">
+                    <div class="flex flex-wrap items-center mb-6 text-sm font-normal text-gray-600">
                         <span><i class="far fa-calendar-alt mr-1.5"></i>Publicado em
                             {{ $noticia->publicado_em->format('d/m/Y') }}</span>
                         @if ($noticia->categoria)
                             <span class="mx-2">|</span>
                             <a href="{{ route('site.noticias.index', ['categoria_id' => $noticia->categoria->slug]) }}"
-                                class="inline-block bg-teal-100 text-teal-800 font-medium px-2.5 py-1 rounded-full text-xs hover:bg-teal-200 transition">
+                                class="inline-block px-2.5 py-1 text-xs font-medium text-teal-800 transition bg-teal-100 rounded-full hover:bg-teal-200">
                                 <i class="mr-1 fas fa-tag"></i>{{ $noticia->categoria->nome }}
                             </a>
                         @endif
@@ -27,7 +25,7 @@
                             class="object-cover w-full h-auto mb-8 rounded-lg shadow-md">
                     @endif
 
-                    <div class="leading-relaxed prose prose-lg text-gray-800 max-w-none">
+                    <div class="font-normal leading-relaxed prose prose-lg text-gray-800 max-w-none">
                         {!! $noticia->conteudo !!}
                     </div>
                 </article>
@@ -40,29 +38,27 @@
                             <div class="flex space-x-2">
                                 <a href="https://api.whatsapp.com/send?text={{ urlencode($noticia->titulo . ' ' . Request::url()) }}"
                                     target="_blank"
-                                    class="flex-1 px-3 py-2 text-center text-white transition duration-300 bg-green-500 rounded-md hover:bg-green-600"><i
+                                    class="flex-1 px-3 py-2 text-sm text-center text-white transition duration-300 bg-green-500 rounded-md hover:bg-green-600"><i
                                         class="fab fa-whatsapp"></i></a>
                                 <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(Request::url()) }}"
                                     target="_blank"
-                                    class="flex-1 px-3 py-2 text-center text-white transition duration-300 bg-blue-600 rounded-md hover:bg-blue-700"><i
+                                    class="flex-1 px-3 py-2 text-sm text-center text-white transition duration-300 bg-blue-600 rounded-md hover:bg-blue-700"><i
                                         class="fab fa-facebook-f"></i></a>
                                 <a href="https://twitter.com/intent/tweet?url={{ urlencode(Request::url()) }}&text={{ urlencode($noticia->titulo) }}"
                                     target="_blank"
-                                    class="flex-1 px-3 py-2 text-center text-white transition duration-300 bg-black rounded-md hover:bg-gray-800"><i
+                                    class="flex-1 px-3 py-2 text-sm text-center text-white transition duration-300 bg-black rounded-md hover:bg-gray-800"><i
                                         class="fab fa-x-twitter"></i></a>
                             </div>
                         </div>
 
                         @if (isset($outrasNoticias) && $outrasNoticias->count())
                             <div class="p-6 bg-white rounded-lg shadow-lg">
-                                <!-- ALTERAÇÃO: Cor do título da seção alterada para text-teal-700 -->
                                 <h3 class="pb-2 mb-4 text-lg font-bold text-teal-700 border-b">Leia Também</h3>
                                 <ul class="space-y-4">
                                     @foreach ($outrasNoticias as $outra)
                                         <li class="pb-3 border-b border-gray-100 last:border-b-0 last:pb-0">
-                                            <!-- ALTERAÇÃO: Cor do link alterada para um cinza mais escuro para melhor contraste -->
                                             <a href="{{ route('site.noticias.show', $outra->slug) }}"
-                                                class="font-semibold text-gray-700 transition duration-300 hover:text-teal-600">
+                                                class="text-sm font-semibold text-gray-700 transition duration-300 hover:text-teal-600">
                                                 {{ $outra->titulo }}
                                             </a>
                                             <p class="mt-1 text-xs text-gray-500">
@@ -86,7 +82,7 @@
             </div>
         @else
             <div class="p-8 text-center bg-white rounded-lg shadow-md">
-                <p class="text-lg text-gray-700">Notícia não encontrada.</p>
+                <p class="text-lg font-medium text-gray-700">Notícia não encontrada.</p>
             </div>
         @endif
     </section>

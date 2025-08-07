@@ -3,10 +3,28 @@
     'alt' => 'Prefeitura de Cristino Castro',
     'links' => [
         ['route' => '/', 'text' => 'INÍCIO'],
-        ['route' => '#', 'text' => 'MUNICÍPIO'],
-        ['route' => '#', 'text' => 'A PREFEITURA'],
-        ['route' => '#', 'text' => 'SECRETARIAS'],
-        ['route' => '#', 'text' => 'SERVIÇOS'],
+        [
+            'text' => 'MUNICÍPIO',
+            'submenu' => [
+                ['route' => '/historia', 'text' => 'História'],
+                ['route' => '/turismo', 'text' => 'Turismo'],
+            ]
+        ],
+        [
+            'text' => 'A PREFEITURA',
+            'submenu' => [
+                ['route' => '/video-monitoramento', 'text' => 'Video Monitoramento'],
+                ['route' => '/ppa-participativo', 'text' => 'PPA Participativo'],
+            ]
+        ],
+        [
+            'text' => 'SERVIÇOS',
+            'submenu' => [
+                ['route' => '/obras', 'text' => 'Obras em Andamento'],
+                ['route' => '/iptu-online', 'text' => 'IPTU Online'],
+                ['route' => '/alvara-autodeclaratorio', 'text' => 'Alvará Autodeclaratório'],
+            ]
+        ],
         ['route' => '#', 'icon' => 'fas fa-search'],
     ]
 ])
@@ -31,11 +49,32 @@
             <div class="hidden md:flex md:items-center md:space-x-8">
                 @foreach($links as $link)
                     @if(isset($link['icon']))
-                        <a href="{{ $link['route'] }}" class="p-1 text-[#004348] hover:text-teal-600 transition-colors">
+                        <a href="{{ $link['route'] }}"
+                        class="p-1 text-[#004348] hover:text-teal-600 transition-colors">
                             <i class="text-xl {{ $link['icon'] }}"></i>
                         </a>
+                    @elseif(isset($link['submenu']))
+                        <div x-data="{ open: false }" class="relative group">
+                            <button @mouseenter="open = true" @mouseleave="open = false"
+                                    class="flex items-center px-3 py-2 text-sm font-bold text-[#004348] hover:text-teal-600 transition-colors whitespace-nowrap">
+                                {{ $link['text'] }}
+                                <i class="ml-1 text-xs fas fa-chevron-down"></i>
+                            </button>
+                            <div x-show="open"
+                                @mouseenter="open = true" @mouseleave="open = false"
+                                x-transition
+                                class="absolute left-0 z-50 w-48 mt-2 bg-white rounded-md shadow-lg">
+                                @foreach($link['submenu'] as $sublink)
+                                    <a href="{{ $sublink['route'] }}"
+                                    class="block px-4 py-2 text-sm text-[#004348] hover:bg-gray-100 hover:text-teal-600">
+                                        {{ $sublink['text'] }}
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
                     @else
-                        <a href="{{ $link['route'] }}" class="px-3 py-2 text-sm font-bold text-[#004348] hover:text-teal-600 transition-colors whitespace-nowrap">
+                        <a href="{{ $link['route'] }}"
+                        class="px-3 py-2 text-sm font-bold text-[#004348] hover:text-teal-600 transition-colors whitespace-nowrap">
                             {{ $link['text'] }}
                         </a>
                     @endif
@@ -67,15 +106,35 @@
          x-transition:leave-end="opacity-0 scale-95"
          class="bg-white shadow-lg md:hidden"
          id="mobile-menu">
-        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+        <div class="hidden md:flex md:items-center md:space-x-8">
             @foreach($links as $link)
                 @if(isset($link['icon']))
-                    <a href="{{ $link['route'] }}" class="flex items-center px-3 py-3 text-base font-medium text-[#004348] hover:text-teal-600 hover:bg-gray-50 rounded-md">
-                        <i class="mr-3 {{ $link['icon'] }}"></i>
-                        <span>Pesquisar</span>
+                    <a href="{{ $link['route'] }}"
+                    class="p-1 text-[#004348] hover:text-teal-600 transition-colors">
+                        <i class="text-xl {{ $link['icon'] }}"></i>
                     </a>
+                @elseif(isset($link['submenu']))
+                    <div x-data="{ open: false }" class="relative group">
+                        <button @mouseenter="open = true" @mouseleave="open = false"
+                                class="flex items-center px-3 py-2 text-sm font-bold text-[#004348] hover:text-teal-600 transition-colors whitespace-nowrap">
+                            {{ $link['text'] }}
+                            <i class="ml-1 text-xs fas fa-chevron-down"></i>
+                        </button>
+                        <div x-show="open"
+                            @mouseenter="open = true" @mouseleave="open = false"
+                            x-transition
+                            class="absolute left-0 z-50 w-48 mt-2 bg-white rounded-md shadow-lg">
+                            @foreach($link['submenu'] as $sublink)
+                                <a href="{{ $sublink['route'] }}"
+                                class="block px-4 py-2 text-sm text-[#004348] hover:bg-gray-100 hover:text-teal-600">
+                                    {{ $sublink['text'] }}
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
                 @else
-                    <a href="{{ $link['route'] }}" class="block px-3 py-3 text-base font-bold text-[#004348] hover:text-teal-600 hover:bg-gray-50 rounded-md">
+                    <a href="{{ $link['route'] }}"
+                    class="px-3 py-2 text-sm font-bold text-[#004348] hover:text-teal-600 transition-colors whitespace-nowrap">
                         {{ $link['text'] }}
                     </a>
                 @endif

@@ -1,0 +1,35 @@
+# Redireciona todas as requisições para o index.php
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Certifica que o .htaccess seja lido
+    Options -Indexes
+
+    # Força HTTPS (caso o SSL esteja ativo)
+    RewriteCond %{HTTPS} !=on
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # Remove "www" (opcional)
+    RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+    RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+
+    # Define a pasta "public" como raiz do Laravel
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+
+    # Padrão Laravel
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ public/index.php [L]
+</IfModule>
+
+# Define limites para uploads (ajuste conforme necessário)
+php_value upload_max_filesize 64M
+php_value post_max_size 64M
+php_value memory_limit 256M
+php_value max_execution_time 300
+php_value max_input_time 300
+
+<FilesMatch "\.(php4|php5|php3|php2|php|phtml)$">
+SetHandler application/x-lsphp82
+</FilesMatch>
