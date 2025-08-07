@@ -12,21 +12,22 @@
                         {!! nl2br(strip_tags($video->descricao)) !!}
                     </div>
 
-                    <div class="w-full overflow-hidden rounded-lg shadow-md aspect-w-16 aspect-h-9">
-                        <iframe class="w-full h-full"
-                            src="https://www.youtube.com/embed/{{ \Illuminate\Support\Str::afterLast($video->link_youtube, 'v=') }}"
-                            title="{{ $video->titulo }}"
-                            frameborder="0"
-                            allowfullscreen>
+                    <!-- Vídeo -->
+                <div class="aspect-video">
+                    @if(!empty($video->link_youtube))
+                        <iframe class="w-full h-full rounded-lg"
+                                src="{{ $video->link_youtube }}"
+                                title="YouTube video player"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen>
                         </iframe>
-                    </div>
-
-                    <div class="mt-6">
-                        <a href="#galeria"
-                            class="inline-block px-6 py-3 font-semibold text-white rounded shadow bg-emerald-600 hover:bg-emerald-700">
-                            Veja também o inventário da oferta turística
-                        </a>
-                    </div>
+                    @else
+                        <div class="flex items-center justify-center w-full h-full bg-gray-800 rounded-lg">
+                            <p class="text-sm text-gray-400">Vídeo não disponível</p>
+                        </div>
+                    @endif
+                </div>
                 </article>
 
                 <!-- Sidebar com notícias relacionadas -->
@@ -151,7 +152,6 @@
             }
         </script>
     </section>
-
 
     <!-- Banner final -->
     <section class="py-8">
