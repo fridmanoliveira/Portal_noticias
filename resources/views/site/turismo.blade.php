@@ -1,33 +1,61 @@
-<x-site-layout title="História da Cidade">
+<x-site-layout title="Turismo">
 
     <section class="px-4 py-10 mx-auto font-sans sm:container">
-        @if ($video)
+        @if ($turismo)
             <div class="grid grid-cols-1 lg:grid-cols-3 lg:gap-8">
 
                 <!-- Conteúdo principal: título, texto e vídeo -->
                 <article class="p-6 bg-white rounded-lg shadow-lg lg:col-span-2 md:p-8">
-                    <h1 class="mb-3 text-2xl font-bold leading-tight text-teal-800">{{ $video->titulo }}</h1>
+                    <h1 class="mb-3 text-2xl font-bold leading-tight text-teal-800">{{ $turismo->titulo }}</h1>
 
                     <div class="mb-6 leading-relaxed prose prose-lg text-gray-700 max-w-none">
-                        {!! nl2br(strip_tags($video->descricao)) !!}
+                        {!! nl2br(strip_tags($turismo->descricao)) !!}
                     </div>
 
-                    <!-- Vídeo -->
-                <div class="aspect-video">
-                    @if(!empty($video->link_youtube))
-                        <iframe class="w-full h-full rounded-lg"
-                                src="{{ $video->link_youtube }}"
-                                title="YouTube video player"
-                                frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen>
-                        </iframe>
-                    @else
-                        <div class="flex items-center justify-center w-full h-full bg-gray-800 rounded-lg">
-                            <p class="text-sm text-gray-400">Vídeo não disponível</p>
+                    <!-- Imagens -->
+                    <div class="relative max-w-6xl mx-auto">
+                        <!-- Imagem atual -->
+                        <div class="overflow-hidden rounded-lg shadow-lg h-72 sm:h-96">
+                            <template x-for="(foto, index) in fotos" :key="index">
+                                <img x-show="currentIndex === index" :src="foto + '?w=800&h=600&fit=crop'"
+                                    alt="Foto da cidade"
+                                    class="object-cover w-full h-full transition-opacity duration-700"
+                                    style="display: none;" x-transition:enter="transition ease-out duration-700"
+                                    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                                    x-transition:leave="transition ease-in duration-700"
+                                    x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" />
+                            </template>
                         </div>
-                    @endif
-                </div>
+
+                        <!-- Botões de navegação -->
+                        <button @click="prev()"
+                            class="absolute p-2 transform -translate-y-1/2 bg-white rounded-full shadow top-1/2 left-2 bg-opacity-70 hover:bg-opacity-100 focus:outline-none"
+                            aria-label="Imagem anterior">
+                            <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2"
+                                viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="15 18 9 12 15 6" />
+                            </svg>
+                        </button>
+
+                        <button @click="next()"
+                            class="absolute p-2 transform -translate-y-1/2 bg-white rounded-full shadow top-1/2 right-2 bg-opacity-70 hover:bg-opacity-100 focus:outline-none"
+                            aria-label="Próxima imagem">
+                            <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2"
+                                viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="9 18 15 12 9 6" />
+                            </svg>
+                        </button>
+
+                        <!-- Paginação com círculos -->
+                        <div class="flex justify-center mt-6 space-x-3">
+                            <template x-for="(foto, index) in fotos" :key="'dot-' + index">
+                                <button @click="goTo(index)"
+                                    :class="{ 'bg-teal-700': currentIndex === index, 'bg-gray-300': currentIndex !== index }"
+                                    class="w-3 h-3 rounded-full focus:outline-none"
+                                    aria-label="Ir para imagem"></button>
+                            </template>
+                        </div>
+                    </div>
                 </article>
 
                 <!-- Sidebar com notícias relacionadas -->
@@ -40,7 +68,7 @@
                             <ul class="space-y-6">
                                 @foreach ($noticiasRelacionadas as $noticia)
                                     <li class="p-4 transition bg-white rounded-lg shadow hover:shadow-md">
-                                        @if($noticia->imagem)
+                                        @if ($noticia->imagem)
                                             <img src="{{ url($noticia->imagem) }}" alt="{{ $noticia->titulo }}"
                                                 class="object-cover w-full h-32 mb-3 rounded">
                                         @endif
@@ -77,39 +105,27 @@
                 <!-- Imagem atual -->
                 <div class="overflow-hidden rounded-lg shadow-lg h-72 sm:h-96">
                     <template x-for="(foto, index) in fotos" :key="index">
-                        <img
-                            x-show="currentIndex === index"
-                            :src="foto"
-                            alt="Foto da cidade"
-                            class="object-cover w-full h-full transition-opacity duration-700"
-                            style="display: none;"
-                            x-transition:enter="transition ease-out duration-700"
-                            x-transition:enter-start="opacity-0"
-                            x-transition:enter-end="opacity-100"
-                            x-transition:leave="transition ease-in duration-700"
-                            x-transition:leave-start="opacity-100"
-                            x-transition:leave-end="opacity-0"
-                        />
+                        <img x-show="currentIndex === index" :src="foto + '?w=800&h=600&fit=crop'" alt="Foto da cidade"
+                            class="object-cover w-full h-full transition-opacity duration-700" style="display: none;"
+                            x-transition:enter="transition ease-out duration-700" x-transition:enter-start="opacity-0"
+                            x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-700"
+                            x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" />
                     </template>
                 </div>
 
                 <!-- Botões de navegação -->
-                <button
-                    @click="prev()"
+                <button @click="prev()"
                     class="absolute p-2 transform -translate-y-1/2 bg-white rounded-full shadow top-1/2 left-2 bg-opacity-70 hover:bg-opacity-100 focus:outline-none"
-                    aria-label="Imagem anterior"
-                >
+                    aria-label="Imagem anterior">
                     <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2"
                         viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="15 18 9 12 15 6" />
                     </svg>
                 </button>
 
-                <button
-                    @click="next()"
+                <button @click="next()"
                     class="absolute p-2 transform -translate-y-1/2 bg-white rounded-full shadow top-1/2 right-2 bg-opacity-70 hover:bg-opacity-100 focus:outline-none"
-                    aria-label="Próxima imagem"
-                >
+                    aria-label="Próxima imagem">
                     <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2"
                         viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="9 18 15 12 9 6" />
@@ -118,13 +134,10 @@
 
                 <!-- Paginação com círculos -->
                 <div class="flex justify-center mt-6 space-x-3">
-                    <template x-for="(foto, index) in fotos" :key="'dot-'+index">
-                        <button
-                            @click="goTo(index)"
-                            :class="{'bg-teal-700': currentIndex === index, 'bg-gray-300': currentIndex !== index}"
-                            class="w-3 h-3 rounded-full focus:outline-none"
-                            aria-label="Ir para imagem"
-                        ></button>
+                    <template x-for="(foto, index) in fotos" :key="'dot-' + index">
+                        <button @click="goTo(index)"
+                            :class="{ 'bg-teal-700': currentIndex === index, 'bg-gray-300': currentIndex !== index }"
+                            class="w-3 h-3 rounded-full focus:outline-none" aria-label="Ir para imagem"></button>
                     </template>
                 </div>
             </div>
@@ -134,9 +147,9 @@
             function gallerySlider() {
                 return {
                     fotos: [
-                        @foreach($video->imagens as $imagem)
-                            '{{ asset($imagem->image_path) }}',
-                        @endforeach
+                        'https://images.unsplash.com/photo-1570129477492-45c003edd2be',
+                        'https://images.unsplash.com/photo-1521295121783-8a321d551ad2',
+                        'https://images.unsplash.com/photo-1556740749-887f6717d7e4',
                     ],
                     currentIndex: 0,
                     prev() {

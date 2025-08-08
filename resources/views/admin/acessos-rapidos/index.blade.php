@@ -35,9 +35,11 @@
                             <tr class="hover:bg-gray-50">
                                 <td class="px-4 py-3">{{ $acesso->id }}</td>
                                 <td class="px-4 py-3 font-medium">{{ $acesso->titulo }}</td>
-                                <td class="px-4 py-3">
-                                    <img src="{{ url($acesso->icone) }}" alt="{{ $acesso->titulo }} Icone"
-                                         class="object-contain p-2 bg-black rounded-sm ">
+                                <td class="px-4 py-3 bg-gray-800">
+                                <img src="{{ url($acesso->icone) }}"
+                                     alt="{{ $acesso->titulo }} Icone"
+                                     class="object-contain w-24 p-2 rounded-sm"
+                                     style="filter: brightness(0) invert(1);">
                                 </td>
                                 <td class="px-4 py-3 text-blue-600 underline">{{ $acesso->link }}</td>
                                 <td class="px-4 py-3">{{ $acesso->ordem }}</td>

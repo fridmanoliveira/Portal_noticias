@@ -1,14 +1,14 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="text-2xl font-bold leading-tight text-gray-800">
-            {{ __('Cadastrar Novo Vídeo') }}
+            {{ __('Cadastrar Nova Historia') }}
         </h2>
     </x-slot>
 
     <div class="py-10">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <div class="p-8 bg-white shadow-xl rounded-2xl">
-                <form method="POST" action="{{ route('admin.videos.store') }}" class="space-y-6">
+                <form method="POST" action="{{ route('admin.videos.store') }}" enctype="multipart/form-data" class="space-y-6">
                     @csrf
 
                     <!-- Título -->
@@ -61,6 +61,14 @@
                                class="text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
                                {{ old('ativo', true) ? 'checked' : '' }}>
                         <label for="ativo" class="text-sm text-gray-700">Vídeo Ativo?</label>
+                    </div>
+
+                    <!-- Galeria de Imagens -->
+                    <div>
+                        <label for="imagens" class="block mb-1 text-sm font-semibold text-gray-700">Galeria de Imagens</label>
+                        <input type="file" name="imagens[]" id="imagens" multiple accept="image/*"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                        @error('imagens.*') <p class="mt-1 text-sm text-red-500">{{ $message }}</p> @enderror
                     </div>
 
                     <!-- Ações -->

@@ -209,7 +209,7 @@
 
                 <img src="{{ url($acesso->icone) }}"
                     alt="{{ $acesso->titulo }}"
-                    class="w-8 h-8 mb-2 sm:w-10 sm:h-10 sm:mb-4">
+                    class="w-8 h-8 mb-2 sm:w-10 sm:h-10 sm:mb-4 svg-branco">
 
                 <p class="text-sm font-semibold leading-tight sm:text-xl">
                     {{ $acesso->titulo }}
@@ -238,10 +238,10 @@
                         {!! \Illuminate\Support\Str::limit(strip_tags($video->descricao), 200) !!}
                     </div>
 
-                    <button @click="open = true"
+                    <a href="{{ route('site.historia', $video->slug) }}"
                             class="mt-2 text-sm font-semibold text-green-300 underline transition hover:text-green-200 sm:mt-0 sm:text-base">
                         Continue lendo...
-                    </button>
+                    </a>
 
                     <!-- Modal -->
                     <div x-show="open"

@@ -8,4 +8,12 @@ class VideoHome extends Model
 {
     protected $table = 'video_home';
     protected $fillable = ['titulo', 'descricao', 'link_youtube', 'ativo'];
+    protected $casts = [
+        'ativo' => 'boolean',
+    ];
+
+    public function imagens()
+    {
+        return $this->hasMany(GalaeiriaImagesHistoria::class, 'video_id');
+    }
 }

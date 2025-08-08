@@ -59,6 +59,12 @@
                         {{ request()->routeIs('admin.videos.*') ? 'bg-[#145156] text-white' : 'text-gray-700 bg-[#e8e8e8] hover:bg-[#0596A2] hover:text-white' }}">
                         Historia da Cidade
                     </a>
+
+                    <a href="{{ route('admin.turismo.index') }}"
+                    class="block px-4 py-2 rounded-md
+                        {{ request()->routeIs('admin.turismo.*') ? 'bg-[#145156] text-white' : 'text-gray-700 bg-[#e8e8e8] hover:bg-[#0596A2] hover:text-white' }}">
+                        Turismo
+                    </a>
                 </nav>
             </div>
 

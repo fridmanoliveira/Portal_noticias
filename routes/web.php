@@ -5,22 +5,21 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Site\HomeController;
 use App\Http\Controllers\Admin\BannerController;
+use App\Http\Controllers\Site\TurismoController;
 use App\Http\Controllers\Admin\NoticiaController;
+use App\Http\Controllers\Site\HistoriaController;
 use App\Http\Controllers\Admin\VideoHomeController;
 use App\Http\Controllers\Admin\AcessoRapidoController;
+use App\Http\Controllers\Admin\AdminTurismoController;
 use App\Http\Controllers\Admin\BannerRotativoController;
 use App\Http\Controllers\Admin\CategoriaNoticiaController;
-use App\Http\Controllers\Site\HistoriaController;
 
-
-// Route::get('/', function () {
-//     return view('welcome');
-// });
 
 Route::get('/', [HomeController::class, 'index'])->name('site.home');
 Route::get('/noticias', [NoticiaController::class, 'noticias'])->name('site.noticias.index');
 Route::get('/noticias/{noticia}', [NoticiaController::class, 'show'])->name('site.noticias.show');
 Route::get('/historia-da-cidade', [HistoriaController::class, 'index'])->name('site.historia');
+Route::get('/turismo', [TurismoController::class, 'index'])->name('site.turismo');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -84,6 +83,14 @@ Route::prefix('admin')
         Route::get('videos/{video}/edit', [VideoHomeController::class, 'edit'])->name('videos.edit');
         Route::put('videos/{video}', [VideoHomeController::class, 'update'])->name('videos.update');
         Route::delete('videos/{video}', [VideoHomeController::class, 'destroy'])->name('videos.destroy');
+
+        // Turismo
+        Route::get('turismo', [AdminTurismoController::class, 'index'])->name('turismo.index');
+        Route::get('turismo/create', [AdminTurismoController::class, 'create'])->name('turismo.create');
+        Route::post('turismo', [AdminTurismoController::class, 'store'])->name('turismo.store');
+        Route::get('turismo/{video}/edit', [AdminTurismoController::class, 'edit'])->name('turismo.edit');
+        Route::put('turismo/{video}', [AdminTurismoController::class, 'update'])->name('turismo.update');
+        Route::delete('turismo/{video}', [AdminTurismoController::class, 'destroy'])->name('turismo.destroy');
 });
 
 
