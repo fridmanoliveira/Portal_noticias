@@ -14,12 +14,15 @@ use App\Http\Controllers\Admin\AdminTurismoController;
 use App\Http\Controllers\Admin\BannerRotativoController;
 use App\Http\Controllers\Admin\CategoriaNoticiaController;
 
+Route::get('/teste', function() {
+    return 'OK';
+});
 
 Route::get('/', [HomeController::class, 'index'])->name('site.home');
 Route::get('/noticias', [NoticiaController::class, 'noticias'])->name('site.noticias.index');
 Route::get('/noticias/{noticia}', [NoticiaController::class, 'show'])->name('site.noticias.show');
 Route::get('/historia-da-cidade', [HistoriaController::class, 'index'])->name('site.historia');
-Route::get('/turismo', [TurismoController::class, 'index'])->name('site.turismo');
+Route::get('/turismos', [TurismoController::class, 'index'])->name('site.turismo');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

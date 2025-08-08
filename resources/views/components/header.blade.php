@@ -7,7 +7,7 @@
             'text' => 'MUNICÍPIO',
             'submenu' => [
                 ['route' => '/historia-da-cidade', 'text' => 'História'],
-                ['route' => '/turismo', 'text' => 'Turismo'],
+                ['route' => '/turismos', 'text' => 'Turismo'],
             ]
         ],
         [
