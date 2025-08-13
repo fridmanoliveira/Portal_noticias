@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Question;
-use Illuminate\Http\Request;
 use App\Services\QuestionService;
+use App\Http\Requests\QuestionRequest;
 
 class AdminQuestionController extends Controller
 {
-    protected $service;
+    protected QuestionService $service;
 
     public function __construct(QuestionService $service)
     {
@@ -26,18 +26,12 @@ class AdminQuestionController extends Controller
         return view('admin.questions.create');
     }
 
-    public function store(Request $request)
+    public function store(QuestionRequest $request)
     {
-        $request->validate([
-            'title'   => 'required|string|max:255',
-            'type'    => 'required|in:checkbox,radio',
-            'options' => 'required|array|min:1',
-            'options.*' => 'required|string|max:255'
-        ]);
-
-        $this->service->createQuestion($request->all());
-
-        return redirect()->route('admin.questions.index')->with('success', 'Pergunta criada com sucesso!');
+        $this->service->createQuestion($request->validated());
+        return redirect()
+            ->route('admin.questions.index')
+            ->with('success', 'Pergunta criada com sucesso!');
     }
 
     public function edit(Question $question)
@@ -46,26 +40,19 @@ class AdminQuestionController extends Controller
         return view('admin.questions.edit', compact('question'));
     }
 
-    public function update(Request $request, Question $question)
+    public function update(QuestionRequest $request, Question $question)
     {
-        $request->validate([
-            'title'   => 'required|string|max:255',
-            'type'    => 'required|in:checkbox,radio',
-            'options' => 'required|array|min:1',
-            'options.*' => 'required|string|max:255'
-        ]);
-
-        $this->service->updateQuestion($question, $request->all());
-
-        return redirect()->route('admin.questions.index')->with('success', 'Pergunta atualizada com sucesso!');
+        $this->service->updateQuestion($question, $request->validated());
+        return redirect()
+            ->route('admin.questions.index')
+            ->with('success', 'Pergunta atualizada com sucesso!');
     }
 
     public function destroy(Question $question)
     {
         $this->service->deleteQuestion($question);
-
-        return redirect()->route('admin.questions.index')->with('success', 'Pergunta removida com sucesso!');
+        return redirect()
+            ->route('admin.questions.index')
+            ->with('success', 'Pergunta removida com sucesso!');
     }
-
-    
 }

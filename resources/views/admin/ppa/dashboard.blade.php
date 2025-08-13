@@ -21,7 +21,13 @@
             </div>
             <div class="p-5 bg-white border shadow-lg rounded-xl">
                 <h4 class="text-sm text-gray-500 uppercase">Última Resposta</h4>
-                <p class="text-lg font-bold text-indigo-600">{{ \Carbon\Carbon::now()->format('d/m/Y H:i') }}</p>
+                <p class="text-lg font-bold text-indigo-600">
+                    @if($totalPessoas > 0)
+                        {{ $ultimaResposta->created_at->format('d/m/Y H:i') }}
+                    @else
+                        Nenhuma resposta ainda
+                    @endif
+                </p>
             </div>
         </div>
 
@@ -44,6 +50,7 @@
                                     <th class="p-3 text-left">Opção</th>
                                     <th class="p-3 text-left">Outros</th>
                                     <th class="p-3 text-center">Total</th>
+                                    <th class="p-3 text-center">%</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-100">
@@ -52,6 +59,7 @@
                                         <td class="p-3">{{ $answer->option_text ?? 'Outro' }}</td>
                                         <td class="p-3 italic text-gray-500">{{ $answer->other_text ?? '-' }}</td>
                                         <td class="p-3 font-bold text-center text-indigo-600">{{ $answer->total_respostas }}</td>
+                                        <td class="p-3 text-center">{{ $answer->percentage }}%</td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -68,7 +76,7 @@
                     new Chart(ctx, {
                         type: 'bar',
                         data: {
-                            labels: {!! json_encode($answers->pluck('option_text')->map(fn($v) => $v ?? 'Outro')) !!},
+                            labels: {!! json_encode($answers->pluck('option_text')->map(fn($v) => Str::limit($v ?? 'Outro', 30))) !!},
                             datasets: [{
                                 label: 'Respostas',
                                 data: {!! json_encode($answers->pluck('total_respostas')) !!},
@@ -80,7 +88,15 @@
                             indexAxis: 'y',
                             responsive: true,
                             plugins: {
-                                legend: { display: false }
+                                legend: { display: false },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            const percentage = {!! json_encode($answers->pluck('percentage')) !!}[context.dataIndex];
+                                            return `${context.raw} (${percentage}%)`;
+                                        }
+                                    }
+                                }
                             },
                             scales: {
                                 x: {

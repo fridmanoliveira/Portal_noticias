@@ -1,9 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex items-center justify-between">
-            <h2 class="text-2xl font-bold text-gray-800">
-                Lista de Perguntas
-            </h2>
+            <h2 class="text-2xl font-bold text-gray-800">Lista de Perguntas</h2>
             <a href="{{ route('admin.questions.create') }}"
                class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white transition bg-blue-600 rounded-md hover:bg-blue-700">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
@@ -44,10 +42,8 @@
                                 </td>
                                 <td class="px-4 py-3 text-center">
                                     <div class="flex items-center justify-center gap-3">
-                                        <a href="{{ route('admin.questions.edit', $question) }}"
-                                           class="text-indigo-600 hover:underline">Editar</a>
-                                        <form action="{{ route('admin.questions.destroy', $question) }}" method="POST"
-                                              onsubmit="return confirm('Tem certeza que deseja excluir esta pergunta?')">
+                                        <a href="{{ route('admin.questions.edit', $question) }}" class="text-indigo-600 hover:underline">Editar</a>
+                                        <form action="{{ route('admin.questions.destroy', $question) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta pergunta?')">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="text-red-600 hover:underline">Excluir</button>
@@ -57,9 +53,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="px-4 py-6 text-center text-gray-500">
-                                    Nenhuma pergunta encontrada.
-                                </td>
+                                <td colspan="3" class="px-4 py-6 text-center text-gray-500">Nenhuma pergunta encontrada.</td>
                             </tr>
                         @endforelse
                     </tbody>

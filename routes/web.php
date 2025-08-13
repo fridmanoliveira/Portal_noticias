@@ -103,9 +103,9 @@ Route::prefix('admin')
         Route::get('questions', [AdminQuestionController::class, 'index'])->name('questions.index');
         Route::get('questions/create', [AdminQuestionController::class, 'create'])->name('questions.create');
         Route::post('questions', [AdminQuestionController::class, 'store'])->name('questions.store');
-        Route::get('questions/{questoes}/edit', [AdminQuestionController::class, 'edit'])->name('questions.edit');
-        Route::put('questions/{questoes}', [AdminQuestionController::class, 'update'])->name('questions.update');
-        Route::delete('questions/{questoes}', [AdminQuestionController::class, 'destroy'])->name('questions.destroy');
+        Route::get('questions/{question}/edit', [AdminQuestionController::class, 'edit'])->name('questions.edit');
+        Route::put('questions/{question}', [AdminQuestionController::class, 'update'])->name('questions.update');
+        Route::delete('questions/{question}', [AdminQuestionController::class, 'destroy'])->name('questions.destroy');
 
         Route::get('/ppa-participativo', [PPAController::class, 'dashboard'])->name('ppa.dashboard');
 });
