@@ -10,6 +10,7 @@ class Turismo extends Model
         'titulo',
         'descricao',
         'ativo',
+        'pdf'
     ];
     protected $casts = [
         'ativo' => 'boolean',

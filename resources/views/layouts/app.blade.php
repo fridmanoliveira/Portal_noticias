@@ -21,49 +21,62 @@
 
                 <!-- Navegação -->
                 <nav class="w-full mt-4 space-y-2">
-
                     <a href="{{ route('admin.dashboard') }}"
-                    class="flex items-center px-4 py-2 space-x-2 rounded-md
-                        {{ request()->routeIs('admin.dashboard') ? 'bg-[#145156] text-white' : 'text-gray-700 bg-[#e8e8e8] hover:bg-gray-100' }}">
+                        class="flex items-center px-4 py-2 space-x-2 rounded-md transition-colors
+                            {{ request()->routeIs('admin.dashboard') ? 'bg-[#145156] text-white' : 'text-gray-700 bg-[#e8e8e8] hover:bg-[#0596A2] hover:text-white' }}">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M5.121 17.804A4 4 0 018 17h8a4 4 0 012.879 1.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                         </svg>
                         <span>Dashboard</span>
                     </a>
+
                     <a href="{{ route('admin.banners-rotativo.index') }}"
-                    class="block px-4 py-2 rounded-md
-                        {{ request()->routeIs('admin.banners-rotativo.*') ? 'bg-[#145156] text-white' : 'text-gray-700 bg-[#e8e8e8] hover:bg-[#0596A2] hover:text-white' }}">
+                        class="block px-4 py-2 rounded-md transition-colors
+                            {{ request()->routeIs('admin.banners-rotativo.*') ? 'bg-[#145156] text-white' : 'text-gray-700 bg-[#e8e8e8] hover:bg-[#0596A2] hover:text-white' }}">
                         Banners Rotativos
                     </a>
+
                     <a href="{{ route('admin.acessos-rapidos.index') }}"
-                    class="block px-4 py-2 rounded-md
-                        {{ request()->routeIs('admin.acessos-rapidos.*') ? 'bg-[#145156] text-white' : 'text-gray-700 bg-[#e8e8e8] hover:bg-[#0596A2] hover:text-white' }}">
+                        class="block px-4 py-2 rounded-md transition-colors
+                            {{ request()->routeIs('admin.acessos-rapidos.*') ? 'bg-[#145156] text-white' : 'text-gray-700 bg-[#e8e8e8] hover:bg-[#0596A2] hover:text-white' }}">
                         Acessos Rápidos
                     </a>
 
                     <a href="{{ route('admin.noticias.index') }}"
-                    class="block px-4 py-2 rounded-md
-                        {{ request()->routeIs('admin.noticias.*') ? 'bg-[#145156] text-white' : 'text-gray-700 bg-[#e8e8e8] hover:bg-[#0596A2] hover:text-white' }}">
+                        class="block px-4 py-2 rounded-md transition-colors
+                            {{ request()->routeIs('admin.noticias.*') ? 'bg-[#145156] text-white' : 'text-gray-700 bg-[#e8e8e8] hover:bg-[#0596A2] hover:text-white' }}">
                         Notícias
                     </a>
 
                     <a href="{{ route('admin.categorias-noticias.index') }}"
-                    class="block px-4 py-2 rounded-md
-                        {{ request()->routeIs('admin.categorias-noticias.*') ? 'bg-[#145156] text-white' : 'text-gray-700 bg-[#e8e8e8] hover:bg-[#0596A2] hover:text-white' }}">
+                        class="block px-4 py-2 rounded-md transition-colors
+                            {{ request()->routeIs('admin.categorias-noticias.*') ? 'bg-[#145156] text-white' : 'text-gray-700 bg-[#e8e8e8] hover:bg-[#0596A2] hover:text-white' }}">
                         Categorias de Notícias
                     </a>
 
                     <a href="{{ route('admin.videos.index') }}"
-                    class="block px-4 py-2 rounded-md
-                        {{ request()->routeIs('admin.videos.*') ? 'bg-[#145156] text-white' : 'text-gray-700 bg-[#e8e8e8] hover:bg-[#0596A2] hover:text-white' }}">
-                        Historia da Cidade
+                        class="block px-4 py-2 rounded-md transition-colors
+                            {{ request()->routeIs('admin.videos.*') ? 'bg-[#145156] text-white' : 'text-gray-700 bg-[#e8e8e8] hover:bg-[#0596A2] hover:text-white' }}">
+                        História da Cidade
                     </a>
 
                     <a href="{{ route('admin.turismo.index') }}"
-                    class="block px-4 py-2 rounded-md
-                        {{ request()->routeIs('admin.turismo.*') ? 'bg-[#145156] text-white' : 'text-gray-700 bg-[#e8e8e8] hover:bg-[#0596A2] hover:text-white' }}">
+                        class="block px-4 py-2 rounded-md transition-colors
+                            {{ request()->routeIs('admin.turismo.*') ? 'bg-[#145156] text-white' : 'text-gray-700 bg-[#e8e8e8] hover:bg-[#0596A2] hover:text-white' }}">
                         Turismo
+                    </a>
+
+                    <a href="{{ route('admin.questions.index') }}"
+                        class="block px-4 py-2 rounded-md transition-colors
+                            {{ request()->routeIs('admin.questions.*') ? 'bg-[#145156] text-white' : 'text-gray-700 bg-[#e8e8e8] hover:bg-[#0596A2] hover:text-white' }}">
+                        Questões PPA
+                    </a>
+
+                    <a href="{{ route('admin.ppa.dashboard') }}"
+                        class="block px-4 py-2 rounded-md transition-colors
+                            {{ request()->routeIs('admin.ppa.dashboard') ? 'bg-[#145156] text-white' : 'text-gray-700 bg-[#e8e8e8] hover:bg-[#0596A2] hover:text-white' }}">
+                        Respostas PPA
                     </a>
                 </nav>
             </div>
@@ -72,7 +85,8 @@
             <div class="flex flex-col items-center space-y-4">
                 <form method="POST" action="{{ route('logout') }}" class="w-full">
                     @csrf
-                    <button type="submit" class="w-full px-6 py-2 font-bold text-white bg-orange-500 rounded-md hover:bg-orange-600">
+                    <button type="submit"
+                        class="w-full px-6 py-2 font-bold text-white transition-colors bg-orange-500 rounded-md hover:bg-orange-600">
                         Sair
                     </button>
                 </form>

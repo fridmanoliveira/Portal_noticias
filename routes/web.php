@@ -2,11 +2,13 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PPAController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Site\HomeController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Site\TurismoController;
 use App\Http\Controllers\Admin\NoticiaController;
+use App\Http\Controllers\AdminQuestionController;
 use App\Http\Controllers\Site\HistoriaController;
 use App\Http\Controllers\Admin\VideoHomeController;
 use App\Http\Controllers\Admin\AcessoRapidoController;
@@ -23,6 +25,8 @@ Route::get('/noticias', [NoticiaController::class, 'noticias'])->name('site.noti
 Route::get('/noticias/{noticia}', [NoticiaController::class, 'show'])->name('site.noticias.show');
 Route::get('/historia-da-cidade', [HistoriaController::class, 'index'])->name('site.historia');
 Route::get('/turismos', [TurismoController::class, 'index'])->name('site.turismo');
+Route::get('/ppa-participativo', [PPAController::class, 'showForm'])->name('ppa.form');
+Route::post('/ppa-participativo', [PPAController::class, 'submitForm'])->name('ppa.submit');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -91,9 +95,19 @@ Route::prefix('admin')
         Route::get('turismo', [AdminTurismoController::class, 'index'])->name('turismo.index');
         Route::get('turismo/create', [AdminTurismoController::class, 'create'])->name('turismo.create');
         Route::post('turismo', [AdminTurismoController::class, 'store'])->name('turismo.store');
-        Route::get('turismo/{video}/edit', [AdminTurismoController::class, 'edit'])->name('turismo.edit');
-        Route::put('turismo/{video}', [AdminTurismoController::class, 'update'])->name('turismo.update');
-        Route::delete('turismo/{video}', [AdminTurismoController::class, 'destroy'])->name('turismo.destroy');
+        Route::get('turismo/{turismo}/edit', [AdminTurismoController::class, 'edit'])->name('turismo.edit');
+        Route::put('turismo/{turismo}', [AdminTurismoController::class, 'update'])->name('turismo.update');
+        Route::delete('turismo/{turismo}', [AdminTurismoController::class, 'destroy'])->name('turismo.destroy');
+
+        // Questions
+        Route::get('questions', [AdminQuestionController::class, 'index'])->name('questions.index');
+        Route::get('questions/create', [AdminQuestionController::class, 'create'])->name('questions.create');
+        Route::post('questions', [AdminQuestionController::class, 'store'])->name('questions.store');
+        Route::get('questions/{questoes}/edit', [AdminQuestionController::class, 'edit'])->name('questions.edit');
+        Route::put('questions/{questoes}', [AdminQuestionController::class, 'update'])->name('questions.update');
+        Route::delete('questions/{questoes}', [AdminQuestionController::class, 'destroy'])->name('questions.destroy');
+
+        Route::get('/ppa-participativo', [PPAController::class, 'dashboard'])->name('ppa.dashboard');
 });
 
 

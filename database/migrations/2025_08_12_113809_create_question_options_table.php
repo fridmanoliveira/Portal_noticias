@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('turismos', function (Blueprint $table) {
-             $table->id();
-            $table->string('titulo');
-            $table->boolean('ativo')->default(true);
-            $table->string('pdf')->nullable();
-            $table->text('descricao');
+        Schema::create('question_options', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('question_id')->constrained()->onDelete('cascade');
+            $table->string('option_text'); // Texto da opção
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('turismos');
+        Schema::dropIfExists('question_options');
     }
 };

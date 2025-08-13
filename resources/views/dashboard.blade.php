@@ -44,6 +44,10 @@
                         class="px-4 py-2 text-white transition bg-indigo-600 rounded hover:bg-indigo-700">
                         Gerenciar Banners Rotativos
                     </a>
+                    <a href="{{ route('admin.ppa.dashboard') }}"
+                        class="px-4 py-2 text-white transition bg-indigo-600 rounded hover:bg-indigo-700">
+                        PPA Participativo
+                    </a>
                 </div>
             </div>
 

@@ -11,13 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('turismos', function (Blueprint $table) {
-             $table->id();
-            $table->string('titulo');
-            $table->boolean('ativo')->default(true);
-            $table->string('pdf')->nullable();
-            $table->text('descricao');
-            $table->timestamps();
+        Schema::table('form_answers', function (Blueprint $table) {
+            $table->string('other_text')->nullable()->after('option_id');
         });
     }
 
@@ -26,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('turismos');
+        Schema::table('form_answers', function (Blueprint $table) {
+            $table->dropColumn('other_text');
+        });
     }
 };

@@ -30,6 +30,17 @@
                             <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                         @enderror
                     </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700">PDF do Inventário Turístico</label>
+                        <input type="file" name="pdf" accept="application/pdf"
+                            class="block w-full mt-1 border border-gray-300 rounded-md shadow-sm">
+
+                        @if(!empty($turismo->pdf))
+                            <p class="mt-2 text-sm text-blue-600">
+                                <a href="{{ asset($turismo->pdf) }}" target="_blank">Ver PDF atual</a>
+                            </p>
+                        @endif
+                    </div>
 
                     <!-- Ativo -->
                     <div class="flex items-center space-x-3">

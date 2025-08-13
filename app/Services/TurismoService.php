@@ -27,6 +27,12 @@ class TurismoService
             if ($data['ativo']) {
                 Turismo::where('ativo', true)->update(['ativo' => false]);
             }
+            if (request()->hasFile('pdf')) {
+                $pdfFile = request()->file('pdf');
+                $pdfName = uniqid() . '.' . $pdfFile->getClientOriginalExtension();
+                $pdfFile->move(public_path('turismo/pdfs'), $pdfName);
+                $data['pdf'] = 'turismo/pdfs/' . $pdfName;
+            }
 
             $turismo = Turismo::create($data);
 
@@ -71,6 +77,18 @@ class TurismoService
             if ($data['ativo']) {
                 Turismo::where('id', '!=', $id)->where('ativo', true)->update(['ativo' => false]);
             }
+            if (request()->hasFile('pdf')) {
+                // Apaga o PDF antigo
+                if ($turismo->pdf && file_exists(public_path($turismo->pdf))) {
+                    unlink(public_path($turismo->pdf));
+                }
+
+                $pdfFile = request()->file('pdf');
+                $pdfName = uniqid() . '.' . $pdfFile->getClientOriginalExtension();
+                $pdfFile->move(public_path('turismo/pdfs'), $pdfName);
+                $data['pdf'] = 'turismo/pdfs/' . $pdfName;
+            }
+
 
             $turismo->update($data);
 

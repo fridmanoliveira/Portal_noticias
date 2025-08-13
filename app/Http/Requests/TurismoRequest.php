@@ -25,6 +25,7 @@ class TurismoRequest extends FormRequest
             'titulo' => 'required|string|max:255',
             'descricao' => 'nullable|string',
             'ativo' => 'nullable|boolean',
+            'pdf' => 'nullable|mimes:pdf|max:20480',
             'imagens.*' => 'nullable|image|max:20048',
             'remover_imagens' => 'nullable|array',
             'remover_imagens.*' => 'integer|exists:galeria_images_turismo,id',

@@ -8,8 +8,8 @@
                 <article class="p-6 bg-white rounded-lg shadow-lg lg:col-span-2 md:p-8">
                     <h1 class="mb-3 text-2xl font-bold leading-tight text-teal-800">{{ $video->titulo }}</h1>
 
-                    <div class="mb-6 leading-relaxed prose prose-lg text-gray-700 max-w-none">
-                        {!! nl2br(strip_tags($video->descricao)) !!}
+                    <div class="mb-6 leading-relaxed prose prose-lg text-gray-700 max-w-none ">
+                        {!! $video->descricao !!}
                     </div>
 
                     <!-- Vídeo -->

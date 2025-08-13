@@ -20,7 +20,21 @@
                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
                         @error('titulo') <p class="mt-1 text-sm text-red-500">{{ $message }}</p> @enderror
                     </div>
+                    <!-- PDF -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700">PDF do Inventário Turístico</label>
+                        <input type="file" name="pdf" accept="application/pdf"
+                            class="block w-full mt-1 border border-gray-300 rounded-md shadow-sm">
 
+                        @if(!empty($turismo->pdf))
+                            <p class="mt-2 text-sm text-blue-600">
+                                <a href="{{ asset($turismo->pdf) }}" target="_blank">Ver PDF atual</a>
+                            </p>
+                        @endif
+                        @error('pdf')
+                            <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                        @enderror
+                    </div>
                     <!-- Descrição -->
                     <div>
                         <label for="descricao" class="block mb-1 text-sm font-semibold text-gray-700">Descrição</label>
@@ -79,14 +93,24 @@
     </div>
 
     @push('scripts')
-        <script>
-            ClassicEditor
-                .create(document.querySelector('#descricao'), {
-                    toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'undo', 'redo' ]
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-        </script>
+       <script>
+    ClassicEditor
+        .create(document.querySelector('#descricao'), {
+            toolbar: [
+                'heading', '|',
+                'bold', 'italic', 'link',
+                'bulletedList', 'numberedList', 'blockQuote',
+                'alignment',
+                'undo', 'redo'
+            ],
+            alignment: {
+                options: [ 'justify', 'left', 'right', 'center' ]
+            }
+        })
+        .catch(error => {
+            console.error(error);
+        });
+</script>
+
     @endpush
 </x-app-layout>
