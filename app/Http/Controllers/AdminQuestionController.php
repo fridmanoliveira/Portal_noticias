@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Question;
+use App\Models\PpaSetting;
 use App\Services\QuestionService;
 use App\Http\Requests\QuestionRequest;
 
@@ -18,7 +19,9 @@ class AdminQuestionController extends Controller
     public function index()
     {
         $questions = $this->service->getAllQuestions();
-        return view('admin.questions.index', compact('questions'));
+        return view('admin.questions.index', [
+            'questions'=> $questions,
+        ]);
     }
 
     public function create()

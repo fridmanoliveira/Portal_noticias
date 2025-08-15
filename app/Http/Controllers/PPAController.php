@@ -3,23 +3,32 @@
 namespace App\Http\Controllers;
 
 use App\Models\Question;
-use App\Models\FormSubmission;
 use App\Models\FormAnswer;
+use App\Models\PpaSetting;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\FormSubmission;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 
 class PPAController extends Controller
 {
     public function showForm()
     {
-        // Buscar perguntas com opções, ordenadas por 'order'
+        // Verificar se o formulário está aberto
+        $settings = PpaSetting::first();
+
+        if (!$settings || !$settings->isCurrentlyActive()) {
+            return view('ppa.closed', [
+                'message' => $settings->closed_message ?? 'O período de participação no PPA está encerrado.'
+            ]);
+        }
+
+        // Restante do código original...
         $questions = Question::with('options')
             ->orderBy('order')
             ->get();
 
-        // Apenas agrupar por seção se precisar exibir seções separadas
         $questionsBySection = $questions->groupBy('section');
 
         $districts = [
@@ -29,7 +38,8 @@ class PPAController extends Controller
 
         return view('ppa.form', [
             'questionsBySection' => $questionsBySection,
-            'districts' => $districts
+            'districts' => $districts,
+            'settings' => $settings
         ]);
     }
 
@@ -134,6 +144,7 @@ class PPAController extends Controller
 
     public function dashboard()
     {
+        $settings = PpaSetting::first();
         $totalPessoas = FormSubmission::count();
 
         $answersSummary = DB::table('form_answers')
@@ -177,7 +188,8 @@ class PPAController extends Controller
             'totalPessoas' => $totalPessoas,
             'data' => $answersSummary,
             'demographics' => $demographics,
-            'ultimaResposta' => $ultimaResposta
+            'ultimaResposta' => $ultimaResposta,
+            'settings' => $settings
         ]);
     }
 }

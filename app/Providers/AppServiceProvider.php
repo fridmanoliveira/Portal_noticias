@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Models\Noticia;
+use App\Models\PpaSetting;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
@@ -26,6 +28,11 @@ class AppServiceProvider extends ServiceProvider
         Route::bind('noticia', function ($value) {
             return Noticia::where('slug', $value)->where('ativo', true)->firstOrFail();
             Route::model('banner', \App\Models\BannerRotativo::class);
+        });
+
+        View::composer('ppa.*', function ($view) {
+            $settings = PpaSetting::first();
+            $view->with('settings', $settings);
         });
 
         Validator::extend('cpf', function ($attribute, $value, $parameters, $validator) {

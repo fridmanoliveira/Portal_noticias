@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\NoticiaController;
 use App\Http\Controllers\AdminQuestionController;
 use App\Http\Controllers\Site\HistoriaController;
 use App\Http\Controllers\Admin\VideoHomeController;
+use App\Http\Controllers\PpaSettingsController;
 use App\Http\Controllers\Admin\AcessoRapidoController;
 use App\Http\Controllers\Admin\AdminTurismoController;
 use App\Http\Controllers\Admin\BannerRotativoController;
@@ -25,8 +26,11 @@ Route::get('/noticias', [NoticiaController::class, 'noticias'])->name('site.noti
 Route::get('/noticias/{noticia}', [NoticiaController::class, 'show'])->name('site.noticias.show');
 Route::get('/historia-da-cidade', [HistoriaController::class, 'index'])->name('site.historia');
 Route::get('/turismos', [TurismoController::class, 'index'])->name('site.turismo');
-Route::get('/ppa-participativo', [PPAController::class, 'showForm'])->name('ppa.form');
-Route::post('/ppa-participativo', [PPAController::class, 'submitForm'])->name('ppa.submit');
+Route::prefix('ppa-participativo')->group(function () {
+    Route::get('/', [PPAController::class, 'showForm'])->name('ppa.form');
+    Route::post('/', [PPAController::class, 'submitForm'])->name('ppa.submit');
+    Route::get('obrigado/{id}', [PPAController::class, 'showThanks'])->name('ppa.thanks');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -108,6 +112,8 @@ Route::prefix('admin')
         Route::delete('questions/{question}', [AdminQuestionController::class, 'destroy'])->name('questions.destroy');
 
         Route::get('/ppa-participativo', [PPAController::class, 'dashboard'])->name('ppa.dashboard');
+        Route::get('ppa-participativo/configuracoes', [PpaSettingsController::class, 'edit'])->name('ppa.settings');
+        Route::put('ppa-participativo/configuracoes', [PpaSettingsController::class, 'update'])->name('ppa.fechado.update');
 });
 
 
