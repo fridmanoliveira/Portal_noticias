@@ -2,23 +2,23 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PPAController;
-use App\Http\Controllers\ObraController;
+use App\Http\Controllers\admin\PPAController;
+use App\Http\Controllers\admin\ObraController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Site\HomeController;
-use App\Http\Controllers\PpaSettingsController;
+use App\Http\Controllers\admin\PpaSettingsController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Site\TurismoController;
 use App\Http\Controllers\Admin\NoticiaController;
-use App\Http\Controllers\AdminQuestionController;
+use App\Http\Controllers\admin\AdminQuestionController;
 use App\Http\Controllers\Site\HistoriaController;
 use App\Http\Controllers\Admin\VideoHomeController;
 use App\Http\Controllers\Admin\AcessoRapidoController;
 use App\Http\Controllers\Admin\AdminTurismoController;
 use App\Http\Controllers\Admin\BannerRotativoController;
 use App\Http\Controllers\Admin\CategoriaNoticiaController;
-use App\Http\Controllers\EmpresaController;
-use App\Http\Controllers\FiscalController;
+use App\Http\Controllers\admin\EmpresaController;
+use App\Http\Controllers\admin\FiscalController;
 
 Route::get('/teste', function() {
     return 'OK';

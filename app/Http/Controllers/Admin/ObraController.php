@@ -1,12 +1,12 @@
 <?php
 
-// app/Http/Controllers/ObraController.php
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\admin;
 
 use App\Models\Fiscal;
 use App\Models\Empresa;
 use Illuminate\Http\Request;
 use App\Services\ObraService;
+use App\Http\Controllers\Controller;
 
 class ObraController extends Controller
 {

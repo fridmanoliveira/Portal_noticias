@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\admin;
 
-use App\Services\FiscalService;
 use Illuminate\Http\Request;
+use App\Services\FiscalService;
+use App\Http\Controllers\Controller;
 
 class FiscalController extends Controller
 {

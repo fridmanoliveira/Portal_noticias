@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\admin;
 
 use App\Models\Question;
 use App\Models\PpaSetting;
 use App\Services\QuestionService;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\QuestionRequest;
 
 class AdminQuestionController extends Controller
