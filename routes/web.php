@@ -3,19 +3,22 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PPAController;
+use App\Http\Controllers\ObraController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Site\HomeController;
+use App\Http\Controllers\PpaSettingsController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Site\TurismoController;
 use App\Http\Controllers\Admin\NoticiaController;
 use App\Http\Controllers\AdminQuestionController;
 use App\Http\Controllers\Site\HistoriaController;
 use App\Http\Controllers\Admin\VideoHomeController;
-use App\Http\Controllers\PpaSettingsController;
 use App\Http\Controllers\Admin\AcessoRapidoController;
 use App\Http\Controllers\Admin\AdminTurismoController;
 use App\Http\Controllers\Admin\BannerRotativoController;
 use App\Http\Controllers\Admin\CategoriaNoticiaController;
+use App\Http\Controllers\EmpresaController;
+use App\Http\Controllers\FiscalController;
 
 Route::get('/teste', function() {
     return 'OK';
@@ -114,6 +117,54 @@ Route::prefix('admin')
         Route::get('/ppa-participativo', [PPAController::class, 'dashboard'])->name('ppa.dashboard');
         Route::get('ppa-participativo/configuracoes', [PpaSettingsController::class, 'edit'])->name('ppa.settings');
         Route::put('ppa-participativo/configuracoes', [PpaSettingsController::class, 'update'])->name('ppa.fechado.update');
+
+        Route::prefix('obras')->name('obras.')->group(function () {
+            // Criar nova obra
+            Route::get('/create', [ObraController::class, 'create'])->name('create');
+            Route::post('/', [ObraController::class, 'store'])->name('store');
+
+            // Editar obra
+            Route::get('/{id}/edit', [ObraController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [ObraController::class, 'update'])->name('update');
+
+            // Lista de obras
+            Route::get('/', [ObraController::class, 'index'])->name('index');
+
+            // Deletar obra
+            Route::delete('/{id}', [ObraController::class, 'destroy'])->name('destroy');
+        });
+
+        Route::prefix('empresas')->name('empresa.')->group(function () {
+            // Criar nova empresa
+            Route::get('/create', [EmpresaController::class, 'create'])->name('create');
+            Route::post('/', [EmpresaController::class, 'store'])->name('store');
+
+            // Editar empresa
+            Route::get('/{id}/edit', [EmpresaController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [EmpresaController::class, 'update'])->name('update');
+
+            // Lista de empresas
+            Route::get('/', [EmpresaController::class, 'index'])->name('index');
+
+            // Deletar empresa
+            Route::delete('/{id}', [EmpresaController::class, 'destroy'])->name('destroy');
+        });
+
+        Route::prefix('fiscais')->name('fiscal.')->group(function () {
+            // Criar nova fiscal
+            Route::get('/create', [FiscalController::class, 'create'])->name('create');
+            Route::post('/', [FiscalController::class, 'store'])->name('store');
+
+            // Editar fiscal
+            Route::get('/{id}/edit', [FiscalController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [FiscalController::class, 'update'])->name('update');
+
+            // Lista de fiscais
+            Route::get('/', [FiscalController::class, 'index'])->name('index');
+
+            // Deletar fiscal
+            Route::delete('/{id}', [FiscalController::class, 'destroy'])->name('destroy');
+        });
 });
 
 

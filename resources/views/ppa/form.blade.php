@@ -1,49 +1,59 @@
 @php
     use App\Models\PpaSetting;
-    // Garanta que $settings seja sempre definida, mesmo que não encontre nada no banco
     $settings = PpaSetting::first();
 @endphp
 
 <x-site-layout title="PPA Participativo - Prefeitura Municipal">
-    <main class="py-8 bg-gray-50">
+    <main class="py-8">
         <div class="container px-4 mx-auto">
-            <div class="max-w-4xl mx-auto overflow-hidden bg-white shadow-lg rounded-xl">
-
-                @if($settings && $settings->isCurrentlyActive())
-
-                    <!-- Cabeçalho do Formulário -->
-                    <div class="p-6 text-white bg-gradient-to-r from-blue-700 to-blue-600">
+            @if($settings && $settings->isCurrentlyActive())
+                <!-- Formulário Ativo -->
+                <div class="max-w-4xl mx-auto overflow-hidden bg-white shadow-xl rounded-xl">
+                    <!-- Cabeçalho -->
+                    <div class="p-6 text-white bg-gradient-to-r from-blue-700 to-blue-600 rounded-t-xl">
                         <div class="flex flex-col md:flex-row md:items-center md:justify-between">
                             <div>
                                 <h1 class="text-2xl font-bold">{{ $settings->title }}</h1>
-                                <p class="mt-1 opacity-90">Planejamento Plurianual Municipal</p>
+                                <p class="mt-1 opacity-90">{{ $settings->subtitle ?? 'Planejamento Plurianual Municipal' }}</p>
                             </div>
                             <div class="px-4 py-2 mt-4 text-sm bg-blue-800 bg-opacity-50 rounded-lg md:mt-0">
-                                <p class="mt-1 text-xs">Período: {{ $settings->start_date->format('d/m/Y') }} a {{ $settings->end_date->format('d/m/Y') }}</p>
+                                <p class="text-sm">Período: {{ $settings->start_date->format('d/m/Y') }} a {{ $settings->end_date->format('d/m/Y') }}</p>
                             </div>
                         </div>
                     </div>
 
                     <!-- Barra de Progresso -->
-                    <div class="px-6 py-3 border-b border-blue-100 bg-blue-50">
+                    <div class="px-6 py-4 border-b border-blue-100 bg-blue-50">
                         <div class="flex items-center justify-between mb-1">
                             <span class="text-sm font-medium text-blue-800">Progresso do formulário</span>
                             <span id="progress-text" class="text-sm font-medium text-blue-600">0% completo</span>
                         </div>
-                        <div class="w-full h-2 bg-gray-200 rounded-full">
-                            <div id="progress-bar" class="h-2 bg-blue-600 rounded-full" style="width: 0%"></div>
+                        <div class="w-full h-2.5 bg-gray-200 rounded-full">
+                            <div id="progress-bar" class="h-2.5 bg-blue-600 rounded-full transition-all duration-300" style="width: 0%"></div>
                         </div>
                     </div>
 
-                    <!-- Formulário -->
+                    <!-- Formulário Principal -->
                     <form action="{{ route('ppa.submit') }}" method="POST" class="p-6 space-y-8 md:p-8">
                         @csrf
 
                         <!-- Introdução -->
                         <div class="p-5 border-l-4 border-blue-600 rounded-r-lg bg-blue-50">
-                            <h2 class="text-xl font-bold text-gray-800">Sua participação é importante!</h2>
-                            <p class="mt-2 text-gray-700">{{ $settings->description }}</p>
-                            <p class="mt-3 text-sm text-gray-600">Tempo estimado para preenchimento: 8 minutos</p>
+                            <div class="flex items-start">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0 w-5 h-5 mt-0.5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <div class="ml-3">
+                                    <h2 class="text-xl font-bold text-gray-800">Sua participação é importante!</h2>
+                                    <p class="mt-2 text-gray-700">{{ $settings->description }}</p>
+                                    <p class="mt-3 text-sm text-gray-600">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        Tempo estimado para preenchimento: 8 minutos
+                                    </p>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Seção de Identificação -->
@@ -58,11 +68,11 @@
                             <div class="grid gap-6 mt-4 sm:grid-cols-2">
                                 <!-- Nome Completo -->
                                 <div>
-                                    <label for="name" class="block mb-1 text-sm font-medium text-gray-700">
+                                    <label for="name" class="block mb-2 text-sm font-medium text-gray-700">
                                         Nome completo <span class="text-red-500">*</span>
                                     </label>
                                     <input type="text" id="name" name="name" value="{{ old('name') }}"
-                                        class="w-full px-4 py-3 transition duration-200 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        class="w-full px-4 py-3 text-gray-700 transition duration-200 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                         placeholder="Digite seu nome completo" required>
                                     @error('name')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -71,13 +81,13 @@
 
                                 <!-- CPF -->
                                 <div>
-                                    <label for="cpf" class="block mb-1 text-sm font-medium text-gray-700">
+                                    <label for="cpf" class="block mb-2 text-sm font-medium text-gray-700">
                                         CPF <span class="text-red-500">*</span>
                                     </label>
                                     <input type="text" id="cpf" name="cpf" value="{{ old('cpf') }}"
-                                        class="w-full px-4 py-3 transition duration-200 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        class="w-full px-4 py-3 text-gray-700 transition duration-200 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                         placeholder="000.000.000-00" required
-                                        oninput="formatCPF(this)">
+                                        data-mask="000.000.000-00">
                                     @error('cpf')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                     @enderror
@@ -85,7 +95,7 @@
 
                                 <!-- Email -->
                                 <div>
-                                    <label for="email" class="block mb-1 text-sm font-medium text-gray-700">
+                                    <label for="email" class="block mb-2 text-sm font-medium text-gray-700">
                                         Email <span class="text-red-500">*</span>
                                     </label>
                                     <div class="relative">
@@ -96,7 +106,7 @@
                                             </svg>
                                         </div>
                                         <input type="email" id="email" name="email" value="{{ old('email') }}"
-                                            class="w-full gap-2 py-3 pl-10 pr-4 transition duration-200 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                            class="w-full py-3 pl-10 pr-4 text-gray-700 transition duration-200 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                             placeholder="seuemail@exemplo.com" required>
                                     </div>
                                     @error('email')
@@ -106,13 +116,13 @@
 
                                 <!-- Telefone -->
                                 <div>
-                                    <label for="phone" class="block mb-1 text-sm font-medium text-gray-700">
+                                    <label for="phone" class="block mb-2 text-sm font-medium text-gray-700">
                                         Telefone/WhatsApp <span class="text-red-500">*</span>
                                     </label>
                                     <input type="tel" id="phone" name="phone" value="{{ old('phone') }}"
-                                        class="w-full px-4 py-3 transition duration-200 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        class="w-full px-4 py-3 text-gray-700 transition duration-200 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                         placeholder="(99) 99999-9999" required
-                                        oninput="formatPhone(this)">
+                                        data-mask="(00) 00000-0000">
                                     @error('phone')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                     @enderror
@@ -120,11 +130,11 @@
 
                                 <!-- Bairro -->
                                 <div>
-                                    <label for="district" class="block mb-1 text-sm font-medium text-gray-700">
+                                    <label for="district" class="block mb-2 text-sm font-medium text-gray-700">
                                         Bairro <span class="text-red-500">*</span>
                                     </label>
                                     <select id="district" name="district"
-                                        class="w-full px-4 py-3 transition duration-200 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
+                                        class="w-full px-4 py-3 text-gray-700 transition duration-200 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
                                         <option value="">Selecione seu bairro</option>
                                         @foreach($districts as $district)
                                             <option value="{{ $district }}" @if(old('district') == $district) selected @endif>{{ $district }}</option>
@@ -137,11 +147,11 @@
 
                                 <!-- Idade -->
                                 <div>
-                                    <label for="age_range" class="block mb-1 text-sm font-medium text-gray-700">
+                                    <label for="age_range" class="block mb-2 text-sm font-medium text-gray-700">
                                         Faixa etária <span class="text-red-500">*</span>
                                     </label>
                                     <select id="age_range" name="age_range"
-                                        class="w-full px-4 py-3 transition duration-200 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
+                                        class="w-full px-4 py-3 text-gray-700 transition duration-200 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
                                         <option value="">Selecione sua faixa etária</option>
                                         <option value="16-20" @if(old('age_range') == '16-20') selected @endif>16 a 20 anos</option>
                                         <option value="21-30" @if(old('age_range') == '21-30') selected @endif>21 a 30 anos</option>
@@ -205,7 +215,7 @@
                                                             type="text"
                                                             name="other_answers[{{ $question->id }}]"
                                                             value="{{ old("other_answers.$question->id") }}"
-                                                            class="w-full px-4 py-2 text-sm transition duration-200 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                                            class="w-full px-4 py-2 text-sm transition duration-200 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                                             placeholder="Por favor, especifique..."
                                                         >
                                                         @error("other_answers.$question->id")
@@ -232,11 +242,11 @@
                                 Sugestões adicionais
                             </legend>
                             <div class="mt-4">
-                                <label for="suggestions" class="block mb-1 text-sm font-medium text-gray-700">
+                                <label for="suggestions" class="block mb-2 text-sm font-medium text-gray-700">
                                     Tem alguma sugestão ou comentário adicional para o PPA Municipal?
                                 </label>
                                 <textarea id="suggestions" name="suggestions" rows="4"
-                                    class="w-full px-4 py-3 transition duration-200 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    class="w-full px-4 py-3 text-gray-700 transition duration-200 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                     placeholder="Escreva aqui suas sugestões...">{{ old('suggestions') }}</textarea>
                                 @error('suggestions')
                                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -253,7 +263,7 @@
                                         @if(old('terms')) checked @endif>
                                 </div>
                                 <label for="terms" class="block ml-3 text-sm text-gray-700">
-                                    Declaro que li e concordo com o <a href="#" class="font-medium text-blue-600 hover:underline">Termo de Consentimento</a> e autorizo o tratamento dos meus dados pessoais conforme a <a href="#" class="font-medium text-blue-600 hover:underline">Lei Geral de Proteção de Dados (LGPD, Lei nº 13.709/2018)</a>. Estou ciente de que minhas respostas serão utilizadas exclusivamente para fins de planejamento municipal e construção do PPA Participativo 2023-2026.
+                                    Declaro que li e concordo com o <a href="#" class="font-medium text-blue-600 hover:underline">Termo de Consentimento</a> e autorizo o tratamento dos meus dados pessoais conforme a <a href="#" class="font-medium text-blue-600 hover:underline">Lei Geral de Proteção de Dados (LGPD, Lei nº 13.709/2018)</a>. Estou ciente de que minhas respostas serão utilizadas exclusivamente para fins de planejamento municipal e construção do {{ $settings->title }}.
                                 </label>
                             </div>
                             @error('terms')
@@ -278,127 +288,108 @@
                                 </button>
                             </div>
                         </div>
-                    @else
+                    </form>
+                </div>
+            @else
+                <!-- Formulário Inativo -->
+                <div class="max-w-4xl mx-auto overflow-hidden bg-white shadow-xl rounded-xl">
                     <div class="p-10 text-center">
+                        <div class="inline-flex items-center justify-center w-16 h-16 mx-auto mb-4 text-yellow-600 bg-yellow-100 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                            </svg>
+                        </div>
                         <h2 class="text-2xl font-bold text-gray-800">Consulta encerrada</h2>
                         <p class="mt-4 text-gray-600">
                             {{ $settings && $settings->closed_message
                                 ? $settings->closed_message
                                 : 'O período para envio de contribuições foi encerrado. Agradecemos sua participação!' }}
                         </p>
+                        @if($settings && $settings->end_date)
+                            <div class="mt-4 text-sm text-gray-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                                Encerrado em: {{ $settings->end_date->format('d/m/Y H:i') }}
+                            </div>
+                        @endif
+                        <div class="mt-6">
+                            <a href="{{ url('/') }}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2 -ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
+                                </svg>
+                                Voltar para a página inicial
+                            </a>
+                        </div>
                     </div>
-                @endif
-
-            </div>
+                </div>
+            @endif
         </div>
     </main>
 
-    <!-- Scripts -->
-    <script>
-        // Mostrar/esconder campo "Outro"
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('input[data-outro="true"]').forEach(function(input) {
-                const questionId = input.dataset.question;
-                const otherField = document.getElementById(`other-field-${questionId}`);
-
-                // Verificar estado inicial
-                if (input.checked && otherField) {
-                    otherField.classList.remove('hidden');
+    @push('scripts')
+        <script src="https://cdn.jsdelivr.net/npm/inputmask@5.0.6/dist/inputmask.min.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Máscaras para campos
+                if (document.getElementById('cpf')) {
+                    Inputmask('999.999.999-99').mask(document.getElementById('cpf'));
                 }
 
-                // Adicionar listener para mudanças
-                input.addEventListener('change', function() {
-                    if (this.checked && otherField) {
+                if (document.getElementById('phone')) {
+                    Inputmask('(99) 99999-9999').mask(document.getElementById('phone'));
+                }
+
+                // Mostrar/esconder campo "Outro"
+                document.querySelectorAll('input[data-outro="true"]').forEach(function(input) {
+                    const questionId = input.dataset.question;
+                    const otherField = document.getElementById(`other-field-${questionId}`);
+
+                    // Verificar estado inicial
+                    if (input.checked && otherField) {
                         otherField.classList.remove('hidden');
-                    } else if (otherField) {
-                        otherField.classList.add('hidden');
-                        otherField.querySelector('input').value = '';
                     }
+
+                    // Adicionar listener para mudanças
+                    input.addEventListener('change', function() {
+                        if (this.checked && otherField) {
+                            otherField.classList.remove('hidden');
+                        } else if (otherField) {
+                            otherField.classList.add('hidden');
+                            otherField.querySelector('input').value = '';
+                        }
+                    });
                 });
+
+                // Barra de progresso
+                const form = document.querySelector('form');
+                if (form) {
+                    const requiredFields = form.querySelectorAll('[required]');
+                    const progressBar = document.getElementById('progress-bar');
+                    const progressText = document.getElementById('progress-text');
+
+                    function updateProgress() {
+                        let filled = 0;
+                        requiredFields.forEach(field => {
+                            if ((field.type === 'checkbox' && field.checked) ||
+                                (field.type !== 'checkbox' && field.value.trim() !== '')) {
+                                filled++;
+                            }
+                        });
+
+                        const percent = Math.round((filled / requiredFields.length) * 100);
+                        progressBar.style.width = percent + '%';
+                        progressText.textContent = percent + '% completo';
+                    }
+
+                    requiredFields.forEach(field => {
+                        field.addEventListener('input', updateProgress);
+                        field.addEventListener('change', updateProgress);
+                    });
+
+                    updateProgress(); // inicia
+                }
             });
-
-            // Máscara para telefone
-            function formatPhone(input) {
-                let value = input.value.replace(/\D/g, '');
-                if (value.length > 11) value = value.substring(0, 11);
-
-                if (value.length > 0) {
-                    value = value.replace(/^(\d{2})(\d)/g, '($1) $2');
-                    if (value.length > 10) {
-                        value = value.replace(/(\d{5})(\d)/, '$1-$2');
-                    } else {
-                        value = value.replace(/(\d{4})(\d)/, '$1-$2');
-                    }
-                }
-
-                input.value = value;
-            }
-
-            // Máscara para CPF
-            function formatCPF(input) {
-                let value = input.value.replace(/\D/g, '');
-                if (value.length > 11) value = value.substring(0, 11);
-
-                if (value.length > 0) {
-                    value = value.replace(/^(\d{3})(\d)/, '$1.$2');
-                    value = value.replace(/^(\d{3})\.(\d{3})(\d)/, '$1.$2.$3');
-                    value = value.replace(/\.(\d{3})(\d)/, '.$1-$2');
-                }
-
-                input.value = value;
-            }
-
-            // Ativar máscaras
-            const phoneInput = document.getElementById('phone');
-            if (phoneInput) {
-                phoneInput.addEventListener('input', function(e) {
-                    formatPhone(e.target);
-                });
-                // Aplicar máscara ao carregar se já houver valor
-                if (phoneInput.value) {
-                    formatPhone(phoneInput);
-                }
-            }
-
-            const cpfInput = document.getElementById('cpf');
-            if (cpfInput) {
-                cpfInput.addEventListener('input', function(e) {
-                    formatCPF(e.target);
-                });
-                // Aplicar máscara ao carregar se já houver valor
-                if (cpfInput.value) {
-                    formatCPF(cpfInput);
-                }
-            }
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.querySelector('form');
-            const requiredFields = form.querySelectorAll('[required]');
-            const progressBar = document.getElementById('progress-bar');
-            const progressText = document.getElementById('progress-text');
-
-            function updateProgress() {
-                let filled = 0;
-                requiredFields.forEach(field => {
-                    if ((field.type === 'checkbox' && field.checked) ||
-                        (field.type !== 'checkbox' && field.value.trim() !== '')) {
-                        filled++;
-                    }
-                });
-
-                const percent = Math.round((filled / requiredFields.length) * 100);
-                progressBar.style.width = percent + '%';
-                progressText.textContent = percent + '% completo';
-            }
-
-            requiredFields.forEach(field => {
-                field.addEventListener('input', updateProgress);
-                field.addEventListener('change', updateProgress);
-            });
-
-            updateProgress(); // inicia
-        });
-
-    </script>
+        </script>
+    @endpush
 </x-site-layout>
