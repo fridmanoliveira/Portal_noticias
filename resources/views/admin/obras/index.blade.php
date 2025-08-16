@@ -84,21 +84,19 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         @php
-                                            $inicio = \Carbon\Carbon::parse($obra->data_inicio);
-                                            $fim = \Carbon\Carbon::parse($obra->data_conclusao);
-                                            $totalDias = $inicio->diffInDays($fim);
-                                            $diasPassados = $inicio->diffInDays(now());
-                                            $percentual = $totalDias > 0 ? min(100, round(($diasPassados / $totalDias) * 100)) : 0;
+                                            $percentual = $obra->etapa_atual;
+                                            $corProgresso = match(true) {
+                                                $percentual < 30 => 'bg-green-500',
+                                                $percentual < 70 => 'bg-yellow-500',
+                                                $percentual < 100 => 'bg-orange-500',
+                                                default => 'bg-blue-500'
+                                            };
                                         @endphp
                                         <div class="flex items-center">
                                             <div class="w-16 mr-3 text-sm text-gray-500">{{ $percentual }}%</div>
                                             <div class="flex-1">
                                                 <div class="w-full h-2 bg-gray-200 rounded-full">
-                                                    <div class="h-2 rounded-full
-                                                        @if($percentual < 30) bg-green-500
-                                                        @elseif($percentual < 70) bg-yellow-500
-                                                        @else bg-red-500
-                                                        @endif"
+                                                    <div class="h-2 rounded-full {{ $corProgresso }}"
                                                         style="width: {{ $percentual }}%">
                                                     </div>
                                                 </div>

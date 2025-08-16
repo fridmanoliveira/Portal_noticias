@@ -122,6 +122,21 @@
                             @enderror
                         </div>
 
+                        <!-- Campo Etapa atual -->
+                        <div>
+                            <label for="valor" class="block text-sm font-medium text-gray-700">Etapa (%) <span class="text-red-500">*</span></label>
+                            <div class="relative mt-1">
+                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                    <span class="text-gray-500">%</span>
+                                </div>
+                                <input type="number" step="0.01" name="etapa_atual" id="etapa_atual" value="{{ old('etapa_atual') }}" required
+                                    class="block w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-[#0596A2] focus:border-[#0596A2] placeholder-gray-400">
+                            </div>
+                            @error('etapa_atual')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
                         <!-- Campo Valor -->
                         <div>
                             <label for="valor" class="block text-sm font-medium text-gray-700">Valor (R$) <span class="text-red-500">*</span></label>

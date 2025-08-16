@@ -123,6 +123,29 @@
                             @enderror
                         </div>
 
+                        <!-- Campo Etapa atual -->
+                        <div>
+                            <label for="etapa_atual" class="block text-sm font-medium text-gray-700">Progresso (%) <span class="text-red-500">*</span></label>
+                            <div class="relative mt-1">
+                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                    <span class="text-gray-500">%</span>
+                                </div>
+                                <input type="number"
+                                    name="etapa_atual"
+                                    id="etapa_atual"
+                                    min="0"
+                                    max="100"
+                                    step="1"
+                                    value="{{ old('etapa_atual', $obra->etapa_atual ?? 0) }}"
+                                    required
+                                    class="block w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-[#0596A2] focus:border-[#0596A2] placeholder-gray-400"
+                                    oninput="this.value = Math.min(100, Math.max(0, this.value))">
+                            </div>
+                            @error('etapa_atual')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
                         <!-- Campo Valor -->
                         <div>
                             <label for="valor" class="block text-sm font-medium text-gray-700">Valor (R$) <span class="text-red-500">*</span></label>
@@ -157,4 +180,36 @@
             </div>
         </div>
     </div>
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const etapaInput = document.getElementById('etapa_atual');
+        const situacaoSelect = document.getElementById('situacao');
+
+        if (etapaInput && situacaoSelect) {
+            // Garante que o valor esteja entre 0 e 100
+            etapaInput.addEventListener('change', function() {
+                let value = parseFloat(this.value);
+                if (isNaN(value)) value = 0;
+                this.value = Math.min(100, Math.max(0, value));
+
+                // Se atingir 100%, atualiza a situação para "Concluída"
+                if (this.value == 100) {
+                    for (let i = 0; i < situacaoSelect.options.length; i++) {
+                        if (situacaoSelect.options[i].text === 'Concluída') {
+                            situacaoSelect.selectedIndex = i;
+                            break;
+                        }
+                    }
+                }
+            });
+
+            // Formatação inicial
+            if (etapaInput.value === '') {
+                etapaInput.value = 0;
+            }
+        }
+    });
+</script>
+@endpush
 </x-app-layout>
