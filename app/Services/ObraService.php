@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\ImagemObra;
 use App\Repositories\ObraRepository;
 
 class ObraService
@@ -21,16 +22,72 @@ class ObraService
     }
 
     public function criarObra(array $data) {
-        return $this->obraRepository->create($data);
+        $obra = $this->obraRepository->create($data);
+
+        // Upload imagens
+        if (request()->hasFile('imagens')) {
+            foreach (request()->file('imagens') as $imagem) {
+                if ($imagem->isValid()) {
+                    $nomeImagem = uniqid() . '.' . $imagem->getClientOriginalExtension();
+                    $imagem->move(public_path('obras'), $nomeImagem);
+
+                    ImagemObra::create([
+                        'obra_id' => $obra->id,
+                        'image_path' => 'obras/' . $nomeImagem,
+                    ]);
+                }
+            }
+        }
+
+        return $obra;
     }
 
     public function atualizarObra($id, array $data) {
         $obra = $this->obraRepository->find($id);
-        return $this->obraRepository->update($obra, $data);
+        $this->obraRepository->update($obra, $data);
+
+        // Remover imagens
+        if (!empty($data['remover_imagens'])) {
+            foreach ($data['remover_imagens'] as $imagemId) {
+                $imagem = ImagemObra::find($imagemId);
+                if ($imagem) {
+                    if (file_exists(public_path($imagem->image_path))) {
+                        unlink(public_path($imagem->image_path));
+                    }
+                    $imagem->delete();
+                }
+            }
+        }
+
+        // Upload novas imagens
+        if (request()->hasFile('imagens')) {
+            foreach (request()->file('imagens') as $imagem) {
+                if ($imagem->isValid()) {
+                    $nomeImagem = uniqid() . '.' . $imagem->getClientOriginalExtension();
+                    $imagem->move(public_path('obras'), $nomeImagem);
+
+                    ImagemObra::create([
+                        'obra_id' => $obra->id,
+                        'image_path' => 'obras/' . $nomeImagem,
+                    ]);
+                }
+            }
+        }
+
+        return $obra;
     }
 
     public function excluirObra($id) {
         $obra = $this->obraRepository->find($id);
+
+        // Deleta imagens associadas
+        foreach ($obra->imagens as $img) {
+            if (file_exists(public_path($img->image_path))) {
+                unlink(public_path($img->image_path));
+            }
+            $img->delete();
+        }
+
         return $this->obraRepository->delete($obra);
     }
 }

@@ -12,7 +12,7 @@
         <div class="max-w-4xl px-4 mx-auto sm:px-6 lg:px-8">
             <div class="overflow-hidden bg-white shadow-sm rounded-xl">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <form action="{{ route('admin.obras.store') }}" method="POST" class="space-y-6">
+                    <form action="{{ route('admin.obras.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
                         @csrf
 
                         <!-- Mensagens de erro globais -->
@@ -34,6 +34,18 @@
                                     class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-[#0596A2] focus:border-[#0596A2] placeholder-gray-400">
                             </div>
                             @error('descricao')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <!-- Campo Fonte de Recurso -->
+                        <div>
+                            <label for="fonte_recurso" class="block text-sm font-medium text-gray-700">Fonte de Recurso</label>
+                            <div class="mt-1">
+                                <input type="text" name="fonte_recurso" id="fonte_recurso" value="{{ old('fonte_recurso') }}"
+                                    class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-[#0596A2] focus:border-[#0596A2] placeholder-gray-400">
+                            </div>
+                            @error('fonte_recurso')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
@@ -148,6 +160,149 @@
                                     class="block w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-[#0596A2] focus:border-[#0596A2] placeholder-gray-400">
                             </div>
                             @error('valor')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        {{-- PRAZOS E VALORES ADITADOS --}}
+                        <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+                            <!-- Valor Aditado -->
+                            <div>
+                                <label for="valor_aditado" class="block text-sm font-medium text-gray-700">
+                                    Valor Aditado
+                                </label>
+                                <div class="mt-1">
+                                    <input type="number" name="valor_aditado" id="valor_aditado"
+                                        value="{{ old('valor_aditado') }}"
+                                        min="0" step="0.01"
+                                        class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm
+                                                focus:ring-2 focus:ring-[#0596A2] focus:border-[#0596A2]">
+                                </div>
+                                @error('valor_aditado')
+                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- Prazo Aditado -->
+                            <div>
+                                <label for="prazo_aditado" class="block text-sm font-medium text-gray-700">
+                                    Prazo Aditado (dias)
+                                </label>
+                                <div class="mt-1">
+                                    <input type="number" name="prazo_aditado" id="prazo_aditado"
+                                        value="{{ old('prazo_aditado') }}"
+                                        min="0"
+                                        class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm
+                                                focus:ring-2 focus:ring-[#0596A2] focus:border-[#0596A2]">
+                                </div>
+                                @error('prazo_aditado')
+                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+
+                        {{-- LATITUDE E LOGITUDE --}}
+                        <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+                            <!-- Latitude -->
+                            <div>
+                                <label for="latitude" class="block text-sm font-medium text-gray-700">
+                                    Latitude
+                                </label>
+                                <div class="mt-1">
+                                    <input type="text" name="latitude" id="latitude"
+                                        value="{{ old('latitude') }}"
+                                        min="0" step="0.01"
+                                        class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm
+                                                focus:ring-2 focus:ring-[#0596A2] focus:border-[#0596A2]">
+                                </div>
+                                @error('latitude')
+                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <!-- longitude -->
+                            <div>
+                                <label for="longitude" class="block text-sm font-medium text-gray-700">
+                                    Longitude
+                                </label>
+                                <div class="mt-1">
+                                    <input type="text" name="longitude" id="longitude"
+                                        value="{{ old('longitude') }}"
+                                        min="0"
+                                        class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm
+                                                focus:ring-2 focus:ring-[#0596A2] focus:border-[#0596A2]">
+                                </div>
+                                @error('longitude')
+                                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <!-- Galeria de Imagens - Versão melhorada -->
+                        <div>
+                            <label for="imagens" class="block text-sm font-medium text-gray-700">Galeria de Imagens</label>
+                            <div class="mt-1">
+                                <div x-data="{ files: [] }" class="space-y-4">
+                                    <!-- Área de Upload -->
+                                    <label for="imagens"
+                                           class="flex flex-col items-center justify-center w-full px-4 py-6 transition duration-150 ease-in-out border-2 border-gray-300 border-dashed rounded-lg cursor-pointer hover:bg-gray-50"
+                                           @dragover.prevent="document.getElementById('imagens').classList.add('border-[#0596A2]')"
+                                           @dragleave.prevent="document.getElementById('imagens').classList.remove('border-[#0596A2]')"
+                                           @drop.prevent="document.getElementById('imagens').classList.remove('border-[#0596A2]');
+                                                          const newFiles = Array.from($event.dataTransfer.files);
+                                                          if (newFiles.some(file => !file.type.match('image.*'))) {
+                                                              alert('Apenas arquivos de imagem são permitidos');
+                                                              return;
+                                                          }
+                                                          files.push(...newFiles);
+                                                          document.getElementById('imagens').files = $event.dataTransfer.files;">
+                                        <div class="flex flex-col items-center justify-center">
+                                            <svg class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                            </svg>
+                                            <p class="mb-2 text-sm text-gray-500">
+                                                <span class="font-semibold">Clique para enviar</span> ou arraste as imagens
+                                            </p>
+                                            <p class="text-xs text-gray-500">Formatos: JPG, PNG (MAX. 5MB cada)</p>
+                                        </div>
+                                        <input id="imagens" name="imagens[]" type="file" multiple accept="image/jpeg, image/png" class="hidden"
+                                               @change="files = Array.from($event.target.files)">
+                                    </label>
+
+                                    <!-- Preview das imagens selecionadas -->
+                                    <template x-if="files.length > 0">
+                                        <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+                                            <template x-for="(file, index) in files" :key="index">
+                                                <div class="relative group">
+                                                    <div class="overflow-hidden rounded-lg aspect-w-1 aspect-h-1">
+                                                        <img :src="file.type.match('image.*') ? URL.createObjectURL(file) : ''"
+                                                             class="object-cover w-full h-full"
+                                                             :alt="'Pré-visualização ' + (index + 1)">
+                                                    </div>
+                                                    <button type="button"
+                                                            @click="files.splice(index, 1);
+                                                                    const dataTransfer = new DataTransfer();
+                                                                    files.forEach(f => dataTransfer.items.add(f));
+                                                                    document.getElementById('imagens').files = dataTransfer.files;"
+                                                            class="absolute top-0 right-0 p-1 text-white bg-red-500 rounded-full opacity-0 group-hover:opacity-100">
+                                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                                        </svg>
+                                                    </button>
+                                                    <div class="mt-1 text-xs text-gray-500 truncate" x-text="file.name"></div>
+                                                    <div class="text-xs text-gray-400" x-text="(file.size / 1024 / 1024).toFixed(2) + ' MB'"></div>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </template>
+
+                                    <!-- Mensagem quando não há imagens -->
+                                    <template x-if="files.length === 0">
+                                        <p class="text-sm text-gray-500">Nenhuma imagem selecionada</p>
+                                    </template>
+                                </div>
+                            </div>
+                            @error('imagens.*')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>

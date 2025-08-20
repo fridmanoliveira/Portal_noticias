@@ -5,6 +5,17 @@
     <title>Painel Administrativo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-sA+e2atVj4tLJf4jQ2+EhFgdtl9n4aV0v+Uknf1hygU="
+    crossorigin=""/>
+<style>
+    #map {
+        height: 400px;
+        width: 100%;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+    }
+</style>
 
     <!-- CKEditor 5 -->
     <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>

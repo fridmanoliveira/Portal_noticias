@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\BannerRotativoController;
 use App\Http\Controllers\Admin\CategoriaNoticiaController;
 use App\Http\Controllers\admin\EmpresaController;
 use App\Http\Controllers\admin\FiscalController;
+use App\Http\Controllers\Site\ObrasController;
 
 Route::get('/teste', function() {
     return 'OK';
@@ -34,6 +35,12 @@ Route::prefix('ppa-participativo')->group(function () {
     Route::post('/', [PPAController::class, 'submitForm'])->name('ppa.submit');
     Route::get('obrigado/{id}', [PPAController::class, 'showThanks'])->name('ppa.thanks');
 });
+Route::prefix('obra')->group(function () {
+    Route::get('/', [ObrasController::class, 'index'])->name('obras.index');
+    Route::get('/{id}', [ObrasController::class, 'show'])->name('obras.show');
+});
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

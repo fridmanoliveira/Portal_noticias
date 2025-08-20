@@ -20,16 +20,43 @@ class Obra extends Model
         'valor_aditado',
         'prazo_aditado',
         'fiscal_id',
-        'empresa_id'
+        'empresa_id',
+        'latitude',
+        'longitude',
     ];
 
+    protected $casts = [
+
+        'data_inicio' => 'date',
+        'data_conclusao' => 'date',
+    ];
     public function empresa()
     {
         return $this->belongsTo(Empresa::class);
     }
 
-    public function fiscais()
+    public function fiscal()
     {
         return $this->belongsTo(Fiscal::class);
+    }
+
+    public function getValorFormatadoAttribute()
+    {
+        return 'R$ ' . number_format($this->valor, 2, ',', '.');
+    }
+
+    public function getDataInicioFormatadaAttribute()
+    {
+        return $this->data_inicio ? $this->data_inicio->format('d/m/Y') : '-';
+    }
+
+    public function getDataConclusaoFormatadaAttribute()
+    {
+        return $this->data_conclusao ? $this->data_conclusao->format('d/m/Y') : '-';
+    }
+
+    public function imagens()
+    {
+        return $this->hasMany(ImagemObra::class, 'obra_id');
     }
 }

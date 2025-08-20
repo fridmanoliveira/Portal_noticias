@@ -10,3 +10,17 @@
 .svg-branco[src$=".svg"] {
     filter: brightness(0) invert(1);
 }
+/* Progress bar colors */
+.bg-progress-green { background-color: #10B981; }
+.bg-progress-blue { background-color: #3B82F6; }
+.bg-progress-yellow { background-color: #F59E0B; }
+.bg-progress-red { background-color: #EF4444; }
+
+/* Card hover effects */
+.hover-scale {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.hover-scale:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}
