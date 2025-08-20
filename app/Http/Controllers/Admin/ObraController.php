@@ -71,14 +71,14 @@ class ObraController extends Controller
             'situacao' => 'required|string|max:50',
             'etapa_atual' => 'required|string|max:255',
             'valor' => 'required|numeric|min:0',
-            'valor_aditado' => 'nullable|int|min:0',
+            'valor_aditado' => 'nullable|numeric|min:0',
             'prazo_aditado' => 'nullable|int|min:0',
             'fiscal_id' => 'required|exists:fiscais,id',
             'imagens.*' => 'nullable|image|max:20048',
             'remover_imagens' => 'nullable|array',
             'remover_imagens.*' => 'integer|exists:imagem_obras,id',
-            'latitude' => 'required|string|max:15',
-            'longitude'=> 'required|string|max:15',
+            'latitude'  => 'required|numeric|between:-90,90',
+            'longitude' => 'required|numeric|between:-180,180',
         ]);
 
         $this->service->atualizarObra($id, $data);

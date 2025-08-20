@@ -224,11 +224,11 @@
                                     Latitude
                                 </label>
                                 <div class="mt-1">
-                                    <input type="text" name="latitude" id="latitude"
+                                    <input type="number" name="latitude" id="latitude"
                                         value="{{ old('latitude', $obra->latitude) }}"
-                                        min="0" step="0.01"
+                                        step="0.0000001" min="-90" max="90"
                                         class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm
-                                                focus:ring-2 focus:ring-[#0596A2] focus:border-[#0596A2]">
+                                            focus:ring-2 focus:ring-[#0596A2] focus:border-[#0596A2]">
                                 </div>
                                 @error('latitude')
                                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -241,11 +241,11 @@
                                     Longitude
                                 </label>
                                 <div class="mt-1">
-                                    <input type="text" name="longitude" id="longitude"
+                                    <input type="number" name="longitude" id="longitude"
                                         value="{{ old('longitude', $obra->longitude) }}"
-                                        min="0"
+                                        step="0.0000001" min="-180" max="180"
                                         class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm
-                                                focus:ring-2 focus:ring-[#0596A2] focus:border-[#0596A2]">
+                                            focus:ring-2 focus:ring-[#0596A2] focus:border-[#0596A2]">
                                 </div>
                                 @error('longitude')
                                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
