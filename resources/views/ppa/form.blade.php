@@ -10,13 +10,13 @@
                 <!-- Formulário Ativo -->
                 <div class="max-w-4xl mx-auto overflow-hidden bg-white shadow-xl rounded-xl">
                     <!-- Cabeçalho -->
-                    <div class="p-6 text-white bg-gradient-to-r from-blue-700 to-blue-600 rounded-t-xl">
+                    <div class="p-6 text-white bg-gradient-to-r from-[#047a85] to-[#0596A2] rounded-t-xl">
                         <div class="flex flex-col md:flex-row md:items-center md:justify-between">
                             <div>
                                 <h1 class="text-2xl font-bold">{{ $settings->title }}</h1>
                                 <p class="mt-1 opacity-90">{{ $settings->subtitle ?? 'Planejamento Plurianual Municipal' }}</p>
                             </div>
-                            <div class="px-4 py-2 mt-4 text-sm bg-blue-800 bg-opacity-50 rounded-lg md:mt-0">
+                            <div class="px-4 py-2 mt-4 text-sm bg-[#047a85] bg-opacity-50 rounded-lg md:mt-0">
                                 <p class="text-sm">Período: {{ $settings->start_date->format('d/m/Y') }} a {{ $settings->end_date->format('d/m/Y') }}</p>
                             </div>
                         </div>
@@ -25,11 +25,11 @@
                     <!-- Barra de Progresso -->
                     <div class="px-6 py-4 border-b border-blue-100 bg-blue-50">
                         <div class="flex items-center justify-between mb-1">
-                            <span class="text-sm font-medium text-blue-800">Progresso do formulário</span>
-                            <span id="progress-text" class="text-sm font-medium text-blue-600">0% completo</span>
+                            <span class="text-sm font-medium text-[#047a85]">Progresso do formulário</span>
+                            <span id="progress-text" class="text-sm font-medium text-[#0596A2]">0% completo</span>
                         </div>
                         <div class="w-full h-2.5 bg-gray-200 rounded-full">
-                            <div id="progress-bar" class="h-2.5 bg-blue-600 rounded-full transition-all duration-300" style="width: 0%"></div>
+                            <div id="progress-bar" class="h-2.5 bg-[#0596A2] rounded-full transition-all duration-300" style="width: 0%"></div>
                         </div>
                     </div>
 
@@ -38,9 +38,9 @@
                         @csrf
 
                         <!-- Introdução -->
-                        <div class="p-5 border-l-4 border-blue-600 rounded-r-lg bg-blue-50">
+                        <div class="p-5 border-l-4 border-[#0596A2] rounded-r-lg bg-blue-50">
                             <div class="flex items-start">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0 w-5 h-5 mt-0.5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="flex-shrink-0 w-5 h-5 mt-0.5 text-[#0596A2]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
                                 <div class="ml-3">
@@ -59,7 +59,7 @@
                         <!-- Seção de Identificação -->
                         <fieldset class="p-6 border border-gray-200 rounded-xl">
                             <legend class="flex items-center px-3 text-lg font-semibold text-gray-700">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2 text-[#0596A2]" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
                                 </svg>
                                 Identificação do participante
@@ -177,7 +177,7 @@
                                 @foreach($questions as $question)
                                     <fieldset class="p-6 border border-gray-200 rounded-xl">
                                         <legend class="flex items-center px-2 text-lg font-semibold text-gray-700">
-                                            <span class="inline-flex items-center justify-center w-8 h-8 mr-3 text-sm font-bold text-white bg-blue-600 rounded-full">
+                                            <span class="inline-flex items-center justify-center w-8 h-8 mr-3 text-sm font-bold text-white bg-[#0596A2] rounded-full">
                                                 {{ $loop->parent->iteration }}.{{ $loop->iteration }}
                                             </span>
                                             {{ $question->title }}
@@ -195,7 +195,7 @@
                                                             name="answers[{{ $question->id }}]{{ $question->type === 'checkbox' ? '[]' : '' }}"
                                                             value="{{ $option->id }}"
                                                             id="option_{{ $option->id }}"
-                                                            class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                                                            class="w-4 h-4 text-[#0596A2] border-gray-300 focus:ring-blue-500"
                                                             @if(in_array($option->id, (array) old("answers.$question->id", []))) checked @endif
                                                             @if(strtolower($option->option_text) === 'outro') data-outro="true" data-question="{{ $question->id }}" @endif
                                                         >
@@ -236,7 +236,7 @@
                         <!-- Sugestões Adicionais -->
                         <fieldset class="p-6 border border-gray-200 rounded-xl">
                             <legend class="flex items-center px-2 text-lg font-semibold text-gray-700">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2 text-[#0596A2]" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
                                 </svg>
                                 Sugestões adicionais
@@ -259,11 +259,11 @@
                             <div class="flex items-start">
                                 <div class="flex items-center h-5 mt-0.5">
                                     <input id="terms" name="terms" type="checkbox"
-                                        class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" required
+                                        class="w-4 h-4 text-[#0596A2] border-gray-300 rounded focus:ring-blue-500" required
                                         @if(old('terms')) checked @endif>
                                 </div>
                                 <label for="terms" class="block ml-3 text-sm text-gray-700">
-                                    Declaro que li e concordo com o <a href="#" class="font-medium text-blue-600 hover:underline">Termo de Consentimento</a> e autorizo o tratamento dos meus dados pessoais conforme a <a href="#" class="font-medium text-blue-600 hover:underline">Lei Geral de Proteção de Dados (LGPD, Lei nº 13.709/2018)</a>. Estou ciente de que minhas respostas serão utilizadas exclusivamente para fins de planejamento municipal e construção do {{ $settings->title }}.
+                                    Declaro que li e concordo com o <a href="#" class="font-medium text-[#0596A2] hover:underline">Termo de Consentimento</a> e autorizo o tratamento dos meus dados pessoais conforme a <a href="#" class="font-medium text-[#0596A2] hover:underline">Lei Geral de Proteção de Dados (LGPD, Lei nº 13.709/2018)</a>. Estou ciente de que minhas respostas serão utilizadas exclusivamente para fins de planejamento municipal e construção do {{ $settings->title }}.
                                 </label>
                             </div>
                             @error('terms')
@@ -280,7 +280,7 @@
                                     </p>
                                 </div>
                                 <button type="submit"
-                                    class="inline-flex items-center justify-center px-8 py-3 text-base font-medium text-white transition duration-200 bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                                    class="inline-flex items-center justify-center px-8 py-3 text-base font-medium text-white transition duration-200 bg-[#0596A2] border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2 -ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                                     </svg>
@@ -314,7 +314,7 @@
                             </div>
                         @endif
                         <div class="mt-6">
-                            <a href="{{ url('/') }}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700">
+                            <a href="{{ url('/') }}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-[#0596A2] rounded-md hover:bg-blue-700">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2 -ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
                                 </svg>

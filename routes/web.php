@@ -2,23 +2,23 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\admin\PPAController;
-use App\Http\Controllers\admin\ObraController;
+use App\Http\Controllers\Admin\PPAController;
+use App\Http\Controllers\Admin\ObraController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Site\HomeController;
-use App\Http\Controllers\admin\PpaSettingsController;
+use App\Http\Controllers\Admin\PpaSettingsController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Site\TurismoController;
 use App\Http\Controllers\Admin\NoticiaController;
-use App\Http\Controllers\admin\AdminQuestionController;
+use App\Http\Controllers\Admin\AdminQuestionController;
 use App\Http\Controllers\Site\HistoriaController;
 use App\Http\Controllers\Admin\VideoHomeController;
 use App\Http\Controllers\Admin\AcessoRapidoController;
 use App\Http\Controllers\Admin\AdminTurismoController;
 use App\Http\Controllers\Admin\BannerRotativoController;
 use App\Http\Controllers\Admin\CategoriaNoticiaController;
-use App\Http\Controllers\admin\EmpresaController;
-use App\Http\Controllers\admin\FiscalController;
+use App\Http\Controllers\Admin\EmpresaController;
+use App\Http\Controllers\Admin\FiscalController;
 use App\Http\Controllers\Site\ObrasController;
 
 Route::get('/teste', function() {
