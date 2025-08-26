@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ObraController;
 use App\Http\Controllers\Admin\UserController;
 
 use App\Http\Controllers\Site\ObrasController;
+use App\Http\Controllers\Site\SearchController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\FiscalController;
 use App\Http\Controllers\Site\TurismoController;
@@ -22,6 +23,8 @@ use App\Http\Controllers\Admin\AdminQuestionController;
 use App\Http\Controllers\Admin\AndamentoObraController;
 use App\Http\Controllers\Admin\BannerRotativoController;
 use App\Http\Controllers\Admin\CategoriaNoticiaController;
+
+Route::get('/buscar', [SearchController::class, 'index'])->name('site.buscar');
 
 // Site
 Route::get('/', [HomeController::class, 'index'])->name('site.home');

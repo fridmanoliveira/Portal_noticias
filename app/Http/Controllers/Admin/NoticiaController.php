@@ -86,10 +86,7 @@ class NoticiaController extends Controller
             $outrasNoticias = $outrasNoticias->concat($noticiasRecentes);
         }
 
-        $logo = \App\Models\Logo::first();
-        $redesSociais = \App\Models\RedeSocial::where('ativo', true)->get();
-
-        return view('site.noticias.show', compact('noticia', 'logo', 'redesSociais', 'outrasNoticias'));
+        return view('site.noticias.show', compact('noticia', 'outrasNoticias'));
     }
 
     public function edit(Noticia $noticia)
@@ -142,10 +139,8 @@ class NoticiaController extends Controller
 
         $noticias = $query->orderByDesc('publicado_em')->paginate(9)->withQueryString();
         $categorias = $this->categoriaNoticiaService->all();
-        $logo = \App\Models\Logo::first();
-        $redesSociais = \App\Models\RedeSocial::where('ativo', true)->get();
         $bannerPrincipal = Banner::where('ativo', true)->first();
 
-        return view('site.noticias.index', compact('noticias', 'categorias', 'logo', 'redesSociais', 'bannerPrincipal'));
+        return view('site.noticias.index', compact('noticias', 'categorias', 'bannerPrincipal'));
     }
 }
