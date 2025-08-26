@@ -11,13 +11,21 @@ class DatabaseSeeder extends Seeder
     /**
      * Seed the application's database.
      */
+    // public function run()
+    // {
+    //     $this->call([
+    //         CategoriaNoticiaSeeder::class,
+    //         NoticiaSeeder::class,
+    //         AcessoRapidoSeeder::class,
+    //         UserSeeder::class
+    //     ]);
+    // }
     public function run()
     {
         $this->call([
-            CategoriaNoticiaSeeder::class,
-            NoticiaSeeder::class,
-            AcessoRapidoSeeder::class,
-            UserSeeder::class
+            RolePermissionSeeder::class,
+            UserSeeder::class,
         ]);
     }
+
 }

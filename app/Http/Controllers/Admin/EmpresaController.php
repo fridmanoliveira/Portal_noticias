@@ -37,7 +37,7 @@ class EmpresaController extends Controller
 
         $this->service->criarEmpresa($data);
 
-        return redirect()->route('admin.empresa.index')->with('success', 'Empresa criada com sucesso!');
+        return redirect()->route('admin.empresas.index')->with('success', 'Empresa criada com sucesso!');
     }
 
     public function edit($id) {
@@ -53,11 +53,11 @@ class EmpresaController extends Controller
         ]);
 
         $this->service->atualizarEmpresa($id, $data);
-        return redirect()->route('admin.empresa.index')->with('success', 'Empresa atualizada com sucesso!');
+        return redirect()->route('admin.empresas.index')->with('success', 'Empresa atualizada com sucesso!');
     }
 
     public function destroy($id) {
         $this->service->excluirEmpresa($id);
-        return redirect()->route('admin.empresa.index')->with('success', 'Empresa excluída com sucesso!');
+        return redirect()->route('admin.empresas.index')->with('success', 'Empresa excluída com sucesso!');
     }
 }

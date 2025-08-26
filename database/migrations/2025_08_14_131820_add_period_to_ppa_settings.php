@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('ppa_settings', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->nullable()->after('id');
-            $table->text('description')->nullable()->after('title');
+            $table->string('title')->nullable();
+            $table->text('description')->nullable();
             $table->dateTime('start_date');
             $table->dateTime('end_date');
             $table->boolean('is_active')->default(true);

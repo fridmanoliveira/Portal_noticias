@@ -7,11 +7,11 @@ use App\Models\Obra;
 class ObraRepository
 {
     public function all() {
-        return Obra::with(['empresa', 'fiscal', 'imagens'])->get();
+        return Obra::with(['empresa', 'fiscal', 'imagens', 'andamentos'])->get();
     }
 
     public function find($id) {
-        return Obra::with(['empresa', 'fiscal', 'imagens'])->findOrFail($id);
+        return Obra::with(['empresa', 'fiscal', 'imagens', 'andamentos'])->findOrFail($id);
     }
 
     public function create(array $data) {

@@ -11,11 +11,11 @@ return new class extends Migration
         Schema::create('obras', function (Blueprint $table) {
             $table->id();
             $table->string('descricao', 255);
+            $table->string('slug');
             $table->string('fonte_recurso')->nullable();
             $table->date('data_inicio');
             $table->date('data_conclusao')->nullable();
-            $table->string('situacao'); // Ex.: Em execução, Concluída...
-            $table->string('etapa_atual')->nullable();
+            $table->string('situacao');
             $table->decimal('valor', 15, 2)->default(0);
             $table->decimal('valor_aditado', 15, 2)->nullable()->default(0);
             $table->integer('prazo_aditado')->nullable()->default(0);

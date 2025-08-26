@@ -134,7 +134,7 @@
                             @enderror
                         </div>
 
-                        <!-- Campo Etapa atual -->
+                        {{-- <!-- Campo Etapa atual -->
                         <div>
                             <label for="valor" class="block text-sm font-medium text-gray-700">Etapa (%) <span class="text-red-500">*</span></label>
                             <div class="relative mt-1">
@@ -147,7 +147,7 @@
                             @error('etapa_atual')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
-                        </div>
+                        </div> --}}
 
                         <!-- Campo Valor -->
                         <div>

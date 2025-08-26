@@ -14,13 +14,14 @@ return new class extends Migration
 
         Schema::create('noticias', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('categoria_id')->constrained('categoria_noticias')->onDelete('cascade'); // Chave estrangeira para categoria_noticias
+            $table->foreignId('categoria_id')->constrained('categoria_noticias')->onDelete('cascade');
             $table->string('titulo');
+            $table->string('slug');
             $table->text('resumo');
-            $table->string('imagem')->nullable(); // Caminho da imagem, pode ser nulo
-            $table->longText('conteudo'); // Conteúdo completo da notícia
-            $table->timestamp('publicado_em')->nullable(); // Data e hora de publicação
-            $table->boolean('ativo')->default(true); // Se a notícia está ativa ou não
+            $table->string('imagem')->nullable();
+            $table->longText('conteudo');
+            $table->timestamp('publicado_em')->nullable();
+            $table->boolean('ativo')->default(true);
             $table->timestamps();
         });
     }

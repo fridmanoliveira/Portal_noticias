@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Noticia;
+use App\Models\Obra;
 use App\Models\PpaSetting;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Route;
@@ -27,7 +28,12 @@ class AppServiceProvider extends ServiceProvider
     {
         Route::bind('noticia', function ($value) {
             return Noticia::where('slug', $value)->where('ativo', true)->firstOrFail();
-            Route::model('banner', \App\Models\BannerRotativo::class);
+        });
+
+        Route::model('banner', \App\Models\BannerRotativo::class);
+
+        Route::bind('obra', function ($value) {
+            return Obra::where('slug', $value)->firstOrFail();
         });
 
         View::composer('ppa.*', function ($view) {

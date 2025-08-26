@@ -20,7 +20,7 @@
         [
             'text' => 'SERVIÇOS',
             'submenu' => [
-                ['route' => '/obra', 'text' => 'Obras em Andamento'],
+                ['route' => '/obras-andamento', 'text' => 'Obras em Andamento'],
                 ['route' => '/iptu-online', 'text' => 'IPTU Online'],
                 ['route' => '/alvara-autodeclaratorio', 'text' => 'Alvará Autodeclaratório'],
             ]

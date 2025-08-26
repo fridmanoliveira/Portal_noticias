@@ -12,7 +12,7 @@
         <div class="max-w-4xl px-4 mx-auto sm:px-6 lg:px-8">
             <div class="overflow-hidden bg-white shadow-sm rounded-xl">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <form action="{{ route('admin.obras.update', $obra->id) }}" method="POST" class="space-y-6">
+                    <form action="{{ route('admin.obras.update', $obra->slug) }}" method="POST" class="space-y-6" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
 
@@ -112,7 +112,7 @@
                                 <label for="data_conclusao" class="block text-sm font-medium text-gray-700">Data Conclusão</label>
                                 <div class="mt-1">
                                     <input type="date"
-                                        name="data_conclusao"
+                                        name="data_conclusao"F
                                         id="data_conclusao"
                                         value="{{ old('data_conclusao', $obra->data_conclusao ? \Carbon\Carbon::parse($obra->data_conclusao)->format('Y-m-d') : '') }}"
                                         class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-[#0596A2] focus:border-[#0596A2]">
@@ -138,29 +138,6 @@
                                 </select>
                             </div>
                             @error('situacao')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <!-- Campo Etapa atual -->
-                        <div>
-                            <label for="etapa_atual" class="block text-sm font-medium text-gray-700">Progresso (%) <span class="text-red-500">*</span></label>
-                            <div class="relative mt-1">
-                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                    <span class="text-gray-500">%</span>
-                                </div>
-                                <input type="number"
-                                    name="etapa_atual"
-                                    id="etapa_atual"
-                                    min="0"
-                                    max="100"
-                                    step="1"
-                                    value="{{ old('etapa_atual', $obra->etapa_atual ?? 0) }}"
-                                    required
-                                    class="block w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-[#0596A2] focus:border-[#0596A2] placeholder-gray-400"
-                                    oninput="this.value = Math.min(100, Math.max(0, this.value))">
-                            </div>
-                            @error('etapa_atual')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>

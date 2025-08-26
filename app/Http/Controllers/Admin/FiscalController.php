@@ -37,7 +37,7 @@ class FiscalController extends Controller
 
         $this->service->criarFiscal($data);
 
-        return redirect()->route('admin.fiscal.index')->with('success', 'Fiscal criada com sucesso!');
+        return redirect()->route('admin.fiscais.index')->with('success', 'Fiscal criada com sucesso!');
     }
 
     public function edit($id) {
@@ -53,11 +53,11 @@ class FiscalController extends Controller
         ]);
 
         $this->service->atualizarFiscal($id, $data);
-        return redirect()->route('admin.fiscal.index')->with('success', 'Fiscal atualizada com sucesso!');
+        return redirect()->route('admin.fiscais.index')->with('success', 'Fiscal atualizada com sucesso!');
     }
 
     public function destroy($id) {
         $this->service->excluirFiscal($id);
-        return redirect()->route('admin.fiscal.index')->with('success', 'Fiscal excluída com sucesso!');
+        return redirect()->route('admin.fiscais.index')->with('success', 'Fiscal excluída com sucesso!');
     }
 }

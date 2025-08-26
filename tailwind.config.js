@@ -68,6 +68,8 @@ export default {
                 pulseColors: 'pulseColors 3s infinite',
                 fadeIn: 'fadeIn 0.3s ease-out',
                 slideUp: 'slideUp 0.4s ease-out',
+                float: 'float 6s ease-in-out infinite',
+                pulseSlow: 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
             },
             screens: {
                 'xs': '475px',

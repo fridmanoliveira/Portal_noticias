@@ -5,7 +5,7 @@
                 <h2 class="text-2xl font-bold text-gray-800">Lista de Empresas</h2>
                 <p class="mt-1 text-sm text-gray-500">Gerencie as empresas cadastradas no sistema</p>
             </div>
-            <a href="{{ route('admin.empresa.create') }}"
+            <a href="{{ route('admin.empresas.create') }}"
                class="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-white bg-[#0596A2] rounded-lg hover:bg-[#047a85] transition-colors shadow-sm">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"
                      viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -82,14 +82,14 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex justify-center space-x-2">
-                                            <a href="{{ route('admin.empresa.edit', $empresa->id) }}"
+                                            <a href="{{ route('admin.empresas.edit', $empresa->id) }}"
                                                class="p-2 text-gray-500 transition-colors rounded-full hover:bg-gray-100 hover:text-yellow-600"
                                                title="Editar">
                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                                                 </svg>
                                             </a>
-                                            <form action="{{ route('admin.empresa.destroy', $empresa->id) }}" method="POST">
+                                            <form action="{{ route('admin.empresas.destroy', $empresa->id) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit"

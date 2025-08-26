@@ -4,7 +4,6 @@
         @if ($turismo)
             <div class="grid grid-cols-1 lg:grid-cols-3 lg:gap-8">
 
-                <!-- Conteúdo principal: título, texto e vídeo -->
                 <article class="p-6 bg-white rounded-lg shadow-lg lg:col-span-2 md:p-8">
                     <h1 class="mb-3 text-2xl font-bold leading-tight text-teal-800">{{ $turismo->titulo }}</h1>
 
@@ -12,51 +11,53 @@
                         {!! $turismo->descricao !!}
                     </div>
 
-                    <!-- Imagens -->
-                    <div class="relative max-w-6xl mx-auto" x-data="gallerySlider()">
-                        <!-- Imagem atual -->
-                        <div class="overflow-hidden rounded-lg shadow-lg h-72 sm:h-96">
-                            <template x-for="(foto, index) in fotos" :key="index">
-                                <img x-show="currentIndex === index" :src="foto + '?w=800&h=600&fit=crop'"
-                                    alt="Imagens de turismo"
-                                    class="object-cover w-full h-full transition-opacity duration-700"
-                                    style="display: none;" x-transition:enter="transition ease-out duration-700"
-                                    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-                                    x-transition:leave="transition ease-in duration-700"
-                                    x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" />
-                            </template>
+                    @if(isset($turismo->imagens) && $turismo->imagens->count() > 0)
+                        <div class="relative max-w-6xl mx-auto" x-data="gallerySlider()">
+                            <div class="overflow-hidden rounded-lg shadow-lg h-72 sm:h-96">
+                                <template x-for="(foto, index) in fotos" :key="index">
+                                    <img x-show="currentIndex === index" :src="foto + '?w=800&h=600&fit=crop'"
+                                        alt="Imagens de turismo"
+                                        class="object-cover w-full h-full transition-opacity duration-700"
+                                        style="display: none;" x-transition:enter="transition ease-out duration-700"
+                                        x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                                        x-transition:leave="transition ease-in duration-700"
+                                        x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" />
+                                </template>
+                            </div>
+
+                            <button @click="prev()"
+                                class="absolute p-2 transform -translate-y-1/2 bg-white rounded-full shadow top-1/2 left-2 bg-opacity-70 hover:bg-opacity-100 focus:outline-none"
+                                aria-label="Imagem anterior">
+                                <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="15 18 9 12 15 6" />
+                                </svg>
+                            </button>
+
+                            <button @click="next()"
+                                class="absolute p-2 transform -translate-y-1/2 bg-white rounded-full shadow top-1/2 right-2 bg-opacity-70 hover:bg-opacity-100 focus:outline-none"
+                                aria-label="Próxima imagem">
+                                <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="9 18 15 12 9 6" />
+                                </svg>
+                            </button>
+
+                            <div class="flex justify-center mt-6 space-x-3">
+                                <template x-for="(foto, index) in fotos" :key="'dot-' + index">
+                                    <button @click="goTo(index)"
+                                        :class="{ 'bg-teal-700': currentIndex === index, 'bg-gray-300': currentIndex !== index }"
+                                        class="w-3 h-3 rounded-full focus:outline-none"
+                                        aria-label="Ir para imagem"></button>
+                                </template>
+                            </div>
                         </div>
-
-                        <!-- Botões de navegação -->
-                        <button @click="prev()"
-                            class="absolute p-2 transform -translate-y-1/2 bg-white rounded-full shadow top-1/2 left-2 bg-opacity-70 hover:bg-opacity-100 focus:outline-none"
-                            aria-label="Imagem anterior">
-                            <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2"
-                                viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="15 18 9 12 15 6" />
-                            </svg>
-                        </button>
-
-                        <button @click="next()"
-                            class="absolute p-2 transform -translate-y-1/2 bg-white rounded-full shadow top-1/2 right-2 bg-opacity-70 hover:bg-opacity-100 focus:outline-none"
-                            aria-label="Próxima imagem">
-                            <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2"
-                                viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="9 18 15 12 9 6" />
-                            </svg>
-                        </button>
-
-                        <!-- Paginação com círculos -->
-                        <div class="flex justify-center mt-6 space-x-3">
-                            <template x-for="(foto, index) in fotos" :key="'dot-' + index">
-                                <button @click="goTo(index)"
-                                    :class="{ 'bg-teal-700': currentIndex === index, 'bg-gray-300': currentIndex !== index }"
-                                    class="w-3 h-3 rounded-full focus:outline-none"
-                                    aria-label="Ir para imagem"></button>
-                            </template>
+                    @else
+                        <div class="py-8 text-center">
+                            <p class="text-sm text-gray-500">Nenhuma foto disponível para esta página.</p>
                         </div>
-                    </div>
-                    <!-- Botão -->
+                    @endif
+
                     @if ($turismo->pdf)
                     <div class="py-4 text-center sm:py-6">
                         <a href="{{ asset($turismo->pdf) }}" target="_blank"
@@ -67,12 +68,9 @@
                     @endif
                 </article>
 
-                <!-- Sidebar com notícias relacionadas -->
                 <aside class="mt-8 lg:col-span-1 lg:mt-0">
                     <div class="sticky space-y-6 top-8">
-
                         <h2 class="mb-4 text-xl font-bold text-teal-800">Notícias</h2>
-
                         @if (isset($noticiasRelacionadas) && $noticiasRelacionadas->count())
                             <ul class="space-y-6">
                                 @foreach ($noticiasRelacionadas as $noticia)
@@ -94,31 +92,52 @@
                         @else
                             <p class="text-gray-600">Nenhuma notícia relacionada encontrada.</p>
                         @endif
-
                     </div>
                 </aside>
 
             </div>
         @else
             <div class="p-8 text-center bg-white rounded-lg shadow-md">
-                <p class="text-lg font-medium text-gray-700">Nenhum conteúdo de vídeo foi adicionado ainda.</p>
+                <p class="text-lg font-medium text-gray-700">Nenhum conteúdo de turismo foi adicionado ainda.</p>
             </div>
         @endif
     </section>
 
-    <!-- Banner final -->
+    @if(isset($turismo) && $turismo->imagens->count() > 0)
+        <script>
+            function gallerySlider() {
+                return {
+                    fotos: [
+                        @foreach ($turismo->imagens as $imagem)
+                            '{{ asset($imagem->image_path) }}',
+                        @endforeach
+                    ],
+                    currentIndex: 0,
+                    prev() {
+                        this.currentIndex = (this.currentIndex === 0) ? this.fotos.length - 1 : this.currentIndex - 1;
+                    },
+                    next() {
+                        this.currentIndex = (this.currentIndex === this.fotos.length - 1) ? 0 : this.currentIndex + 1;
+                    },
+                    goTo(index) {
+                        this.currentIndex = index;
+                    }
+                }
+            }
+        </script>
+    @endif
+
     <section class="py-8">
         <div class="px-4 mx-auto sm:container">
             @if ($bannerPrincipal)
                 <img src="{{ url($bannerPrincipal->imagem) }}" alt="Banner Principal" class="w-full rounded shadow-md">
             @else
-                <img src="https://placehold.co/1200x300/a3e635/1c1c1c?text=Banner+de+Notícias" alt="Banner Padrão"
+                <img src="https://placehold.co/1200x300/a3e635/1c1c1c?text=Banner+Principal" alt="Banner Padrão"
                     class="w-full rounded shadow-md">
             @endif
         </div>
     </section>
 
-    <!-- Mapa -->
     <section>
         <div class="w-full overflow-hidden rounded-lg shadow-md h-80">
             <iframe
@@ -128,25 +147,4 @@
             </iframe>
         </div>
     </section>
-    <script>
-        function gallerySlider() {
-            return {
-                fotos: [
-                    @foreach ($turismo->imagens as $imagem)
-                        '{{ asset($imagem->image_path) }}',
-                    @endforeach
-                ],
-                currentIndex: 0,
-                prev() {
-                    this.currentIndex = (this.currentIndex === 0) ? this.fotos.length - 1 : this.currentIndex - 1;
-                },
-                next() {
-                    this.currentIndex = (this.currentIndex === this.fotos.length - 1) ? 0 : this.currentIndex + 1;
-                },
-                goTo(index) {
-                    this.currentIndex = index;
-                }
-            }
-        }
-    </script>
 </x-site-layout>

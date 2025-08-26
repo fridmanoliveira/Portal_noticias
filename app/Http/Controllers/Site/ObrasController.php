@@ -31,11 +31,11 @@ class ObrasController extends Controller
         }
 
         if (!empty($filtros['search'])) {
-            $query->where(function($q) use ($filtros) {
-                $q->where('descricao', 'like', '%'.$filtros['search'].'%')
-                  ->orWhereHas('empresa', function($q) use ($filtros) {
-                      $q->where('nome', 'like', '%'.$filtros['search'].'%');
-                  });
+            $query->where(function ($q) use ($filtros) {
+                $q->where('descricao', 'like', '%' . $filtros['search'] . '%')
+                    ->orWhereHas('empresa', function ($q) use ($filtros) {
+                        $q->where('nome', 'like', '%' . $filtros['search'] . '%');
+                    });
             });
         }
 
@@ -62,12 +62,18 @@ class ObrasController extends Controller
         ));
     }
 
-    public function show($id)
+    public function show(Obra $obra)
     {
-        $obra = Obra::with(['empresa', 'fiscal', 'imagens'])
-            ->findOrFail($id);
+        $obra->load(['empresa', 'fiscal', 'imagens', 'andamentos']); // eager loading
 
-        // Aqui você pode substituir a galeria fake por $obra->imagens
+        // Usar a coleção completa para filtros e ordenação
+        $andamentos = $obra->andamentos;
+
+        // Obter o progresso com base no último andamento
+        $ultimoAndamento = $andamentos->sortByDesc('data')->first();
+        $progresso = $ultimoAndamento ? $ultimoAndamento->progresso : 0; // ou 0 se não houver andamentos
+
+        // Galeria de imagens
         $galeria = $obra->imagens->map(function ($img) {
             return [
                 'url'     => asset($img->image_path),
@@ -75,6 +81,6 @@ class ObrasController extends Controller
             ];
         });
 
-        return view('site.obras.show', compact('obra', 'galeria'));
+        return view('site.obras.show', compact('obra', 'galeria', 'progresso', 'andamentos'));
     }
 }

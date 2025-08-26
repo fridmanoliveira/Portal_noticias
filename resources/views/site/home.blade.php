@@ -129,7 +129,7 @@
     <!-- Fim da Seção de Notícias -->
 
     <!-- Acesso Rápido - Responsivo -->
-    <section class="px-2 py-6 mx-auto sm:container max-w-7xl sm:py-12">
+    <section class="px-2 py-6 mx-auto sm:container max-w-7xl sm:py-12" id="servicos">
         <h2 class="mb-4 text-lg font-extrabold tracking-tight text-gray-800 uppercase sm:mb-6">
             Acesso Rápido
         </h2>
@@ -201,11 +201,11 @@
     @endif
 
     <!-- História - Responsivo -->
+    @if(isset($video))
     <section class="relative bg-center bg-cover" style="background-image: url('{{ url('fundo.png') }}')">
         <div class="bg-teal-900 bg-opacity-70">
             <div class="grid items-center grid-cols-1 gap-6 px-4 py-8 mx-auto sm:container md:grid-cols-2 sm:gap-10 sm:py-16">
 
-                <!-- Texto -->
                 <div class="text-white" x-data="{ open: false }">
                     <h2 class="text-2xl font-extrabold leading-tight sm:text-3xl sm:leading-snug">
                         {{ $video->titulo ?? 'A História de Cristino Castro' }}
@@ -221,7 +221,6 @@
                     </a>
                 </div>
 
-                <!-- Vídeo -->
                 <div class="aspect-video">
                     @if(!empty($video->link_youtube))
                         <iframe class="w-full h-full rounded-lg"
@@ -239,17 +238,17 @@
                 </div>
             </div>
 
-            <!-- Botão -->
-            @if ($turismo->pdf)
-            <div class="py-4 text-center sm:py-6">
-                <a href="{{ asset($turismo->pdf) }}" target="_blank"
-                    class="inline-block px-4 py-2 text-sm font-semibold text-white transition bg-[#1DC98A] rounded-md shadow-md hover:bg-opacity-70 sm:px-6 sm:py-3 sm:text-base sm:bg-[#1DC98A] sm:hover:bg-[#1DC98A]/80">
-                    VEJA TAMBÉM O INVENTÁRIO DA OFERTA TURÍSTICA
-                </a>
-            </div>
+            @if(isset($turismo->pdf))
+                <div class="py-4 text-center sm:py-6">
+                    <a href="{{ asset($turismo->pdf) }}" target="_blank"
+                        class="inline-block px-4 py-2 text-sm font-semibold text-white transition bg-[#1DC98A] rounded-md shadow-md hover:bg-opacity-70 sm:px-6 sm:py-3 sm:text-base sm:bg-[#1DC98A] sm:hover:bg-[#1DC98A]/80">
+                        VEJA TAMBÉM O INVENTÁRIO DA OFERTA TURÍSTICA
+                    </a>
+                </div>
             @endif
         </div>
     </section>
+@endif
 
     <script>
         function bannerCarrossel() {

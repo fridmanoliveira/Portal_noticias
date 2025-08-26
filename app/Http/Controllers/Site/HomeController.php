@@ -16,8 +16,6 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $logo = Logo::first();
-        $redesSociais = RedeSocial::where('ativo', true)->get();
         $bannerPrincipal = Banner::where('ativo', true)->first();
         $bannerCarrossel = BannerRotativo::where('ativo', true)->orderBy('ordem')->get();
         $acessosRapidos = AcessoRapido::where('ativo', true)->orderBy('ordem')->get();
@@ -27,8 +25,6 @@ class HomeController extends Controller
         $noticiasGrid = Noticia::where('ativo', true)->latest()->skip(4)->take(2)->get();
 
         return view('site.home', compact(
-            'logo',
-            'redesSociais',
             'bannerPrincipal',
             'bannerCarrossel',
             'noticiasCarrossel',

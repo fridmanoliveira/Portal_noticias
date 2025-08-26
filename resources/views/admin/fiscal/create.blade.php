@@ -12,7 +12,7 @@
         <div class="max-w-4xl px-4 mx-auto sm:px-6 lg:px-8">
             <div class="overflow-hidden bg-white shadow-sm rounded-xl">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <form method="POST" action="{{ route('admin.fiscal.store') }}" class="space-y-6">
+                    <form method="POST" action="{{ route('admin.fiscais.store') }}" class="space-y-6">
                         @csrf
 
                         @if($errors->any())
@@ -74,7 +74,7 @@
 
                         <!-- Ações do Formulário -->
                         <div class="flex items-center justify-end pt-6 space-x-4 border-t border-gray-200">
-                            <a href="{{ route('admin.fiscal.index') }}"
+                            <a href="{{ route('admin.fiscais.index') }}"
                                 class="inline-flex items-center px-4 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0596A2]">
                                 Cancelar
                             </a>
