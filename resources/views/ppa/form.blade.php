@@ -5,7 +5,13 @@
 
 <x-site-layout title="PPA Participativo - Prefeitura Municipal">
     <main class="py-8">
-        <div class="container px-4 mx-auto">
+        <div class="px-4 mx-auto sm:container">
+            <ul class="flex mb-6 space-x-2 text-sm text-gray-500">
+                <li><a href="{{ route('site.home') }}" class="hover:text-gray-700">Início</a></li>
+                <li>/</li>
+                <li class="font-semibold text-gray-700">Mapa do Site</li>
+            </ul>
+
             @if($settings && $settings->isCurrentlyActive())
                 <!-- Formulário Ativo -->
                 <div class="max-w-4xl mx-auto overflow-hidden bg-white shadow-xl rounded-xl">
@@ -292,6 +298,7 @@
                 </div>
             @else
                 <!-- Formulário Inativo -->
+
                 <div class="max-w-4xl mx-auto overflow-hidden bg-white shadow-xl rounded-xl">
                     <div class="p-10 text-center">
                         <div class="inline-flex items-center justify-center w-16 h-16 mx-auto mb-4 text-yellow-600 bg-yellow-100 rounded-full">

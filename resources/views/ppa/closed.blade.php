@@ -3,7 +3,13 @@
         <h2 class="text-2xl font-bold text-gray-800">PPA Participativo</h2>
     </x-slot>
 
-    <div class="py-12">
+
+    <div class="py-12 sm:container">
+        <ul class="flex mb-6 space-x-2 text-sm text-gray-500">
+            <li><a href="{{ route('site.home') }}" class="hover:text-gray-700">Início</a></li>
+            <li>/</li>
+            <li class="font-semibold text-gray-700">PPA Participativo</li>
+        </ul>
         <div class="max-w-4xl px-4 mx-auto sm:px-6 lg:px-8">
             <div class="p-6 bg-white rounded-lg shadow-lg">
                 <div class="p-4 text-center bg-yellow-100 rounded-lg">

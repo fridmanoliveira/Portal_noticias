@@ -1,5 +1,10 @@
 <x-site-layout title="Notícias">
     <section class="px-4 py-10 mx-auto font-sans sm:container">
+        <ul class="flex mb-6 space-x-2 text-sm text-gray-500">
+            <li><a href="{{ route('site.home') }}" class="hover:text-gray-700">Início</a></li>
+            <li>/</li>
+            <li class="font-semibold text-gray-700">Noticias</li>
+        </ul>
         <h1 class="mb-8 text-3xl font-bold text-center text-gray-800">Notícias</h1>
 
         <div class="p-6 mb-8 bg-white rounded-lg shadow-md">

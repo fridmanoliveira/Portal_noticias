@@ -30,11 +30,11 @@ class AppServiceProvider extends ServiceProvider
             return Noticia::where('slug', $value)->where('ativo', true)->firstOrFail();
         });
 
-        Route::model('banner', \App\Models\BannerRotativo::class);
+        // Route::model('banner', \App\Models\BannerRotativo::class);
 
-        Route::bind('obra', function ($value) {
-            return Obra::where('slug', $value)->firstOrFail();
-        });
+        // Route::bind('obra', function ($value) {
+        //     return Obra::where('slug', $value)->firstOrFail();
+        // });
 
         View::composer('ppa.*', function ($view) {
             $settings = PpaSetting::first();

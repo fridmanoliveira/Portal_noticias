@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
-use App\Services\BannerService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BannerRequest;
+use App\Models\Banner;
+use App\Services\BannerService;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class BannerController extends Controller
 {
@@ -16,40 +18,46 @@ class BannerController extends Controller
         $this->bannerService = $bannerService;
     }
 
-    public function index()
+    public function index(): View
     {
         $banners = $this->bannerService->all();
         return view('admin.banners.index', compact('banners'));
     }
 
-    public function create()
+    public function create(): View
     {
         return view('admin.banners.create');
     }
 
-    public function store(BannerRequest $request)
+    public function store(BannerRequest $request): RedirectResponse
     {
         $this->bannerService->store($request->validated());
 
-        return redirect()->route('admin.banners.index')->with('success', 'Banner criado com sucesso.');
+        return redirect()
+            ->route('admin.banners.index')
+            ->with('success', 'Banner criado com sucesso.');
     }
 
-    public function edit(int $id)
+    public function edit(Banner $banner): View
     {
-        $banner = $this->bannerService->find($id);
         return view('admin.banners.edit', compact('banner'));
     }
 
-    public function update(BannerRequest $request, int $id)
+    public function update(BannerRequest $request, Banner $banner): RedirectResponse
     {
-        $this->bannerService->update($id, $request->validated());
+        $this->bannerService->update($banner, $request->validated());
 
-        return redirect()->route('admin.banners.index')->with('success', 'Banner atualizado com sucesso.');
+        return redirect()
+            ->route('admin.banners.index')
+            ->with('success', 'Banner atualizado com sucesso.');
     }
 
-    public function destroy(int $id)
+    public function destroy(Banner $banner): RedirectResponse
     {
-        $this->bannerService->delete($id);
-        return redirect()->route('admin.banners.index')->with('success', 'Banner excluído com sucesso.');
+        $this->bannerService->delete($banner);
+
+        return redirect()
+            ->route('admin.banners.index')
+            ->with('success', 'Banner excluído com sucesso.');
     }
 }

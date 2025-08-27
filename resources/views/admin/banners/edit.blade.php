@@ -15,6 +15,17 @@
                     <form action="{{ route('admin.banners.update', $banner->id) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
                         @csrf
                         @method('PUT')
+                        <!-- Campo Título -->
+                        <div>
+                            <label for="titulo" class="block text-sm font-medium text-gray-700">Título <span class="text-red-500">*</span></label>
+                            <div class="mt-1">
+                                <input type="text" name="titulo" id="titulo" value="{{ old('titulo', $banner->titulo) }}" required
+                                    class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-[#0596A2] focus:border-[#0596A2] placeholder-gray-400">
+                            </div>
+                            @error('titulo')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
 
                         <!-- Upload de Imagem -->
                         <div class="grid grid-cols-1 gap-6 md:grid-cols-2">

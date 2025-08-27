@@ -78,6 +78,10 @@
                                 <!-- Dropdown content -->
                                 <div x-show="open" x-transition class="pl-4 mt-1 space-y-1">
                                     @can('gerenciar conteudo')
+                                        <a href="{{ route('admin.banners.index') }}"
+                                            class="flex items-center px-4 py-2 space-x-3 text-sm rounded-lg transition-all {{ request()->routeIs('admin.banners.*') ? 'bg-white text-[#145156]' : 'text-white hover:bg-white/20' }}">
+                                            <span>Banners Principal</span>
+                                        </a>
                                         <a href="{{ route('admin.banners-rotativo.index') }}"
                                             class="flex items-center px-4 py-2 space-x-3 text-sm rounded-lg transition-all {{ request()->routeIs('admin.banners-rotativo.*') ? 'bg-white text-[#145156]' : 'text-white hover:bg-white/20' }}">
                                             <span>Banners Rotativos</span>

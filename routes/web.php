@@ -23,8 +23,13 @@ use App\Http\Controllers\Admin\AdminQuestionController;
 use App\Http\Controllers\Admin\AndamentoObraController;
 use App\Http\Controllers\Admin\BannerRotativoController;
 use App\Http\Controllers\Admin\CategoriaNoticiaController;
+use App\Http\Controllers\Site\SiteMapController;
 
 Route::get('/buscar', [SearchController::class, 'index'])->name('site.buscar');
+
+Route::get('/mapa-do-site', [SiteMapController::class, 'index'])->name('site.sitemap');
+Route::view('/politicas-privacidade', 'site.politicas')->name('politicas-privacidade');
+
 
 // Site
 Route::get('/', [HomeController::class, 'index'])->name('site.home');
@@ -62,15 +67,13 @@ Route::prefix('admin')
 
     // Conteúdo
     Route::middleware('permission:gerenciar conteudo')->group(function(){
-        Route::resources([
-            'banners'=>BannerController::class,
-            'banners-rotativo'=>BannerRotativoController::class,
-            'acessos-rapidos'=>AcessoRapidoController::class,
-            'noticias'=>NoticiaController::class,
-            'categorias-noticias'=>CategoriaNoticiaController::class,
-            'videos'=>VideoHomeController::class,
-            'turismo'=>AdminTurismoController::class,
-        ]);
+        Route::resource('banners', BannerController::class);
+        Route::resource('banners-rotativo', BannerRotativoController::class);
+        Route::resource('acessos-rapidos', AcessoRapidoController::class);
+        Route::resource('noticias', NoticiaController::class);
+        Route::resource('categorias-noticias', CategoriaNoticiaController::class);
+        Route::resource('videos', VideoHomeController::class);
+        Route::resource('turismo', AdminTurismoController::class);
     });
 
     // PPA

@@ -4,9 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Support\Number;
 use Illuminate\Support\Str;
-
 
 class Obra extends Model
 {
@@ -38,54 +36,44 @@ class Obra extends Model
         'longitude'        => 'decimal:8',
     ];
 
-
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
 
     // Relacionamentos
-    public function empresa()
-    {
-        return $this->belongsTo(Empresa::class);
-    }
+    public function empresa() { return $this->belongsTo(Empresa::class); }
+    public function fiscal() { return $this->belongsTo(Fiscal::class); }
+    public function andamentos() { return $this->hasMany(AndamentoObra::class); }
+    public function imagens() { return $this->hasMany(ImagemObra::class, 'obra_id'); }
 
-    public function andamentos()
-    {
-        return $this->hasMany(AndamentoObra::class);
-    }
-
-    public function fiscal()
-    {
-        return $this->belongsTo(Fiscal::class);
-    }
-
-    public function imagens()
-    {
-        return $this->hasMany(ImagemObra::class, 'obra_id');
-    }
-
+    // Boot: gera slug automaticamente
     protected static function booted()
     {
         static::creating(function ($obra) {
-            $obra->slug = Str::slug($obra->titulo);
+            if (empty($obra->slug) && $obra->descricao) {
+                $obra->slug = static::gerarSlugUnico($obra->descricao);
+            }
         });
 
         static::updating(function ($obra) {
-            if ($obra->isDirty('titulo')) {
-                $obra->slug = Str::slug($obra->titulo);
+            if ($obra->isDirty('descricao') && empty($obra->slug)) {
+                $obra->slug = static::gerarSlugUnico($obra->descricao);
             }
         });
     }
 
-    // Acessors "pt-BR"
+    // Acessors
     public function getValorFormatadoAttribute(): string
     {
-        // Laravel 11+: Number::currency; para versões antigas, mantenha number_format
-        return 'R$ ' . number_format((float) $this->valor, 2, ',', '.');
-        // return Number::currency($this->valor, in: 'BRL', locale: 'pt_BR');
+        return 'R$ ' . number_format((float)$this->valor, 2, ',', '.');
     }
 
     public function getValorAditadoFormatadoAttribute(): ?string
     {
-        if ($this->valor_aditado === null) return null;
-        return 'R$ ' . number_format((float) $this->valor_aditado, 2, ',', '.');
+        return $this->valor_aditado !== null
+            ? 'R$ ' . number_format((float)$this->valor_aditado, 2, ',', '.')
+            : null;
     }
 
     public function getDataInicioFormatadaAttribute(): string
@@ -98,4 +86,16 @@ class Obra extends Model
         return $this->data_conclusao?->format('d/m/Y') ?? '-';
     }
 
+    // Método estático para gerar slug único
+    public static function gerarSlugUnico(string $descricao): string
+    {
+        $slug = Str::slug(Str::limit($descricao, 60, ''), '-');
+        $original = $slug;
+        $i = 1;
+        while (self::where('slug', $slug)->exists()) {
+            $slug = "{$original}-{$i}";
+            $i++;
+        }
+        return $slug;
+    }
 }

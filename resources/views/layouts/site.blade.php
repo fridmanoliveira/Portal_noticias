@@ -31,7 +31,7 @@
             <div class="flex flex-wrap items-center justify-between gap-2">
                 <!-- Links e acessibilidade -->
                 <ul class="flex flex-wrap items-center gap-4 ">
-                    <a href="#" class="font-bold hover:underline whitespace-nowrap">MAPA DO SITE</a>
+                    <a href="{{ route('site.sitemap') }}" class="font-bold hover:underline whitespace-nowrap">MAPA DO SITE</a>
                     <a href="#" class="font-semibold hover:underline whitespace-nowrap">WEBMAIL</a>
                 </ul>
 
@@ -134,9 +134,8 @@
                 <div class="text-center md:text-left">
                     <h3 class="pb-1 mb-3 text-sm font-semibold tracking-wider uppercase border-b border-white/20 sm:text-lg sm:pb-2 sm:mb-4">Cidadão</h3>
                     <ul class="space-y-1 sm:space-y-2">
-                        <li><a href="#" class="text-xs transition-colors hover:text-green-300 sm:text-sm">Ouvidoria</a></li>
-                        <li><a href="#" class="text-xs transition-colors hover:text-green-300 sm:text-sm">Carta de Serviços</a></li>
-                        <li><a href="#" class="text-xs transition-colors hover:text-green-300 sm:text-sm">Portal da Transparência</a></li>
+                        <li><a href="https://cristinocastro.pi.gov.br/" class="text-xs transition-colors hover:text-green-300 sm:text-sm">Ouvidoria</a></li>
+                        <li><a href="https://cristinocastro.pi.gov.br/" class="text-xs transition-colors hover:text-green-300 sm:text-sm">Carta de Serviços</a></li>
                     </ul>
                 </div>
 
@@ -144,10 +143,9 @@
                 <div class="text-center md:text-left md:border-x md:border-white/20 md:px-4 sm:px-6">
                     <h3 class="pb-1 mb-3 text-sm font-semibold tracking-wider uppercase border-b border-white/20 sm:text-lg sm:pb-2 sm:mb-4">Empresa</h3>
                     <ul class="space-y-1 sm:space-y-2">
-                        <li><a href="#" class="text-xs transition-colors hover:text-green-300 sm:text-sm">Alvará</a></li>
-                        <li><a href="#" class="text-xs transition-colors hover:text-green-300 sm:text-sm">Licitações</a></li>
-                        <li><a href="#" class="text-xs transition-colors hover:text-green-300 sm:text-sm">Certidões</a></li>
-                        <li><a href="#" class="text-xs transition-colors hover:text-green-300 sm:text-sm">ISS Online</a></li>
+                        <li><a href="https://cristinocastro.pi.gov.br/" class="text-xs transition-colors hover:text-green-300 sm:text-sm">Alvará</a></li>
+                        <li><a href="https://cristinocastro.pi.gov.br/" class="text-xs transition-colors hover:text-green-300 sm:text-sm">Licitações</a></li>
+                        <li><a href="https://cristinocastro.pi.gov.br/" class="text-xs transition-colors hover:text-green-300 sm:text-sm">Certidões</a></li>
                     </ul>
                 </div>
 
@@ -155,9 +153,8 @@
                 <div class="text-center md:text-left">
                     <h3 class="pb-1 mb-3 text-sm font-semibold tracking-wider uppercase border-b border-white/20 sm:text-lg sm:pb-2 sm:mb-4">Servidor</h3>
                     <ul class="space-y-1 sm:space-y-2">
-                        <li><a href="#" class="text-xs transition-colors hover:text-green-300 sm:text-sm">Contracheque</a></li>
-                        <li><a href="#" class="text-xs transition-colors hover:text-green-300 sm:text-sm">Portal do Servidor</a></li>
-                        <li><a href="#" class="text-xs transition-colors hover:text-green-300 sm:text-sm">Editais</a></li>
+                        <li><a href="https://contrachequecristinocastro.com/" class="text-xs transition-colors hover:text-green-300 sm:text-sm">Contracheque</a></li>
+                        <li><a href="https://cristinocastro.pi.gov.br/" class="text-xs transition-colors hover:text-green-300 sm:text-sm">Portal do Servidor</a></li>
                     </ul>
                 </div>
             </div>
@@ -171,9 +168,7 @@
                             Desenvolvido por <a href="https://softsolucoes.tech/" target="_blank" class="transition-colors hover:text-green-300">SOFT SOLUÇÔES</a>
                         </div>
                         <div class="flex gap-3 sm:gap-4">
-                            <a href="#" class="text-xs transition-colors hover:text-green-300 sm:text-sm">Termos de Uso</a>
-                            <a href="#" class="text-xs transition-colors hover:text-green-300 sm:text-sm">Política de Privacidade</a>
-                            <a href="#" class="text-xs transition-colors hover:text-green-300 sm:text-sm">Acessibilidade</a>
+                            <a href="{{ route('politicas-privacidade') }}" class="text-xs transition-colors hover:text-green-300 sm:text-sm">Política de Privacidade</a>
                         </div>
                     </div>
                 </div>

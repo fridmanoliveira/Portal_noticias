@@ -1,6 +1,11 @@
 <x-site-layout title="História da Cidade">
 
     <section class="px-4 py-10 mx-auto font-sans sm:container">
+        <ul class="flex mb-6 space-x-2 text-sm text-gray-500">
+            <li><a href="{{ route('site.home') }}" class="hover:text-gray-700">Início</a></li>
+            <li>/</li>
+            <li class="font-semibold text-gray-700">História da Cidade</li>
+        </ul>
         @if ($video)
             <div class="grid grid-cols-1 lg:grid-cols-3 lg:gap-8">
 

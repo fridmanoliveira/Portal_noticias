@@ -1,9 +1,13 @@
 <x-site-layout title="Obras em Andamento">
     <section class="px-4 py-10 mx-auto font-sans sm:container">
+        <ul class="flex mb-6 space-x-2 text-sm text-gray-500">
+            <li><a href="{{ route('site.home') }}" class="hover:text-gray-700">Início</a></li>
+            <li>/</li>
+            <li class="font-semibold text-gray-700">Obras</li>
+        </ul>
         <!-- Filtros -->
         <div class="p-6 mb-8 bg-white rounded-lg shadow-md">
             <h2 class="mb-4 text-2xl font-bold text-gray-800">Listar Obras</h2>
-            <h3 class="mb-4 text-xl font-semibold text-gray-700">Filtros Avançados</h3>
 
             <form method="GET" action="{{ route('obras.index') }}" class="mb-6">
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-4">
@@ -152,7 +156,7 @@
                                     {{ $obra->valor_formatado }}
                                 </td>
                                 <td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
-                                    <a href="{{ route('obras.show', $obra->slug) }}"
+                                    <a href="{{ route('obras.show', ['obra' => $obra->slug]) }}"
                                         class="inline-block px-4 py-2 text-white bg-[#047a85] rounded-lg shadow hover:bg-[#065e6a] transition-colors duration-300 font-semibold">
                                         Detalhes
                                     </a>
@@ -219,7 +223,7 @@
                                 <span>Início: {{ $obra->data_inicio_formatada }}</span>
                                 <span>{{ $obra->etapa_atual }}% concluído</span>
                             </div>
-                            <a href="{{ route('obras.show', $obra->slug) }}"
+                            <a href="{{ route('obras.show', ['obra' => $obra->slug]) }}"
                                 class="inline-block w-full mt-4 text-center btn btn-primary">
                                 Ver detalhes
                             </a>
@@ -261,7 +265,7 @@
                     <div class="w-64 p-3 bg-white shadow-md rounded-xl">
                         <h3 class="mb-1 text-lg font-bold text-gray-800">{{ $obra->descricao }}</h3>
                         <p class="mb-3 text-sm text-gray-600">{{ $obra->empresa->nome }}</p>
-                        <a href="{{ route('obras.show', $obra->slug) }}" style="color: #fff !important"
+                        <a href="{{ route('obras.show', ['obra' => $obra->slug]) }}" style="color: #fff !important"
                             class="inline-block w-full mt-4 px-4 py-2 text-sm font-semibold text-center text-white bg-[#047a85] rounded-lg hover:bg-[#0596A2] transition">
                             Ver detalhes
                         </a>

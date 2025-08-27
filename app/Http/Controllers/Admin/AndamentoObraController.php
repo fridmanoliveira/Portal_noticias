@@ -39,7 +39,7 @@ class AndamentoObraController extends Controller
         $this->andamentoObraService->store($data);
 
         return redirect()
-            ->route('admin.obras.andamentos.index', $obra->id)
+            ->route('admin.obras.andamentos.index', $obra->slug)
             ->with('success', 'Andamento criado com sucesso.');
     }
 

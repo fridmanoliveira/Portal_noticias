@@ -1,10 +1,16 @@
 <x-site-layout :title="$obra->descricao">
     <section class="px-4 py-8 mx-auto font-sans sm:container">
+        <ul class="flex mb-6 space-x-2 text-sm text-gray-500">
+            <li><a href="{{ route('site.home') }}" class="hover:text-gray-700">Início</a></li>
+            <li>/</li>
+            <li><a href="{{ route('obras.index') }}" class="hover:text-gray-700">Obras</a></li>
+            <li>/</li>
+            <li class="font-semibold text-gray-700">{{ $obra->descricao }}</li>
+        </ul>
         <div class="p-6 mb-8 bg-white rounded-lg shadow-md">
             <div class="flex flex-col items-start justify-between mb-6 md:flex-row md:items-center">
                 <div>
                     <h1 class="text-2xl font-bold text-gray-800">{{ $obra->descricao }}</h1>
-                    <p class="text-gray-600">Código: {{ $obra->codigo ?? 'N/A' }}</p>
                 </div>
                 <span
                     class="px-4 py-2 mt-4 text-sm font-semibold rounded-full md:mt-0

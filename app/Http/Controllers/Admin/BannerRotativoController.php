@@ -29,20 +29,20 @@ class BannerRotativoController extends Controller
         return redirect()->route('admin.banners-rotativo.index')->with('success', 'Banner criado com sucesso.');
     }
 
-    public function edit(BannerRotativo $bannerRotativo)
+    public function edit(BannerRotativo $banners_rotativo)
     {
-        return view('admin.banners-rotativo.edit', ['banner' => $bannerRotativo]);
+        return view('admin.banners-rotativo.edit', compact('banners_rotativo'));
     }
 
-    public function update(BannerRotativoRequest $request, BannerRotativo $bannerRotativo)
+    public function update(BannerRotativoRequest $request, BannerRotativo $banners_rotativo)
     {
-        $this->service->update($bannerRotativo, $request->validated());
+        $this->service->update($banners_rotativo, $request->validated());
         return redirect()->route('admin.banners-rotativo.index')->with('success', 'Banner atualizado com sucesso.');
     }
 
-    public function destroy(BannerRotativo $bannerRotativo)
+    public function destroy(BannerRotativo $banners_rotativo)
     {
-        $this->service->delete($bannerRotativo);
+        $this->service->delete($banners_rotativo);
         return back()->with('success', 'Banner excluído com sucesso.');
     }
 }
