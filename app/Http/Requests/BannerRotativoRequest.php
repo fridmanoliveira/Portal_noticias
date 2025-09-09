@@ -13,9 +13,8 @@ class BannerRotativoRequest extends FormRequest
 
     public function rules(): array
     {
-        $imagemRule = $this->isMethod('post') ? 'required' : 'nullable';
         return [
-            'imagem'     => "$imagemRule|image|mimes:jpg,jpeg,png|max:20480",
+            'imagem' => 'nullable|image|max:20480',
             'link' => 'nullable|url|max:255',
             'titulo' => 'required|string|max:255',
             'ordem' => 'required|integer',

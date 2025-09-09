@@ -2,11 +2,13 @@
     <!-- Banner Principal - Otimizado para mobile -->
     <section class="py-3 sm:py-4 sm:container">
             @if($bannerPrincipal)
-            <img src="{{ url($bannerPrincipal->imagem) }}"
+            <a href="{{ $bannerPrincipal->link }}" target="_blank">
+                <img src="{{ url($bannerPrincipal->imagem) }}"
                  alt="Banner Principal"
                  class="w-full rounded shadow-sm sm:shadow-md"
                  loading="eager"
                  >
+            </a>
             @endif
     </section>
 
@@ -64,9 +66,10 @@
                             x-transition:leave-start="opacity-100 transform scale-100"
                             x-transition:leave-end="opacity-0 transform scale-95"
                             class="absolute inset-0 flex items-end w-full h-full">
-                            <img :src="noticia.imagem"
-                                :alt="noticia.titulo"
-                                class="object-cover w-full h-full">
+                           <img :src="noticia.imagem"
+     :alt="noticia.titulo"
+     class="object-cover object-center w-full h-full" />
+
                             <div class="absolute bottom-0 left-0 p-6 text-white">
                                 <a :href="'/noticias/' + noticia.slug" class="block">
                                     <h1 class="text-xl font-bold leading-tight sm:text-xl">
@@ -113,11 +116,11 @@
             <!-- Coluna da Direita: Links Rápidos -->
             <div class="flex flex-col w-full gap-4 lg:w-1/3">
                 @foreach([
-                    ['icon' => url('icons/searching.png'), 'text' => 'PORTAL DA<br>TRANSPARÊNCIA', 'url' => '#'],
-                    ['icon' => url('icons/support.png'), 'text' => 'OUVIDORIA DE<br>CRISTINO CASTRO', 'url' => '#'],
-                    ['icon' => url('icons/radar.png'), 'text' => 'RADAR NACIONAL DA<br>TRANSPARÊNCIA PÚBLICA', 'url' => '#']
+                    ['icon' => url('icons/searching.png'), 'text' => 'PORTAL DA<br>TRANSPARÊNCIA', 'url' => 'https://transparencia.cristinocastro.pi.gov.br/cristinocastro'],
+                    ['icon' => url('icons/support.png'), 'text' => 'OUVIDORIA DE<br>CRISTINO CASTRO', 'url' => 'https://transparencia.cristinocastro.pi.gov.br/cristinocastro/servicosonline/ouvidoria'],
+                    ['icon' => url('icons/radar.png'), 'text' => 'RADAR NACIONAL DA<br>TRANSPARÊNCIA PÚBLICA', 'url' => 'https://radardatransparencia.atricon.org.br/']
                 ] as $link)
-                <a href="{{ $link['url'] }}"
+                <a href="{{ $link['url'] }} target"_blank" "
                 class="flex items-center flex-grow gap-3 px-4 py-4 text-white rounded-lg shadow-sm transition-all hover:shadow-md bg-gradient-to-r from-[#008f9c] to-[#005d6d] sm:gap-4 sm:px-6 sm:py-5 sm:rounded-lg sm:shadow-md">
                     <img src="{{ $link['icon'] }}" alt="" class="w-8 h-8 sm:w-12 sm:h-12">
                     <p class="text-sm font-bold leading-tight sm:text-base">{!! $link['text'] !!}</p>
@@ -136,7 +139,7 @@
 
         <div class="grid grid-cols-2 gap-3 sm:grid-cols-1 sm:gap-6 md:grid-cols-2 lg:grid-cols-4">
             @foreach($acessosRapidos as $acesso)
-            <a href="{{ $acesso->link }}"
+            <a href="{{ $acesso->link }}" target="_blank"
             class="flex flex-col items-start p-4 text-white transition-transform duration-300 rounded-lg shadow-sm bg-gradient-to-r from-[#008f9c] to-[#005d6d] hover:scale-[1.03] sm:p-6 sm:hover:scale-105">
 
                 <img src="{{ url($acesso->icone) }}"
@@ -157,7 +160,7 @@
 
     <!-- Carrossel - Responsivo -->
     @if ($bannerCarrossel->count())
-        <section class="px-2 py-6 mx-auto sm:container">
+        <section class="px-2 mx-auto sm:container">
             <div x-data="bannerCarrossel()" x-init="init" class="relative w-full overflow-hidden rounded-lg shadow-sm sm:shadow-lg h-[180px] sm:h-[250px]">
                 <!-- Slides -->
                 <template x-for="(banner, index) in banners" :key="index">
@@ -202,7 +205,7 @@
 
     <!-- História - Responsivo -->
     @if(isset($video))
-    <section class="relative bg-center bg-cover" style="background-image: url('{{ url('fundo.png') }}')">
+    <section class="relative bg-center mt-12 bg-cover" style="background-image: url('{{ url('fundo.png') }}')">
         <div class="bg-teal-900 bg-opacity-70">
             <div class="grid items-center grid-cols-1 gap-6 px-4 py-8 mx-auto sm:container md:grid-cols-2 sm:gap-10 sm:py-16">
 

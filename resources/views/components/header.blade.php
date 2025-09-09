@@ -15,6 +15,7 @@
             'submenu' => [
                 ['route' => '/video-monitoramento', 'text' => 'Video Monitoramento'],
                 ['route' => '/ppa-participativo', 'text' => 'PPA Participativo'],
+                ['route' => '/manual-da-marca', 'text' => 'Manual da Marca'],
             ],
         ],
         [
@@ -37,7 +38,8 @@
             {{-- Logo --}}
             <div class="flex items-center">
                 <a href="{{ route('site.home') }}" class="flex-shrink-0" aria-label="Página inicial">
-                    <img src="{{ $logo }}" alt="{{ $alt }}" class="w-auto h-12 md:h-14" loading="eager" width="auto" height="auto">
+                    <img src="{{ $logo }}" alt="{{ $alt }}" class="w-auto max-h-20 md:max-h-24" loading="eager" width="auto" height="auto">
+
                 </a>
             </div>
 

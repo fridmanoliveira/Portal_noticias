@@ -104,7 +104,7 @@
                         <div>
                             <label for="conteudo" class="block text-sm font-medium text-gray-700">Conteúdo <span class="text-red-500">*</span></label>
                             <div class="mt-1">
-                                <textarea name="conteudo" id="conteudo" rows="10" required
+                                <textarea name="conteudo" id="conteudo" rows="10"
                                     class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-[#0596A2] focus:border-[#0596A2] placeholder-gray-400">{{ old('conteudo') }}</textarea>
                             </div>
                             @error('conteudo')

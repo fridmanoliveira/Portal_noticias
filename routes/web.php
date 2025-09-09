@@ -29,6 +29,9 @@ Route::get('/buscar', [SearchController::class, 'index'])->name('site.buscar');
 
 Route::get('/mapa-do-site', [SiteMapController::class, 'index'])->name('site.sitemap');
 Route::view('/politicas-privacidade', 'site.politicas')->name('politicas-privacidade');
+Route::get('/manual-da-marca', function () {
+    return view('site.Marca.marca');
+})->name('marca');
 
 
 // Site
