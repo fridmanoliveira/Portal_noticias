@@ -8,6 +8,7 @@
             'submenu' => [
                 ['route' => '/historia-da-cidade', 'text' => 'História'],
                 ['route' => '/turismos', 'text' => 'Turismo'],
+                ['route' => '/mapas-da-cidade', 'text' => 'Mapas'],
             ],
         ],
         [

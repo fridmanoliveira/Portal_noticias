@@ -6,7 +6,7 @@ use App\Http\Controllers\Admin\PPAController;
 use App\Http\Controllers\Site\HomeController;
 use App\Http\Controllers\Admin\ObraController;
 use App\Http\Controllers\Admin\UserController;
-
+use App\Http\Controllers\Site\MapaController;
 use App\Http\Controllers\Site\ObrasController;
 use App\Http\Controllers\Site\SearchController;
 use App\Http\Controllers\Admin\BannerController;
@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\VideoHomeController;
 use App\Http\Controllers\Admin\PpaSettingsController;
 use App\Http\Controllers\Admin\AcessoRapidoController;
 use App\Http\Controllers\Admin\AdminTurismoController;
+use App\Http\Controllers\Admin\AdminMapaController;
 use App\Http\Controllers\Admin\AdminQuestionController;
 use App\Http\Controllers\Admin\AndamentoObraController;
 use App\Http\Controllers\Admin\BannerRotativoController;
@@ -40,6 +41,7 @@ Route::get('/noticias', [NoticiaController::class, 'noticias'])->name('site.noti
 Route::get('/noticias/{noticia}', [NoticiaController::class, 'show'])->name('site.noticias.show');
 Route::get('/historia-da-cidade', [HistoriaController::class, 'index'])->name('site.historia');
 Route::get('/turismos', [TurismoController::class, 'index'])->name('site.turismo');
+Route::get('/mapas-da-cidade', [MapaController::class, 'index'])->name('site.mapas');
 
 // Obras do site
 Route::get('/obras-andamento', [ObrasController::class, 'index'])->name('obras.index');
@@ -77,6 +79,8 @@ Route::prefix('admin')
         Route::resource('categorias-noticias', CategoriaNoticiaController::class);
         Route::resource('videos', VideoHomeController::class);
         Route::resource('turismo', AdminTurismoController::class);
+        Route::resource('mapas', AdminMapaController::class); // <-- Adicionar esta linha
+
     });
 
     // PPA
