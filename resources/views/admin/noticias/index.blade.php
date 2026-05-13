@@ -18,9 +18,9 @@
 
     <div class="py-6">
         <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <!-- Mensagem de Sucesso -->
+            <!-- Mensagens -->
             @if (session('success'))
-                <div class="p-4 mb-6 rounded-lg bg-green-50">
+                <div class="p-4 mb-6 rounded-lg bg-green-50 border-l-4 border-green-400">
                     <div class="flex items-center">
                         <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -30,75 +30,66 @@
                 </div>
             @endif
 
-            <!-- Card da Tabela -->
-            <div class="overflow-hidden bg-white shadow-sm rounded-xl">
-                <!-- Cabeçalho da Tabela -->
-                <div class="px-6 py-4 border-b border-gray-100 bg-gray-50">
-                    <div class="flex items-center justify-between">
-                        <h3 class="text-lg font-medium text-gray-700">Notícias Publicadas</h3>
-                        <div class="relative">
-                            <input type="text" placeholder="Buscar notícia..."
-                                   class="pl-10 pr-4 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0596A2] focus:border-[#0596A2]">
-                            <svg class="absolute w-5 h-5 text-gray-400 left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                            </svg>
-                        </div>
+            @if (session('error'))
+                <div class="p-4 mb-6 rounded-lg bg-red-50 border-l-4 border-red-400">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <p class="ml-3 text-sm font-medium text-red-800">{{ session('error') }}</p>
                     </div>
                 </div>
+            @endif
 
-                <!-- Tabela -->
+            <!-- Card da Tabela -->
+            <div class="overflow-hidden bg-white shadow-sm rounded-xl">
+                <div class="px-6 py-4 border-b border-gray-100 bg-gray-50 flex items-center justify-between">
+                    <h3 class="text-lg font-medium text-gray-700">Notícias Publicadas</h3>
+                </div>
+
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
                             <tr>
-                                <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Título</th>
-                                <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Categoria</th>
-                                <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Publicação</th>
-                                <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-center text-gray-500 uppercase">Status</th>
-                                <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-center text-gray-500 uppercase">Ações</th>
+                                <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase">Título</th>
+                                <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase">Categoria</th>
+                                <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase">Publicação</th>
+                                <th class="px-6 py-3 text-xs font-medium text-center text-gray-500 uppercase">Status</th>
+                                <th class="px-6 py-3 text-xs font-medium text-center text-gray-500 uppercase">Ações</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
                             @forelse ($noticias as $noticia)
-                                <tr class="transition-colors hover:bg-gray-50">
+                                <tr class="hover:bg-gray-50 transition-colors">
                                     <td class="px-6 py-4">
                                         <div class="text-sm font-medium text-gray-900">{{ $noticia->titulo }}</div>
-                                        <div class="text-sm text-gray-500">ID: {{ $noticia->id }}</div>
+                                        <div class="text-xs text-gray-400">slug: {{ $noticia->slug }}</div>
                                     </td>
                                     <td class="px-6 py-4">
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                        <span class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
                                             {{ $noticia->categoria->nome ?? 'Sem categoria' }}
                                         </span>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">{{ $noticia->publicado_em->format('d/m/Y') }}</div>
-                                        <div class="text-sm text-gray-500">{{ $noticia->publicado_em->format('H:i') }}</div>
+                                    <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
+                                        {{ $noticia->publicado_em->format('d/m/Y H:i') }}
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                                            {{ $noticia->ativo ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                    <td class="px-6 py-4 text-center">
+                                        <span class="px-2 py-1 text-xs font-semibold rounded-full {{ $noticia->ativo ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                                             {{ $noticia->ativo ? 'Ativo' : 'Inativo' }}
                                         </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex justify-center space-x-2">
-                                            <a href="{{ route('admin.noticias.edit', $noticia->slug) }}"
-                                               class="p-2 text-gray-500 transition-colors rounded-full hover:bg-gray-100 hover:text-yellow-600"
-                                               title="Editar">
-                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                                </svg>
+                                        <div class="flex justify-center items-center space-x-3">
+                                            <a href="{{ route('admin.noticias.edit', $noticia) }}"
+                                               class="text-blue-600 hover:text-blue-900 transition-colors" title="Editar">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                                             </a>
-                                            <form action="{{ route('admin.noticias.destroy', $noticia->slug) }}" method="POST">
+                                            <form action="{{ route('admin.noticias.destroy', $noticia) }}" method="POST" class="inline">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit"
-                                                        class="p-2 text-gray-500 transition-colors rounded-full hover:bg-gray-100 hover:text-red-600"
-                                                        title="Excluir"
-                                                        onclick="return confirm('Tem certeza que deseja excluir esta notícia?')">
-                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                                    </svg>
+                                                <button type="submit" class="text-red-600 hover:text-red-900 transition-colors"
+                                                        onclick="return confirm('Excluir esta notícia permanentemente?')">
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                                 </button>
                                             </form>
                                         </div>
@@ -106,25 +97,12 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="px-6 py-8 text-center text-gray-500">
-                                        <svg class="w-12 h-12 mx-auto text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
-                                        </svg>
-                                        <p class="mt-4 text-lg font-medium text-gray-600">Nenhuma notícia encontrada</p>
-                                        <p class="mt-1 text-gray-500">Publique sua primeira notícia clicando no botão "Nova Notícia"</p>
-                                    </td>
+                                    <td colspan="5" class="px-6 py-10 text-center text-gray-500">Nenhuma notícia encontrada.</td>
                                 </tr>
                             @endforelse
                         </tbody>
                     </table>
                 </div>
-
-                {{-- <!-- Paginação -->
-                @if($noticias->hasPages())
-                    <div class="px-6 py-4 border-t border-gray-100 bg-gray-50">
-                        {{ $noticias->links() }}
-                    </div>
-                @endif --}}
             </div>
         </div>
     </div>

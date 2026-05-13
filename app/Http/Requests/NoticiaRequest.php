@@ -31,9 +31,12 @@ class NoticiaRequest extends FormRequest
      */
     public function rules()
     {
+        $noticia = $this->route('noticia');
+        $noticiaId = ($noticia instanceof \App\Models\Noticia) ? $noticia->id : $noticia;
+
         $rules = [
             'titulo' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:noticias,slug',
+            'slug' => 'nullable|string|max:255|unique:noticias,slug,' . $noticiaId,
             'resumo' => 'required|string|max:500',
             'conteudo' => 'required|string',
             'categoria_id' => 'required|exists:categoria_noticias,id',
@@ -43,10 +46,10 @@ class NoticiaRequest extends FormRequest
 
         // Na criação, a imagem é obrigatória
         if ($this->isMethod('post')) {
-            $rules['imagem'] = 'required|image|mimes:jpeg,png,jpg,gif|max:20048';
+            $rules['imagem'] = 'required|image|mimes:jpeg,png,jpg,gif,webp|max:20048';
         } else {
             // Na edição, a imagem é opcional
-            $rules['imagem'] = 'nullable|image|mimes:jpeg,png,jpg,gif|max:20048';
+            $rules['imagem'] = 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:20048';
             $rules['remover_imagem'] = 'nullable|boolean';
         }
 

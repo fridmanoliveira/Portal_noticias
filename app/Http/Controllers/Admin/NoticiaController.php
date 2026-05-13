@@ -5,15 +5,17 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Banner;
 use App\Models\Noticia;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\NoticiaRequest; // Importe a NoticiaRequest
-use App\Services\NoticiaService;      // Importe o NoticiaService
-use Illuminate\Http\Request; // Manter, caso precise de alguma validação simples
-use App\Services\CategoriaNoticiaService; // Para buscar categorias na criação/edição
+use App\Http\Requests\NoticiaRequest;
+use App\Services\NoticiaService;
+use Illuminate\Http\Request;
+use App\Services\CategoriaNoticiaService;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
 
 class NoticiaController extends Controller
 {
     protected NoticiaService $noticiaService;
-    protected CategoriaNoticiaService $categoriaNoticiaService; // Injetar o serviço de categorias
+    protected CategoriaNoticiaService $categoriaNoticiaService;
 
     public function __construct(NoticiaService $noticiaService, CategoriaNoticiaService $categoriaNoticiaService)
     {
@@ -21,27 +23,18 @@ class NoticiaController extends Controller
         $this->categoriaNoticiaService = $categoriaNoticiaService;
     }
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $noticias = $this->noticiaService->getAllForAdmin();
         return view('admin.noticias.index', compact('noticias'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        $categorias = $this->categoriaNoticiaService->all(); // Passa as categorias para o formulário
+        $categorias = $this->categoriaNoticiaService->all();
         return view('admin.noticias.create', compact('categorias'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(NoticiaRequest $request)
     {
         try {
@@ -52,10 +45,6 @@ class NoticiaController extends Controller
         }
     }
 
-    /**
-     * Exibe os detalhes de uma notícia específica.
-     * @param \App\Models\Noticia $noticia O modelo da notícia, resolvido via Route Model Binding.
-     */
     public function show(Noticia $noticia)
     {
         if (!$noticia->ativo) {
@@ -73,7 +62,6 @@ class NoticiaController extends Controller
 
         $idsParaExcluir = $outrasNoticias->pluck('id')->push($noticia->id);
 
-        // Se não encontrou a quantidade desejada, completa com as mais recentes de qualquer categoria
         if ($outrasNoticias->count() < $quantidadeDesejada) {
             $necessarias = $quantidadeDesejada - $outrasNoticias->count();
 
@@ -101,21 +89,14 @@ class NoticiaController extends Controller
         return redirect()->route('admin.noticias.index')->with('success', 'Notícia atualizada com sucesso!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Noticia $noticia)
     {
         $this->noticiaService->delete($noticia->id);
         return redirect()->route('admin.noticias.index')->with('success', 'Notícia excluída com sucesso!');
     }
 
-    /**
-     * Exibe a lista de todas as notícias ativas para o público, com opções de filtro.
-     */
     public function noticias(Request $request)
     {
-        // ... (seu método index permanece inalterado)
         $query = \App\Models\Noticia::where('ativo', true);
 
         if ($request->filled('categoria_id') && $request->categoria_id != '') {
@@ -142,5 +123,49 @@ class NoticiaController extends Controller
         $bannerPrincipal = Banner::where('ativo', true)->first();
 
         return view('site.noticias.index', compact('noticias', 'categorias', 'bannerPrincipal'));
+    }
+
+    /**
+     * Realiza o upload de imagens do CKEditor.
+     */
+    public function uploadImage(Request $request)
+    {
+        if ($request->hasFile('upload')) {
+            $validator = Validator::make($request->all(), [
+                'upload' => 'required|image|mimes:jpeg,png,jpg,webp|max:5120',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'error' => [
+                        'message' => 'Arquivo inválido: ' . $validator->errors()->first('upload')
+                    ]
+                ], 422);
+            }
+
+            try {
+                $file = $request->file('upload');
+                $extension = $file->getClientOriginalExtension();
+                $fileName = time() . '_' . Str::random(10) . '.' . $extension;
+                
+                $destinationPath = public_path('uploads/noticias');
+                if (!file_exists($destinationPath)) {
+                    mkdir($destinationPath, 0755, true);
+                }
+
+                $file->move($destinationPath, $fileName);
+                $url = asset('uploads/noticias/' . $fileName);
+
+                return response()->json(['url' => $url]);
+            } catch (\Exception $e) {
+                return response()->json([
+                    'error' => [
+                        'message' => 'Erro ao salvar a imagem no servidor.'
+                    ]
+                ], 500);
+            }
+        }
+
+        return response()->json(['error' => ['message' => 'Nenhum arquivo enviado.']], 400);
     }
 }

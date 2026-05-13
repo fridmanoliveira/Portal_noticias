@@ -75,6 +75,7 @@ Route::prefix('admin')
         Route::resource('banners', BannerController::class);
         Route::resource('banners-rotativo', BannerRotativoController::class);
         Route::resource('acessos-rapidos', AcessoRapidoController::class);
+        Route::post('noticias/upload-image', [NoticiaController::class, 'uploadImage'])->name('noticias.upload.image');
         Route::resource('noticias', NoticiaController::class);
         Route::resource('categorias-noticias', CategoriaNoticiaController::class);
         Route::resource('videos', VideoHomeController::class);
