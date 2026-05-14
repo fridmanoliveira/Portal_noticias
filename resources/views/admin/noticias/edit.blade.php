@@ -93,6 +93,17 @@
                             </select>
                         </div>
 
+                        <!-- Ativo -->
+                        <div class="flex items-start">
+                            <div class="flex items-center h-5">
+                                <input id="ativo" name="ativo" type="checkbox" value="1" @checked(old('ativo', $noticia->ativo))
+                                    class="w-4 h-4 text-[#0596A2] border-gray-300 rounded focus:ring-[#0596A2]">
+                            </div>
+                            <div class="ml-3 text-sm">
+                                <label for="ativo" class="font-medium text-gray-700">Notícia ativa</label>
+                            </div>
+                        </div>
+
                         <!-- Ações -->
                         <div class="flex items-center justify-end pt-6 space-x-4 border-t border-gray-200">
                             <a href="{{ route('admin.noticias.index') }}" class="px-4 py-2 text-sm text-gray-700 bg-white border rounded-lg hover:bg-gray-50">Cancelar</a>

@@ -19,9 +19,13 @@ class NoticiaRequest extends FormRequest
      */
     protected function prepareForValidation(): void
     {
-        $this->merge([
-            'ativo' => $this->has('ativo') ? filter_var($this->ativo, FILTER_VALIDATE_BOOLEAN) : false,
-        ]);
+        if ($this->has('ativo')) {
+            $this->merge([
+                'ativo' => filter_var($this->ativo, FILTER_VALIDATE_BOOLEAN),
+            ]);
+        } elseif ($this->isMethod('post')) {
+            $this->merge(['ativo' => false]);
+        }
     }
 
     /**
