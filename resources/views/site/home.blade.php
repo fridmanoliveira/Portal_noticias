@@ -155,6 +155,23 @@
                 </p>
             </a>
             @endforeach
+
+<!-- Card fixo: QR Code 2ª via IPTU -->
+<a href="https://sggp.com.br/cobrancas/imoveis/prefeitura-municipal-cristino-castro" target="_blank" rel="noopener"
+class="flex flex-col items-start p-4 text-white transition-transform duration-300 rounded-lg shadow-sm bg-gradient-to-r from-[#008f9c] to-[#005d6d] hover:scale-[1.03] sm:p-6 sm:hover:scale-105">
+
+    <img src="{{ asset('qr-2via-iptu-prefeitura-municipal-cristino-castro.png') }}"
+        alt="QR Code IPTU 2026"
+        class="w-1/2 mx-auto p-1 mb-2 bg-white rounded aspect-square sm:mb-4">
+
+    <h2 class="text-sm font-semibold leading-tight">
+        IPTU - Acesse seu carnê de IPTU 2026 com o seu CPF
+    </h2>
+
+    <p class="hidden mt-2 text-xs font-light opacity-80 sm:block sm:text-sm">
+        Clique para acessar
+    </p>
+</a>
         </div>
     </section>
 
